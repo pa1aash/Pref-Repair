@@ -1,0 +1,65 @@
+{
+  "sub_questions": [
+    "Has any published or preprinted work proposed an intervention that CORRECTS revealed-preference consistency on the choices or outputs of an LLM-based or AI agent?",
+    "Has any such work proposed an intervention that PROJECTS choices onto the consistent set?",
+    "Has any such work proposed an intervention that REPAIRS revealed-preference inconsistency?",
+    "Has any such work proposed an intervention that otherwise ENFORCES revealed-preference consistency?",
+    "For each such work, is the intervention INFERENCE-TIME or TRAINING-TIME?",
+    "Which works merely MEASURE or SCORE consistency, as opposed to intervening? (the contrast class that defines the gap)",
+    "Which axiom system does each intervention target — GARP, WARP, SARP, probabilistic coherence, transitivity, or something else?",
+    "Does any work perform minimal-perturbation restoration of rationalizability specifically?",
+    "Has the relationship between enforced choice-coherence and downstream DECISION QUALITY been empirically tested for LLM agents?",
+    "Has the relationship between enforced choice-coherence and downstream TASK PERFORMANCE been empirically tested for LLM agents?",
+    "In which DIRECTION do any such tests point — does enforced coherence improve, leave unchanged, or degrade downstream quality?",
+    "What does the economics literature (Afriat, Varian, Houtman-Maks) offer as efficiency and repair methods, and has any of it been applied to AI agents?",
+    "What does the ML/alignment literature (coherence theorems, Bradley-Terry/RLHF consistency violations, Nash learning from human feedback) say about enforcing versus accepting inconsistency?",
+    "Where do the two literatures fail to cite each other, and what is being independently rediscovered as a result?"
+  ],
+  "entities": [
+    {"name": "inference-time interventions on agent choice", "type": "category", "required_fields": ["mechanism", "axiom system targeted", "empirical or theoretical", "downstream evaluation present?"]},
+    {"name": "training-time interventions on agent choice", "type": "category", "required_fields": ["mechanism", "axiom system targeted", "empirical or theoretical", "downstream evaluation present?"]},
+    {"name": "GARP", "type": "concept", "required_fields": ["definition", "who enforces it on AI agents"]},
+    {"name": "WARP", "type": "concept", "required_fields": ["definition", "who enforces it on AI agents"]},
+    {"name": "SARP", "type": "concept", "required_fields": ["definition", "who enforces it on AI agents"]},
+    {"name": "minimal-perturbation restoration of rationalizability", "type": "method", "required_fields": ["formulation", "prior art", "applied to AI agents?"]},
+    {"name": "Afriat efficiency methods", "type": "method", "required_fields": ["what it does", "repair vs measure", "AI application"]},
+    {"name": "Varian goodness-of-fit methods", "type": "method", "required_fields": ["what it does", "repair vs measure", "AI application"]},
+    {"name": "Houtman-Maks methods", "type": "method", "required_fields": ["what it does", "repair vs measure", "AI application"]},
+    {"name": "coherence theorems", "type": "concept", "required_fields": ["claim", "critiques", "relation to competence"]},
+    {"name": "Bradley-Terry consistency violations in RLHF", "type": "concept", "required_fields": ["evidence of violation", "what is done about it"]},
+    {"name": "Nash learning from human feedback", "type": "method", "required_fields": ["how it handles intransitivity", "downstream performance evidence"]},
+    {"name": "LLM-based agents", "type": "entity", "required_fields": ["which models studied"]},
+    {"name": "AI agents (non-LLM)", "type": "entity", "required_fields": ["whether in scope for any found intervention"]}
+  ],
+  "required_formats": [
+    "per-work enumerative census for the occupancy half, with named fields per work",
+    "explicit separation of the two search fronts (economics vs ML/alignment), not merged",
+    "a comparison table of interventions: work / front / inference-vs-training / axiom system / empirical? / downstream tested?",
+    "an explicit verdict on whether each half of the question is occupied or open"
+  ],
+  "required_sections": [],
+  "required_section_headings": [
+    "## 1. What Counts as an Intervention, and What Counts as Mere Measurement",
+    "## 2. The Economics Front: Afriat, Varian, Houtman-Maks and What They Offer as Repair",
+    "## 3. The Economics Front Applied to AI Agents: Who Has Intervened",
+    "## 4. The ML/Alignment Front: Coherence Theorems, Bradley-Terry Violations, and Nash Learning",
+    "## 5. The ML/Alignment Front Applied to Agent Choice: Enforce or Accept?",
+    "## 6. Census of Interventions Found, Inference-Time and Training-Time",
+    "## 7. Does Enforced Coherence Change Downstream Decision Quality? The Empirical Record",
+    "## 8. Where the Two Literatures Miss Each Other",
+    "## 9. Verdict: What Is Occupied and What Remains Open"
+  ],
+  "time_horizons": ["1938-present for the economics foundations", "2022-present for LLM agent work"],
+  "time_periods": [],
+  "scope_conditions": [
+    "the agent must be LLM-based or an AI agent — human revealed-preference work is background only",
+    "intervention, not measurement, is the target — measurement work is the contrast class",
+    "both inference-time AND training-time interventions are in scope",
+    "the two fronts are related but DISTINCT and must be covered separately",
+    "downstream-quality evidence counts in EITHER direction (improvement or degradation)",
+    "retrieval must be headless — no browser, no interactive login"
+  ],
+  "pipeline_tier": "full",
+  "response_format": "argumentative",
+  "citation_style": "inline"
+}

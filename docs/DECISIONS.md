@@ -8,7 +8,7 @@ Each entry: date, decision, reason, and what would reverse it.
 ## 2026-08-21 — Session G0 (repo genesis + characterisation)
 
 **D1. Home directory `~/.git` deleted.**
-`/Users/palaash` was itself a git repository with this project nested inside it. Verified 0
+The home directory was itself a git repository with this project nested inside it. Verified 0
 commits, 0 refs, 0 remotes, empty index before deletion; the 571 MB of loose objects were
 unreachable. Reversal: none — the objects are gone. Nothing reachable was lost.
 

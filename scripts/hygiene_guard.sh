@@ -8,7 +8,7 @@
 #   3. every untracked-but-not-ignored file (i.e. anything one `git add .` from being public)
 #   4. tracked path names and author/committer identity fields
 #
-# Ignored files (.venv/, research/, .hyperresearch/, .remember/, CLAUDE.md) are deliberately
+# Ignored files (.venv/, research/, .hyperresearch/, .remember/, ?LAUDE.md) are deliberately
 # out of scope: they are excluded from git by .gitignore and therefore cannot be published.
 #
 # Patterns are written with bracket escapes (e.g. cl[a]ude) so that this script never

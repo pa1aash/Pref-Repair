@@ -147,14 +147,18 @@ Recorded as gaps, never as zeros.
 | Semantic Scholar | **GAP** | Persistent HTTP 429 on the anonymous endpoint across every attempt, including after backoff. Matches the brief's preflight warning. **No S2 evidence was obtained this session.** |
 | Unpaywall | **USABLE** | Requires `&email=` inline on every request (no config slot in this build). |
 | Europe PMC | **USABLE, LOW RELEVANCE** | Works, but the corpus is biomedical; returns near-noise for this topic. |
-| EconPapers (RePEc) | **GAP** | Returns HTTP 200 with ~16.5 KB of JS-driven shell, or HTTP 503 under repeat load. Results render client-side. Not retrievable headlessly, and this session is headless by instruction. |
-| IDEAS (RePEc) | **GAP** | Same failure mode — HTTP 200, ~16.5 KB, results injected client-side. |
+| EconPapers (RePEc) | **USABLE** *(corrected 2026-08-21, session G0.5)* | The GAP verdict below was **wrong**. EconPapers serves static server-rendered HTML; the 16.5 KB body was the rendered Advanced Search *form*, not a shell. It needs a `Referer` header from an econpapers page plus the hidden `adv=true` field. Supplied, it returns `222 documents matched the search for Afriat`. The 503s are a transient rate limiter. See `audit/ITEM3_repec.md`. |
+| IDEAS (RePEc) | **USABLE** *(corrected 2026-08-21, session G0.5)* | Misdiagnosed differently: `/cgi-bin/htsearch` (GET) is a retired stub. Search moved to `/cgi-bin/htsearch2` over **POST**, which returns `Found 212 results for Afriat`. |
 | NBER | **USABLE, COUNT MEANINGLESS** | JSON API works (`totalResults` 16,873 for a two-word query = loose OR). Top-k only. |
 
-**The RePEc family is the most consequential gap.** It is the main index for exactly the
-economics working-paper literature where a revealed-preference repair method would most
-plausibly appear outside arXiv, and it could not be searched headlessly. That gap is not
-closed by anything else in this session.
+**The RePEc family was recorded as the most consequential gap — and that verdict was an
+inspection failure, not a capability limit.** Session G0.5 searched it successfully with 77
+queries. The detection method that produced the false GAP (strip tags, grep for the word
+"result") could never have succeeded: a successful EconPapers search says *"documents matched"*
+and a genuine zero says *"No matching documents"* — neither contains "result". The lesson is the
+one this file already argues for full-text search: **a zero from an uncalibrated instrument is
+not evidence.** The correction, the 77 queries and what they found are in `audit/ITEM3_repec.md`;
+the headline is a Fed working paper (R41) invisible to every arXiv sweep.
 
 ---
 

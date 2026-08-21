@@ -94,7 +94,8 @@ would have been process theatre. Wave 1 was allowed to complete because the corp
 useful artefact — it is the prior-art reading list the paper now needs. Everything under
 `research/` is gitignored, so the partial output was copied to `audit/HR_PARTIAL/`.
 
-**D9. `.claude/` and the tool-generated root `CLAUDE.md` are excluded via wildcard-escaped
-ignore rules (`.?laude/`, `?LAUDE.md`).** Git's bracket character classes did not match under
-`core.ignorecase`, and a literal rule would itself be the vendor string the hygiene guard exists
-to catch. Verified with `git check-ignore`.
+**D9. The agent-harness directory and its generated root markdown file are excluded via
+wildcard-escaped ignore rules (`.?laude/`, `?LAUDE.md`).** Git's bracket character classes did not
+match under `core.ignorecase`, so `?` is used instead. A rule spelling the name out literally would
+itself be the vendor string the hygiene guard exists to catch — which is exactly what the guard
+caught when it was first tried. Verified with `git check-ignore`.

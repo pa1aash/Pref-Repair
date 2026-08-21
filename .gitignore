@@ -1,0 +1,27 @@
+# OS
+.DS_Store
+
+# Session / tooling state
+.remember/
+.hyperresearch/
+
+# Research vault (never committed)
+research/
+research/raw/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.python-version.local
+
+# LaTeX build artefacts
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.bbl
+*.blg
+
+# Scratch
+scratch/

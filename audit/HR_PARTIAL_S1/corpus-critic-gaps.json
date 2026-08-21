@@ -1,0 +1,110 @@
+{
+  "_provenance": "Layer 3.7 corpus-critic pass over SUBSTITUTED artefacts (research/comparisons.md, research/loci.json). Read docs/FRAMING.md, docs/GO_NOGO_ASSESSMENT.md, audit/ITEM2_occupants_A.md, _B.md, _C.md, audit/ITEM3_repec.md, audit/INSTRUMENT_CALIBRATION.md, docs/METHOD_NOTE_Q3.md, research/temp/source-tensions.json in full before drafting this file. No consensus-claims.json or redundancy-audit.md exists this session (both are step-3 conditional artefacts and step 3 did not run).",
+  "gaps": [
+    {
+      "id": "seventh-occupant-fulltext-venues",
+      "type": "overturning",
+      "priority": "critical",
+      "target_position": "docs/FRAMING.md C1/§1 and research/loci.json 'Occupancy of the intervention cell': the conjunction (agent's own choice sequence + minimal perturbation + exogenous payoff + dose-response) is genuinely unoccupied. The audit itself names this the load-bearing residual risk: two of the six known occupants (R27/POISE, R41/Cook et al.) were found only after correcting a broken instrument, and the audit's own words are 'there is no reason to believe the seventh occupant does not exist; there is only an absence of a route that would find it.' Both residual gaps identified in audit/ITEM3_repec.md and audit/INSTRUMENT_CALIBRATION.md are the SAME structural blind spot: metadata-only indexing. A paper doing the projection in its Methods/§4 without using GARP/Afriat/CCEI/revealed-preference vocabulary in its title or abstract is invisible to every search run so far (arXiv full-text legacy index, RePEc/EconPapers/IDEAS, NBER, OpenAlex, Crossref). Vault search confirms zero notes trace to ACL Anthology, OpenReview, PhilPapers, or EconStor as a source venue -- these routes were never actually queried this session, only incidentally string-matched.",
+      "search_queries": [
+        "site query on aclanthology.org full text: \"revealed preference\" OR GARP OR rationalizability AND (\"language model\" OR LLM OR agent) -- ACL Anthology has a full-text search at https://aclanthology.org/search/ that is NOT metadata-only",
+        "OpenReview API full-text: https://api.openreview.net/notes/search?term=GARP%20budget%20set&content=all and a second pass with term=\"revealed preference\" projection agent -- covers ICLR/NeurIPS/ICML/workshop submissions including rejected/withdrawn papers arXiv sweeps never see",
+        "PhilPapers search https://philpapers.org/s/ for \"money pump\" LLM repair, \"Dutch book\" language model rationality, and \"preference cycle\" projection artificial intelligence -- Chadwick/Kahng/Kipper (HAR 2025) was found in social-choice/philosophy vocabulary with zero economics keywords, so this venue plausibly hides a GARP-vocabulary sibling",
+        "EconStor discover search https://www.econstor.eu/discover?query=Afriat+GARP+language+model and a second query CCEI+artificial+intelligence -- explicitly flagged as an untouched gap in audit/ITEM3_repec.md residual gap 3 (RePEc indexes only what publishers deposit; EconStor participates but was never swept directly)",
+        "SSRN direct search (papers.ssrn.com) for \"revealed preference\" AND \"large language model\", and \"GARP\" AND \"AI agent\" -- RePEc only partially mirrors SSRN, per the same residual-gap note"
+      ],
+      "source_type": "academic",
+      "rationale": "This is the single highest-leverage gap: if a seventh occupant exists and holds the full conjunction, the paper's central novelty claim (C1's 'own choices + minimal perturbation + exogenous payoff + dose-response' cell) collapses outright, not just narrows as R20/R27/R24/R25/R31/R38 did. Every prior discovery of an occupant in this audit came from correcting a search-instrument failure (arXiv redirect trap, RePEc Referer/adv=true bug), which means the base rate for 'the next occupant is hiding behind a different instrument bug' is not low. ACL Anthology, OpenReview and PhilPapers full-text search were never attempted by any session so far -- they are not covered by arXiv, RePEc, NBER, OpenAlex, or Crossref's indexing, and the failure mode (title/abstract lacks economics vocabulary) is exactly the one that hid Chadwick et al."
+    },
+    {
+      "id": "identification-closing-source-c2",
+      "type": "overturning",
+      "priority": "critical",
+      "target_position": "docs/FRAMING.md C2 (frozen): 'every existing comparison either confounds the coherence assumption with representational capacity, or scores the outcome with a preference judgment, or both.' This is the paper's second load-bearing claim -- if false, C2 has no identification contribution left to make. audit/ITEM2_occupants_C.md already read GPM and HRC in full and confirmed both are confounded (nested model classes) and judge-scored (zero exogenous metrics in either). But those were the two papers E5 flagged as 'direct hits' -- the corpus critic has not searched specifically for a paper that isolates the coherence treatment on a FIXED model (post-hoc, no retraining, no capacity change) AND scores against a verifiable, non-preference outcome (task accuracy, game payoff, market return, code-execution success).",
+      "search_queries": [
+        "\"post-hoc\" OR \"inference-time\" transitivity OR consistency enforcement fixed model \"task accuracy\" OR \"verifiable reward\" -preference -judge",
+        "coherence regularization ablation language model agent \"exogenous\" OR \"ground truth\" payoff not preference score",
+        "\"same model\" \"same capacity\" preference consistency intervention downstream task performance controlled",
+        "rationality intervention LLM agent trading OR portfolio OR game payoff dose",
+        "arXiv full-text (via /html/ route): \"isolate\" AND \"transitivity\" AND \"downstream\" AND \"language model\" -judge"
+      ],
+      "source_type": "academic",
+      "rationale": "This is the fatal-if-found gap named explicitly by the task brief. A source that closes the identification claim -- varies coherence on a fixed agent (no capacity confound) and scores an exogenous, non-preference-judgment outcome -- would mean the paper's central identification contribution is not novel, only its economics vocabulary is. The confound structure the audit found in GPM/HRC (BT is a strict-subset special case; scale gates worth more than the headline margin) is a known, citable failure mode in ML alignment papers, which raises the prior that some paper eventually got the ablation right by accident or by economics-adjacent design (e.g., an agent-based-modelling or behavioral-econ paper that treats the LLM as a black box)."
+    },
+    {
+      "id": "per-model-ccei-reliability",
+      "type": "overturning",
+      "priority": "critical",
+      "target_position": "docs/GO_NOGO_ASSESSMENT.md precondition 1 and research/comparisons.md Tension 1: 'the format sensitivity which creates the project's headroom may be the same thing as the index's construct invalidity... If per-model CCEI is as unstable as Nitsch's humans, the dose axis does not exist and the paper does not get written.' This is stated as the single flip-to-NO condition. Every reliability number in the corpus (ICC 0.071-0.685, none reaching 0.75) is from human subjects (Nitsch et al., PNAS 2022) or from published datasets of human choosers. Vault search confirms zero notes measure CCEI/HMI test-retest or intraclass-correlation reliability ON a language model across repeated runs.",
+      "search_queries": [
+        "\"test-retest\" reliability large language model economic rationality CCEI OR \"critical cost efficiency index\"",
+        "intraclass correlation ICC language model repeated runs preference consistency",
+        "reliability of frontier and open-weight models on revealed preference budget sets, repeated measurement",
+        "\"within-model\" OR \"across seeds\" variance Afriat efficiency index language model",
+        "arXiv full-text: \"reliability\" AND \"language model\" AND (\"GARP\" OR \"Afriat\" OR \"CCEI\")"
+      ],
+      "source_type": "academic",
+      "rationale": "This is the project's own stated kill condition. If any published or preprinted source has already measured per-model CCEI/HMI test-retest reliability -- in either direction -- it either (a) pre-empts the pilot precondition entirely (strengthening, if reliability is high) or (b) shows the dose axis is already known not to exist (overturning, fatal). Either finding changes what the draft is licensed to claim before any new pilot data is gathered, and it is the cheapest possible check relative to its decision impact: a single paper here changes whether the project's central design assumption needs a pilot at all."
+    },
+    {
+      "id": "second-dose-response-curve-exogenous-payoff",
+      "type": "overturning",
+      "priority": "critical",
+      "target_position": "docs/FRAMING.md §5.2 (R25/HRC): 'a published nine-level dose-response curve exists... A second, closer one would be fatal.' The frozen positioning survives R25 only because its dose is a training-time schedule weight on a learned preference-proxy component (not a coherence index over an agent's own choices) and its outcome is an LLM-judge win rate (not exogenous). audit/ITEM2_occupants_C.md explicitly flags this as 'the single cleanest unoccupied axis' and states a second occupant of it 'would be fatal' -- this is the paper's last unclaimed differentiator.",
+      "search_queries": [
+        "\"dose-response\" OR \"degree of\" coherence enforcement language model exogenous payoff not judge",
+        "rationality penalty weight sweep task success rate OR game payoff OR verifiable reward language model",
+        "citing papers of Cook Kazinnik Modig Palmer \"What Do LLMs Want\" (Fed RWP 25-19 / FEDS 2026-006) -- follow-up work with a continuous control-vector strength sweep against payoff-maximizing behavior",
+        "GARP-EFM (arXiv:2603.23993, Aguiar & Kashaev) citing papers -- training-time GARP-consistency fine-tuning with a graded consistency-loss weight traced against downstream forecast/task performance",
+        "\"consistency loss\" OR \"transitivity loss\" weight ablation task accuracy language model curve multiple levels"
+      ],
+      "source_type": "academic",
+      "rationale": "The paper's dose-response contribution rests on three stacked differences from R25 (object, dose metric, outcome exogeneity), each individually defensible per audit/ITEM2_occupants_C.md. A source that closes even one more of those three differences -- especially a coherence-INDEXED dose (not a schedule weight) scored against a genuinely exogenous outcome -- would collapse the differentiation from R25 to nothing. Given how fast this sub-field is moving (R27/POISE and R41/Cook et al. are both from August 2026, within weeks of the freeze date), a forward citation search on the two closest known neighbors (R25 and R41) is the highest-yield way to find this before the draft commits to the three-way distinction as durable."
+    },
+    {
+      "id": "minimum-perturbation-complexity",
+      "type": "strengthening",
+      "priority": "high",
+      "target_position": "docs/METHOD_NOTE_Q3.md: 'Not established: the complexity of the minimum-perturbation (LS) problem... The complexity of the minimum-perturbation-onto-GARP problem is open, or at least unestablished in the literature this session could reach.' Demuynck & Rehbeck (2023) name the exact quantity-space objective (the Average Quantity Error) but only sketch it in two sentences with no worked inequalities and no computation. This is the method section's stated open risk, distinct from and prior to the tractability-at-scale question already answered (Q3's MILP formulation solves in seconds at the design's T,K).",
+      "search_queries": [
+        "\"Average Quantity Error\" GARP complexity OR NP-hard OR polynomial",
+        "citing papers of Demuynck and Rehbeck 2023 \"Computing revealed preference goodness-of-fit measures with integer programming\" (Economic Theory) that implement or bound the quantity-error case",
+        "Varian 1985 \"least squares index\" OR \"Varian 1985\" nonlinear least squares revealed preference full text (Journal of Econometrics 30(1) 445-458) -- currently an ACCESS GAP per docs/METHOD_NOTE_Q3.md fetch record",
+        "\"minimum perturbation\" quantity space GARP NP-hardness reduction maximum acyclic subgraph OR feedback vertex set",
+        "Halevy Persitz Zrill 2018 parametric recoverability least-squares revealed preference full text -- the named practical alternative that sidesteps the open-complexity question"
+      ],
+      "source_type": "academic",
+      "rationale": "This is a stated open method risk in the frozen positioning, not a settled one -- the draft currently has to write 'the complexity of the minimum-perturbation objective is open' as a concession. A hardness result would force a scope narrowing (analogous to the K=2/K=3 Houtman-Maks threshold already found); a polynomial or approximation result would let the method section drop the concession and the associated heuristic-fallback machinery (De Peretti 2005) entirely, tightening the paper. Either direction is actionable and neither has been searched for directly -- the audit found the sketch (Demuynck & Rehbeck) but never searched forward from it."
+    },
+    {
+      "id": "econstor-ssrn-central-bank-sweep",
+      "type": "overturning",
+      "priority": "high",
+      "target_position": "audit/ITEM3_repec.md residual gap 3: 'RePEc indexes what publishers deposit... SSRN in particular is only partially represented, and EconStor, while participating, was not separately swept. Neither was searched directly this session -- recorded as an untouched gap, not a zero.' This is directly relevant because the single most consequential prior find (R41, Cook/Kazinnik/Modig/Palmer, a Kansas City Fed working paper reissued as a Federal Reserve Board FEDS paper) was 'not on arXiv' and was found only because RePEc's search bug was fixed -- it is exactly the profile ('central-bank working paper, economics vocabulary, invisible to arXiv') the residual gap predicts a further occupant would have.",
+      "search_queries": [
+        "EconStor discover interface: revealed preference OR GARP OR rationalizability AND (artificial intelligence OR language model OR LLM)",
+        "site-restricted search of federalreserve.gov, newyorkfed.org, kansascityfed.org, bankofengland.co.uk, ecb.europa.eu working paper series for \"large language model\" AND (\"revealed preference\" OR rationalizability OR consistency)",
+        "BIS working papers search \"language model\" preference consistency OR rationality",
+        "SSRN abstract search (papers.ssrn.com/sol3/results.cfm) for \"revealed preference\" \"artificial intelligence\" and separately \"GARP\" \"machine learning\"",
+        "NBER working paper search (already flagged USABLE, COUNT MEANINGLESS in audit/INSTRUMENT_CALIBRATION.md) re-run with tighter queries: \"revealed preference\" AND \"language model\" restricted to top-k by relevance, not the loose-OR default"
+      ],
+      "source_type": "government",
+      "rationale": "The audit's own diagnosis is that its search-instrument failures cluster in economics-vocabulary, non-arXiv venues, and this is the one specific sub-route (EconStor, SSRN, other central-bank series beyond the Fed) that was explicitly named as untouched rather than searched-and-empty. Given that R41 was found in exactly this profile, the base rate for a further occupant here is higher than for a random search direction, and it is cheap to check because the RePEc fix (Referer header + adv=true / POST htsearch2) generalizes directly to EconStor's similar interface."
+    },
+    {
+      "id": "poise-citation-forward-cycle-extension",
+      "type": "overturning",
+      "priority": "critical",
+      "target_position": "docs/FRAMING.md §5.1: the entire defense against the R27/POISE vocabulary collision rests on a single technical distinction -- POISE 'projects cardinal levels onto a convex chain-monotone cone with the ordering held fixed' and 'cannot handle cycles at all... fixed by expert re-annotation.' If any paper (including a v2 of POISE itself, or a citing paper) has since extended this projection to search over orderings or handle cycles algorithmically rather than by hand, the 'same words, different mathematical object' defense collapses, because the combinatorial half -- the part research/comparisons.md Tension 3 identifies as the load-bearing distinction -- would then also be occupied.",
+      "search_queries": [
+        "OpenAlex citations API: https://api.openalex.org/works?filter=cites:W<POISE_OPENALEX_ID>&sort=publication_date:desc -- forward citations of arXiv:2608.08491 (TrustRoboReward/POISE), sorted newest first, since the paper is only weeks old as of the freeze date",
+        "Semantic Scholar citations endpoint (expect HTTP 429 anonymously; retry with exponential backoff per audit/INSTRUMENT_CALIBRATION.md Part 3) for arXiv:2608.08491 citing papers",
+        "arXiv full-text (via /html/ route, not /pdf/ which is broken in this build): \"isotonic\" AND \"cycle\" AND (\"preference\" OR \"reward\") extension non-convex",
+        "forward citations of Chadwick, Kahng & Kipper (HAR 2025, 'Dutch books and money pumps') -- check whether any citing work extends the QP projection from the probability simplex to a GARP/budget-set constraint set",
+        "\"preference-defined monotone cone\" OR \"chain-monotone cone\" projection cycles ordering search 2026"
+      ],
+      "source_type": "academic",
+      "rationale": "This is the sharpest possible version of the seventh-occupant risk, because it does not require finding an unrelated paper -- it only requires finding a citation of a paper the audit already knows about and has already positioned against. Citation-forward search is cheap, targeted, and covers exactly the multi-week window between the POISE paper's release (9 Aug 2026) and the freeze date (21 Aug 2026) during which a fast-moving field could plausibly have already produced a response or extension. If found, this is fatal to the FRAMING §5.1 defense as currently written, not just a narrowing."
+    }
+  ]
+}

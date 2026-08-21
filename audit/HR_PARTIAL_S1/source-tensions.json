@@ -1,0 +1,101 @@
+{
+  "_provenance": "SUBSTITUTED, not produced by step 7. Extracted by the S1 orchestrator from G0's kill-checks and G0.5's items 1-4, all of which rest on full-text reads. See audit/HR_PARTIAL_S1/PIPELINE_SUBSTITUTION_MAP.md.",
+  "tensions": [
+    {
+      "name": "Repair helps versus repair backfires",
+      "side_a": {
+        "position": "Enforcing coherence on a model's outputs improves or at least preserves downstream quality.",
+        "evidence": "TrustJudge cuts pairwise transitivity inconsistency from 15.22% to 4.40% 'while maintaining higher evaluation accuracy'; CONSISTRE enforces transitivity/symmetry/uniqueness and lifts F1 from 0.031 to 0.330 through its full pipeline; LLM-RankFusion repairs order and transitive inconsistency and raises NDCG@10 from 65.38 to 71.51 on TREC DL19 (arXiv:2406.00231).",
+        "proponents": ["trustjudge-inconsistencies-of-llm-as-a-judge-and-how-to-alleviate-them", "260724312-consistre-a-unified-consistency-aware-framework-for-document-level-rel", "260808491-trustroboreward-preference-ordered-isotonic-score-editing-for-multi-pa"]
+      },
+      "side_b": {
+        "position": "Enforcing a coherence constraint destroys information the constrained object was carrying.",
+        "evidence": "A choice-revision intervention on human budget-set data lowered mean CCEI (-0.025) and Houtman-Maks (-0.013) and dropped test-retest reliability 0.522 to 0.443; isotonic calibration worsened its target violation in 14 of 16 cells by up to 4.4x and fixed none; enforcing the additive probability axiom on frozen embeddings improved coherence but worsened held-out MSE.",
+        "proponents": ["on-the-reliability-of-individual-economic-rationality-measurements-pmc", "when-agents-say-one-thing-and-do-another-validating-elicited-beliefs-from-llms", "250507883-recovering-event-probabilities-from-large-language-model-embeddings-vi"]
+      },
+      "resolution": "Both sides are real and they are not measuring the same thing. Every side-A success projects onto the set the metric itself defines, so the repair is graded on the thing it optimises. Both side-B failures do not: the human revision arm showed participants a random subset of choices with no consistency objective and no guarantee of improvement, and the isotonic arm projects onto the calibration cone while being scored on conditional independence. The load-bearing reason is target alignment between operator and metric, not the direction of the coherence intervention. This project's operator attains CCEI to 1 by construction rather than by estimation, which puts it structurally on side A's footing - but the adverse prior is real and must be conceded rather than argued away.",
+      "origin": "comparisons",
+      "decision_relevance": "high"
+    },
+    {
+      "name": "Whether the ML evidence that enforcement degrades quality is identified",
+      "side_a": {
+        "position": "Forcing preferences into a scalar transitive order costs downstream quality, established at two successive ICML cycles.",
+        "evidence": "GPM reports Bradley-Terry at 62.4% against a 50% random floor on cyclic preference sets, with downstream AlpacaEval gains for the cycle-tolerant arm; HRC reports +1.23% on RewardBench 2 and 44.75% length-controlled AlpacaEval.",
+        "proponents": ["241002197-beyond-bradley-terry-models-a-general-preference-model-for-language-mo", "260517342-transitivity-meets-cyclicity-explicit-preference-decomposition-for-dyn"]
+      },
+      "side_b": {
+        "position": "Those comparisons confound the coherence assumption with representational capacity, and on the metric that controls for the known artefact the sign reverses.",
+        "evidence": "Both papers state Bradley-Terry is the dimension-1 special case of their model, so the cycle-tolerant arm is a strict superset model class; GPM additionally gives it a prompt-conditioned scale gate worth +1.24 to +1.31 RewardBench points, larger than the entire headline margin. On GPM's own length-controlled win rate the cycle-tolerant arm loses in 18 of 24 cells and all 8 final-iteration cells; the +8.31 figure is raw and uncorrected from a cell where the treated arm emitted 65% more tokens. HRC's independent retrain finds a wash, 9/8/1 over 18 cells.",
+        "proponents": ["260517342-transitivity-meets-cyclicity-explicit-preference-decomposition-for-dyn"]
+      },
+      "resolution": "Side B wins on the evidence, and it is this project's opening. The apparent consensus is an artefact of comparing a richer model class against a poorer one and scoring with a length-sensitive judge. HRC is simultaneously the strongest citation for side A and the strongest evidence against it, because it is the only unified-codebase retrain and it finds no difference. The correct reading is that the sign is unidentified, not that it is known and negative - which is why the contribution is framed as identification rather than replication.",
+      "origin": "orphan-scan",
+      "decision_relevance": "high"
+    },
+    {
+      "name": "Whether CCEI can bear individual-level inference",
+      "side_a": {
+        "position": "CCEI is a meaningful, well-behaved index of an agent's rationality that can be compared across conditions.",
+        "evidence": "Reported to three decimals across four domains with a Bronars power of 99.9% and predictive-success and Selten scores alongside; adopted as a training-penalty target on the strength of a representation theorem.",
+        "proponents": ["230512763-the-emergence-of-economic-rationality-of-gpt", "260805015-revealed-rationality-full-text"]
+      },
+      "side_b": {
+        "position": "CCEI is not reliable enough at the individual level to support inference, and its scale is compressed and hard to interpret.",
+        "evidence": "Across eight datasets and 1,600+ participants, not one of roughly forty ICC estimates reaches the conventional 'good' threshold of 0.75; intermethod reliability under a presentation change (0.071-0.408) is worse than five-month test-retest (0.511/0.526). Separately, substantive concerns about common interpretations of the index are raised in the economics literature and cited approvingly by its own proponents.",
+        "proponents": ["on-the-reliability-of-individual-economic-rationality-measurements-pmc"]
+      },
+      "resolution": "The reliability critique is diagnosed by its own authors as a low-between-subject-variance problem rather than a measurement-error problem - their within-subject CV is 15% for CCEI - and their prescribed remedy is precisely a between-groups manipulation, which is this project's design. That is a genuine defence but it is an argument, not a measurement, and it cannot be asserted. The committed reading: CCEI's reliability on the specific models under study is an empirical precondition that must be established before any dose-response claim, not a robustness check afterwards. If per-model CCEI is as unstable as it is in humans, the dose axis does not exist.",
+      "origin": "comparisons",
+      "decision_relevance": "high"
+    },
+    {
+      "name": "Cycles as defect versus cycles as structure",
+      "side_a": {
+        "position": "Intransitivity is a defect to be repaired; a coherent agent is a better agent.",
+        "evidence": "Exploitability by Dutch books and money pumps is framed as a safety concern warranting a dedicated inference-time rationality layer; axiom-compliance penalties are proposed as label-free evaluation and regularization signals.",
+        "proponents": ["dutch-books-and-money-pumps-rectifying-vulnerabilities-in-llms-through-rationali", "260805015-revealed-rationality-full-text"]
+      },
+      "side_b": {
+        "position": "Under genuinely intransitive preferences there is no well-defined optimal policy, so the right response is a different solution concept, not repair.",
+        "evidence": "The scalarising baseline loses head-to-head 0.68 and trails by 6.7 Arena-Hard and 14.0 vanilla AlpacaEval points; the joint-check judge that collapses a rubric into one score is more intransitive than the per-item judge at every N, so scalarisation itself creates cycles.",
+        "proponents": ["260219041-back-to-blackwell-closing-the-loop-on-intransitivity-in-multi-objectiv", "231200886-nash-learning-from-human-feedback", "260221297-robust-ai-evaluation-through-maximal-lotteries"]
+      },
+      "resolution": "Side B's argument is existence, not normativity: it says the standard pipeline's target does not exist, never that constructing one destroys information. That distinction is what keeps repair defensible. But side B's data names a real cost - if intransitivity is multi-objective in origin, projecting onto one acyclic order is a choice of weighting, which is scalarisation, which is the losing baseline. The committed reading: cycle source is an empirical question the project must answer in its own data, via a Condorcet-existence check alongside CCEI. Side B's own numbers help: cycles appear in 85-93% of prompts at N=8 yet a best option survives in over 90% of them, which is exactly the regime where minimal perturbation is cheap.",
+      "origin": "comparisons",
+      "decision_relevance": "high"
+    },
+    {
+      "name": "Tractability of minimum-cost repair",
+      "side_a": {
+        "position": "Revealed-preference repair objectives are computationally hard.",
+        "evidence": "The minimum cost index is NP-hard by reduction from maximum acyclic subgraph; the Houtman-Maks deletion index is NP-complete at three or more goods; the minimum-distance aggregation rule was explicitly considered and abandoned as NP-hard in favour of a positional rule.",
+        "proponents": ["econpapers-measuring-rationality-with-the-minimum-cost-of-revealed-preference-vi"]
+      },
+      "side_b": {
+        "position": "The relevant program is a tractable mixed-integer formulation at the scale in question.",
+        "evidence": "A multiplier-free ordinal characterisation makes the constraints linear jointly in perturbed quantities, ordinal levels and binary indicators - no Afriat multipliers, no bilinear terms, no outer ordering search - and solves at T of 22 to 79 in under two seconds; the deletion problem is polynomial at two goods.",
+        "proponents": ["210206331-approximate-expected-utility-rationalization"]
+      },
+      "resolution": "Not a contradiction: hardness is asymptotic and dimension-dependent, tractability is a statement about the operating point. The complexity of the minimum-perturbation objective specifically is open and must be stated as open rather than inherited from the deletion or minimum-cost results, whose objectives differ - cardinality versus continuous distance, and deletion only removes arcs while perturbation can create them. The committed reading: scope to two goods and n at most 60, where the neighbouring problem is provably easy and where test power is also near one, and report the solve gap.",
+      "origin": "orphan-scan",
+      "decision_relevance": "medium"
+    },
+    {
+      "name": "Whether coherence implies competence",
+      "side_a": {
+        "position": "Coherence is a real force on capable agents; incoherence creates pressure toward reform.",
+        "evidence": "Dutch-book and money-pump constructions establish that incoherent agents are exploitable; the classical argument that coherent decisions imply consistent utilities.",
+        "proponents": ["coherent-decisions-imply-consistent-utilities-ai-alignment-forum"]
+      },
+      "side_b": {
+        "position": "Coherence is neither rationally required nor informative about competence, and enforcing it can be costly.",
+        "evidence": "Peer-reviewed argument that global coherence is not rationally required, that coherent expected-utility maximisation is intractable so agents must give up approximate optimality to comply, and that coherence alone says almost nothing about which goals a system pursues; agents trained to deliberately violate completeness scored 11% and 18% higher on an independent task-competence metric with no training tax; elicited coherent preferences in language models are behaviourally inert.",
+        "proponents": ["260810327-toward-a-theory-of-value-in-ai-alignment"]
+      },
+      "resolution": "Side B has the better of the argument and it is already published, which is exactly why this project must not restate it. The 'coherence is orthogonal to competence' sentence is a standing peer-reviewed thesis, not an available finding. What remains open is quantitative and directional: how much does a given quantity of enforced coherence move an exogenous payoff, for a fixed agent. That is a measurement no side of this dispute has made, and it is the only thing the project should claim.",
+      "origin": "contradiction-graph",
+      "decision_relevance": "high"
+    }
+  ]
+}

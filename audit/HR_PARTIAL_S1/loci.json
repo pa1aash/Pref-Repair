@@ -1,0 +1,78 @@
+{
+  "_provenance": "SUBSTITUTED, not produced by step 4. Derived from G0's six kill-checks and G0.5's items 1-5 by the S1 orchestrator. See audit/HR_PARTIAL_S1/PIPELINE_SUBSTITUTION_MAP.md.",
+  "loci": [
+    {
+      "name": "Sign and identification of the coherence-competence relationship",
+      "one_line": "Does enforcing revealed-preference coherence on an agent's choices improve, leave unchanged, or degrade its performance on an outcome that is not itself a preference judgment - and is any published estimate of that sign actually identified?",
+      "flavor": "dialectical",
+      "importance": 10,
+      "uncertainty": 9,
+      "disagreement": 9,
+      "decision_impact": 10,
+      "composite_score": 38,
+      "source_budget": 14,
+      "rationale": "The paper's C2. Four published repairs report improvement or no cost; three report degradation across three different axiom systems. The two peer-reviewed ablations most often cited for 'enforcement degrades' are confounded with model capacity and, on length-controlled metrics, point the other way. Nothing published is both isolated and scored on an exogenous outcome."
+    },
+    {
+      "name": "Well-posedness and computability of the minimal-perturbation projection",
+      "one_line": "Is projecting a choice sequence onto the GARP-consistent set a well-posed, solvable program, or does the non-closedness of that set and the combinatorial ordering search make it heuristic-only?",
+      "flavor": "technical",
+      "importance": 9,
+      "uncertainty": 5,
+      "disagreement": 4,
+      "decision_impact": 9,
+      "composite_score": 27,
+      "source_budget": 8,
+      "rationale": "The paper's method section stands or falls here. Resolved in G0.5 item 1: a multiplier-free ordinal characterisation gives a single MILP with no bilinearity. Retained as a locus because the residual - non-closedness requiring a strict-preference margin, and open complexity for the perturbation objective - is load-bearing and must be visible in the draft."
+    },
+    {
+      "name": "Whether CCEI can carry a dose axis at all",
+      "one_line": "Is the Afriat efficiency index reliable enough at the individual-agent level to serve as a graded treatment variable, given that no published ICC estimate for it reaches the conventional 'good' threshold?",
+      "flavor": "dialectical",
+      "importance": 10,
+      "uncertainty": 8,
+      "disagreement": 7,
+      "decision_impact": 10,
+      "composite_score": 35,
+      "source_budget": 12,
+      "rationale": "The sharpest attack available on the whole design, and it is in PNAS. Intermethod reliability under presentation change is worse than five-month test-retest - and presentation change is also the lever that produces the headroom the project needs. Headroom and construct validity may be the same variable."
+    },
+    {
+      "name": "Does the object of intervention change the result",
+      "one_line": "Is repairing an agent's own choice sequence materially different from repairing a judge's rankings, an annotator pool, or a reward head - or is the distinction a framing device?",
+      "flavor": "dialectical",
+      "importance": 9,
+      "uncertainty": 6,
+      "disagreement": 6,
+      "decision_impact": 9,
+      "composite_score": 30,
+      "source_budget": 10,
+      "rationale": "This is the entire surviving novelty claim. If a reviewer decides that repairing a judge's pairwise rankings is 'the same thing', the contribution collapses. The strongest defence is not conceptual but methodological: only the own-choices, post-hoc configuration holds capacity and training fixed across doses."
+    },
+    {
+      "name": "Occupancy of the intervention cell",
+      "one_line": "Is the conjunction - own choices, minimal perturbation, exogenous payoff, dose-response - genuinely unoccupied, or is the apparent gap an artefact of which indexes were searched?",
+      "flavor": "synthesis",
+      "importance": 8,
+      "uncertainty": 6,
+      "disagreement": 3,
+      "decision_impact": 8,
+      "composite_score": 25,
+      "source_budget": 8,
+      "rationale": "Two occupants were found only after correcting a broken instrument: one at a non-arXiv conference, one in a central-bank working-paper series wrongly written off as unsearchable. Both residual gaps in the corrected search are metadata-not-full-text, the exact blind spot that hid the first one."
+    },
+    {
+      "name": "Are the cycles a defect or a structure",
+      "one_line": "When an agent's choices cycle, is that noise to be removed or a genuine multi-objective trade-off whose removal is itself a modelling choice?",
+      "flavor": "dialectical",
+      "importance": 8,
+      "uncertainty": 7,
+      "disagreement": 8,
+      "decision_impact": 7,
+      "composite_score": 30,
+      "source_budget": 8,
+      "rationale": "If intransitivity is multi-objective in origin, projecting onto a single acyclic order is scalarisation - which is the losing baseline in the multi-objective preference-tuning literature. This is the one objection the foil paper genuinely raises, and it is answerable only empirically, by splitting cycle sources in the project's own data."
+    }
+  ],
+  "skip_loci": []
+}

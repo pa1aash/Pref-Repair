@@ -222,3 +222,79 @@ the GARP-consistent set. The nearest neighbours are:
 - **arXiv:2608.05015** (Andrews) — training-time penalty, theory only. See `killcheck_E1.md`.
 
 Given §1.5, this is **weak** evidence of absence and must be reported as such.
+
+### 4.4 The width sweep found five more occupants — the field is more crowded than §4.1 implied
+
+The partial hyperresearch sweep (72→136 notes before the run was stopped; see
+`audit/HR_PARTIAL/RUN_RECORD.md`) surfaced further interventions that neither the plan's sweeps nor
+the six kill-checks had found. Listed newest-evidence-first, because two of them are closer to the
+proposal than anything in §4.1:
+
+| Work | Timing | Mechanism | Downstream tested? |
+|---|---|---|---|
+| **TrustRoboReward / POISE** (arXiv:2608.08491) | training-time | **Isotonic-regression projection of scores onto a monotone cone defined by the pairwise preferences** — i.e. a minimal-adjustment projection onto a consistency-defined set | **Yes** — ~69% win rate on a robot-manipulation benchmark |
+| **TrustJudge** (arXiv:2509.21117) | **inference-time** | Distribution-sensitive scoring + likelihood-aware aggregation | **Yes** — transitivity inconsistency 15.22% → 4.40% *with simultaneous accuracy gains* |
+| **"Investigating Non-Transitivity in LLM-as-a-Judge"** (arXiv:2502.14074, ICML 2025) | inference-time | Round-robin + Bradley–Terry aggregation to correct measured non-transitivity | **Yes** — Spearman 95.0% → 96.4%, Kendall 82.1% → 86.3% vs Chatbot Arena |
+| **"The Innate Economic Preferences of Language Models"** (arXiv:2607.26288) | training-time | Fine-tuning with explicit **reflexivity / IIA / transitivity invariance loss terms** | **No** — IIA improves 0.920 → 0.9484 on held-out menus, but no task-performance evaluation |
+| **"Theoretical Tensions in RLHF"** (arXiv:2506.12350) | training-time | Majority-vote aggregation provably enforcing Condorcet/majority consistency via an implicit Copeland rule | No — explicitly theory-only |
+
+POISE is the most damaging of these to the plan's framing. "Project the observed data onto the set
+that satisfies the consistency condition, minimally, and then measure whether task performance
+improves" is the proposal's own method statement, and it is already published with a positive
+downstream result — in a different axiom system, on robot reward models rather than budget-set
+demand, but the shape is the same.
+
+### 4.5 One finding cuts the other way, and it is the most important single result in the corpus
+
+**Nitsch et al. (2022), *PNAS*, "On the reliability of individual economic rationality
+measurements"** — eight datasets, 1,600+ participants. Two results:
+
+1. CCEI and the Houtman–Maks index have **poor-to-moderate test–retest reliability** (ICC
+   0.07–0.55). An individual's CCEI is not a stable trait even in humans.
+2. A choice-revision "repair" intervention **did not improve consistency**, failing to replicate an
+   earlier positive result.
+
+This is the closest thing in the literature to a *negative* result on repair, it is in *PNAS*, and it
+is absent from the plan's reference list. It bears on C1 directly: if the measure being projected
+onto is itself unreliable at the individual level, a before/after CCEI difference may be measuring
+noise. Any pilot must establish test–retest reliability of CCEI *for the models under study* before
+interpreting a projection effect.
+
+### 4.6 A tooling defect worth recording
+
+Every fetcher independently hit the same failure: `hyperresearch fetch` rejects raw PDF URLs with
+`Skipped junk content: Binary PDF garbage in content` — arXiv `/pdf/`, and Columbia-, Caltech- and
+KU-Leuven-hosted PDFs alike. The documented PDF auto-detection path does not work on this build.
+Workarounds that do work: arXiv `/html/` URLs, and `curl` + a direct PyMuPDF extraction. This
+matters for the audit because a naive run would silently under-fetch exactly the primary sources
+that are PDF-only, which is disproportionately the economics literature.
+
+### 4.7 The last fetcher found the single most decision-relevant datapoint in the corpus
+
+Three additions, and the first two are negative results on repair — which makes them more useful to
+this project than any of the positive ones.
+
+**Enforcing coherence improved coherence and did not improve accuracy.** The full text of
+arXiv:2505.07883 (Zhu, Yan & Griffiths) is more precise than its abstract. Their axiomatic VAE
+enforces the additive probability axiom on a frozen model's embeddings. Train-set accuracy improves
+on both metrics — but **test-set MSE is slightly *worse* for the recovered probabilities than for
+the raw ones**, despite strictly better coherence and marginally better correlation. That is claim
+C2's question, asked in a neighbouring axiom system, answered on held-out data, and answered
+*against* the optimistic direction.
+
+**A repair operator was tried and made things worse.** arXiv:2602.06286 (Yamin et al., "When Agents
+Say One Thing and Do Another") reports that **isotonic calibration fails to repair belief-
+insufficiency and often worsens it.** Together with Nitsch et al. (§4.5), that is two independent
+published failures of consistency-repair interventions. The plan anticipated a "clean negative" as
+its best-case interesting result; two clean negatives are already in the literature.
+
+**A third dual-track occupant.** CONSISTRE (arXiv:2607.24312) enforces relational-consistency axioms
+— transitivity, symmetry, functional uniqueness — on LLM outputs via **both** an inference-time
+prompt/verify/reflect loop **and** training-time SFT+GRPO, and reports downstream F1 gains
+(one model 0.031 → 0.330 through the full pipeline; +0.117 F1 against baselines that *hurt* F1).
+Different task domain (document-level relation extraction), same structural move.
+
+Also worth carrying forward: Yamin et al. (arXiv:2605.08556, R3) quantify the plan's vague
+"prompt-steering **fails**" — **12.5–27.1% of steering attempts move preferences in the wrong
+direction**, and cost-function prompting *lowers* consistency relative to baseline for every model
+tested. S3 is confirmed with a number.

@@ -21,7 +21,7 @@ three dead batches. It did fire, so the corpus was kept as-is.
 |---|---|---|
 | Bootstrap | complete | `query.md`, `scaffold.md`, vault tag minted, step skills installed |
 | 1 — decompose | **complete** | `prompt-decomposition.json` (14 sub-questions, 14 entities, 9 required headings), `coverage-matrix.md` (zero gap rows) |
-| 2 — width sweep | **partial** | `search-plan.md` (44 planned searches, 3 lenses, 9 adversarial), `scored-urls.md`, `SOURCE_INDEX.md` — 72 sources fetched |
+| 2 — width sweep | **partial** | `search-plan.md` (44 planned searches, 3 lenses, 9 adversarial), `scored-urls.md`, `SOURCE_INDEX.md` — 7 of 10 fetchers completed; **102 notes on disk, 78 kept after the fetchers deprecated 24 as off-topic** |
 | 3–16 | **not run** | Stopped by decision, not by failure |
 
 Tier was classified **`full`** by step 1, so all 16 steps were in scope. Steps 3–16 were skipped
@@ -29,7 +29,7 @@ deliberately; this is a recorded deviation from the pipeline's tier gate, not a 
 
 ## Coverage assessment for the partial sweep
 
-72 sources against 14 sub-questions. Coverage by atomic item, judged from the source index:
+78 kept notes against 14 sub-questions. Coverage by atomic item, judged from the source index:
 
 | Atomic item | Status |
 |---|---|
@@ -57,3 +57,13 @@ It is the prior-art reading list the paper now needs, given that the novelty fra
 rebuilt (`docs/VENUE.md`, fit audit). The highest-value unread items are R20 (`arXiv:2406.00231`,
 LLM-RankFusion) and R22 (`arXiv:2604.17502`, the completeness-violation agent paper) — both
 surfaced by kill-check E5 and neither yet read in full.
+
+## Vault state at stop
+
+`hyperresearch repair` ran clean. 102 source notes (78 kept, 24 deprecated by the fetchers as
+off-topic) plus 39 auto-generated index notes; 723 links, **0 broken, 0 orphans**.
+
+Three fetcher batches (2, 6, 8) died for machine reasons and were not re-dispatched, per the stop
+decision. Their assigned URLs are listed in `scored-urls.md`; the classical economics references
+they were carrying — Varian (1990), Houtman & Maks (1985), Echenique–Lee–Shum — are the reason
+those three rows remain `unverified` in `audit/REFERENCE_LEDGER.md`.

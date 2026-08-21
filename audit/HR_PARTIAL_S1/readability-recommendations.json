@@ -1,0 +1,244 @@
+{
+  "recommendations": [
+    {
+      "id": "rec-1",
+      "category": "make-table",
+      "severity": "major",
+      "section": "## 3. The Economics Front Applied to AI Agents: Who Has Intervened",
+      "current": "Enumerating the measurement wave keeps the intervention count honest. Budget-set GARP testing across risk, time, social and food domains returns efficiency scores above human benchmarks — CCEI averages above 0.997 — robust to sampling randomness and demographic framing but sensitive to the linguistic framing of the choice situation [30][7]. A taxonomy of fine-grained rationality elements scored across fourteen models finds that size affects the ability to behave rationally [31]. Nearly forty models put through 161 rounds of priced moral dilemmas against a null distribution of random choosers yield two passes at the 1% level, five more at 5% and two more at 10%, with pairwise co-classification into the same rationalizable type running 24% to 48% [32]. Prompt-based role specialisation *increases* axiom violations and lowers the efficiency index [33]. Holding a model fixed and re-running a 25-round budget task 100 times yields a full CCEI distribution rather than a point [34]. A central-bank working paper testing whether a reservation-wage policy exists in a sequential search environment finds larger models rationalizable nearly always, the smallest (Mistral v0.3 7B) not rationalizable at all, and reasoning-tuned variants *worse* than their base, with recovered discount factors clustering between 0.2 and 0.8 [18]. A discrete-choice model recovers the cost function best rationalizing a model's choices across four clinical diagnosis domains, and finds revealed-preference estimates explain realised decisions far better than verbalised cost ratios [35]; a companion test finds elicited beliefs are not decision-sufficient, with conditional mutual information significantly positive in all sixteen cells [9].",
+      "recommended": "Enumerating the measurement wave keeps the intervention count honest.\n\n| Design | What it reports |\n|---|---|\n| Budget-set GARP testing across risk, time, social and food domains [30][7] | Efficiency scores above human benchmarks — CCEI averages above 0.997 — robust to sampling randomness and demographic framing but sensitive to the linguistic framing of the choice situation |\n| A taxonomy of fine-grained rationality elements scored across fourteen models [31] | Size affects the ability to behave rationally |\n| Nearly forty models put through 161 rounds of priced moral dilemmas against a null distribution of random choosers [32] | Two passes at the 1% level, five more at 5% and two more at 10%, with pairwise co-classification into the same rationalizable type running 24% to 48% |\n| Prompt-based role specialisation [33] | *Increases* axiom violations and lowers the efficiency index |\n| Holding a model fixed and re-running a 25-round budget task 100 times [34] | A full CCEI distribution rather than a point |\n| A central-bank working paper testing whether a reservation-wage policy exists in a sequential search environment [18] | Larger models rationalizable nearly always, the smallest (Mistral v0.3 7B) not rationalizable at all, and reasoning-tuned variants *worse* than their base, with recovered discount factors clustering between 0.2 and 0.8 |\n| A discrete-choice model recovering the cost function that best rationalizes a model's choices across four clinical diagnosis domains [35] | Revealed-preference estimates explain realised decisions far better than verbalised cost ratios |\n| A companion test of whether elicited beliefs are decision-sufficient [9] | They are not: conditional mutual information is significantly positive in all sixteen cells |",
+      "rationale": "Eight independent measurement studies are currently stacked into one ~1,700-character wall of sequential sentences with no connective tissue between them, and a two-column design-versus-finding table makes the contrast class scannable without touching a word of evidence or duplicating the §6 census (which lists interventions only)."
+    },
+    {
+      "id": "rec-2",
+      "category": "break-paragraph",
+      "severity": "major",
+      "section": "## 2. The Economics Front: Afriat, Varian, Houtman-Maks and What They Offer as Repair",
+      "current": "the agent's own chosen bundles.** The sketch is fillable rather than merely empty",
+      "recommended": "the agent's own chosen bundles.**\n\nThe sketch is fillable rather than merely empty",
+      "rationale": "This paragraph runs about 2,060 characters and the bolded verdict sentence is its natural hinge — everything before it inventories what exists, everything after it argues that the missing program is fillable."
+    },
+    {
+      "id": "rec-3",
+      "category": "break-paragraph",
+      "severity": "major",
+      "section": "## 2. The Economics Front: Afriat, Varian, Houtman-Maks and What They Offer as Repair",
+      "current": "is reporting an arbitrary selection. Two escapes are known",
+      "recommended": "is reporting an arbitrary selection.\n\nTwo escapes are known",
+      "rationale": "At roughly 2,280 characters this is the longest body paragraph in the report; splitting at the problem/remedy hinge separates the well-posedness failure from the two known escapes."
+    },
+    {
+      "id": "rec-4",
+      "category": "make-list",
+      "severity": "major",
+      "section": "## 1. What Counts as an Intervention, and What Counts as Mere Measurement",
+      "current": "**Abstention is not repair.** Running the same agent repeatedly and answering only when three runs agree lifts accuracy to 87–88% at 54–62% coverage, a 6-to-14-point gain over single-run baselines — but the agent's choices are not thereby made more consistent; the inconsistent cases are removed from the sample [17]. **Level-steering is not projection.** Activation steering along a control vector — a difference direction computed from contrasting-pair prompts and added to the residual stream — reliably shifts allocations toward payoff maximisation [18], and a steering vector built by aligning a behaviourally elicited risk-preference map to residual-stream activations shifts risky-choice probabilities [19]; both move the *location* of a preference, not the *coherence* of a choice sequence. **Architectural augmentation is not enforcement.** Surveys catalogue tools, symbolic reasoners, explicit utility functions and conformal risk controls as routes to \"more rational\" agents [20]; these change an agent's inputs or computation, not the algebraic structure of its choices.",
+      "recommended": "- **Abstention is not repair.** Running the same agent repeatedly and answering only when three runs agree lifts accuracy to 87–88% at 54–62% coverage, a 6-to-14-point gain over single-run baselines — but the agent's choices are not thereby made more consistent; the inconsistent cases are removed from the sample [17].\n- **Level-steering is not projection.** Activation steering along a control vector — a difference direction computed from contrasting-pair prompts and added to the residual stream — reliably shifts allocations toward payoff maximisation [18], and a steering vector built by aligning a behaviourally elicited risk-preference map to residual-stream activations shifts risky-choice probabilities [19]; both move the *location* of a preference, not the *coherence* of a choice sequence.\n- **Architectural augmentation is not enforcement.** Surveys catalogue tools, symbolic reasoners, explicit utility functions and conformal risk controls as routes to \"more rational\" agents [20]; these change an agent's inputs or computation, not the algebraic structure of its choices.",
+      "rationale": "The heading already promises \"three boundary cases\" and the paragraph already carries three parallel bold labels with zero connective tissue between them, so bulleting makes the count visible instead of forcing the reader to find it inside a 1,290-character block."
+    },
+    {
+      "id": "rec-5",
+      "category": "make-list",
+      "severity": "major",
+      "section": "## 2. The Economics Front: Afriat, Varian, Houtman-Maks and What They Offer as Repair",
+      "current": "Five indices now measure how badly a dataset fails. CCEI deflates budgets by a common factor and reports the largest factor at which cycles vanish; it is computable in polynomial time by binary search with a combinatorial GARP check at each step [7]. The Varian index refines this to observation-specific deflations. The Houtman–Maks index deletes whole observations. The Dean–Martin minimum cost index deletes revealed-preference *relations*, weighted by money-metric cost. The money-pump index measures the dollars an arbitrageur could extract by trading against the agent's own revealed choices, as a share of expenditure [22].",
+      "recommended": "Five indices now measure how badly a dataset fails.\n\n- **CCEI** deflates budgets by a common factor and reports the largest factor at which cycles vanish; it is computable in polynomial time by binary search with a combinatorial GARP check at each step [7].\n- **The Varian index** refines this to observation-specific deflations.\n- **The Houtman–Maks index** deletes whole observations.\n- **The Dean–Martin minimum cost index** deletes revealed-preference *relations*, weighted by money-metric cost.\n- **The money-pump index** measures the dollars an arbitrageur could extract by trading against the agent's own revealed choices, as a share of expenditure [22].",
+      "rationale": "These five index names recur throughout §§2, 3, 7 and 9, so making their one definitional passage a bold-labelled list turns it into the lookup table the rest of the report keeps referring back to."
+    },
+    {
+      "id": "rec-6",
+      "category": "make-list",
+      "severity": "major",
+      "section": "## 6. Census of Interventions Found, Inference-Time and Training-Time",
+      "current": "**Excluded, and why.** Failing test (ii), because they shift a preference *level* rather than its consistency: control-vector and prompt-mask steering [18]; behaviour-aligned risk steering vectors [19]; prompt steering to a target cost function [35]. Failing test (iii), specified but never run: the one-minus-CCEI training penalty and its Dutch-book and subjective-expected-utility companions [7]; majority-vote reward aggregation implementing the Copeland rule [8]; axiom-enforcing reweighting of the Bradley–Terry loss [42]. Failing the AI-agent scope condition but central to §7: the human choice-revision arm [11]. Existing as operators but never aimed at an artificial agent: the minimum-expenditure and minimum-price perturbation programs [15], the iterative quantity-perturbation heuristic [62], the least-squares distance-to-nearest-rationalizable-dataset index [16], minimal perturbation to subjective-expected-utility rationality [25], parametric recoverability with a minimal budget adjustment [24], and optimal-transport preference recovery [26].",
+      "recommended": "**Excluded, and why.**\n\n- **Failing test (ii)**, because they shift a preference *level* rather than its consistency: control-vector and prompt-mask steering [18]; behaviour-aligned risk steering vectors [19]; prompt steering to a target cost function [35].\n- **Failing test (iii)**, specified but never run: the one-minus-CCEI training penalty and its Dutch-book and subjective-expected-utility companions [7]; majority-vote reward aggregation implementing the Copeland rule [8]; axiom-enforcing reweighting of the Bradley–Terry loss [42].\n- **Failing the AI-agent scope condition** but central to §7: the human choice-revision arm [11].\n- **Existing as operators but never aimed at an artificial agent:** the minimum-expenditure and minimum-price perturbation programs [15], the iterative quantity-perturbation heuristic [62], the least-squares distance-to-nearest-rationalizable-dataset index [16], minimal perturbation to subjective-expected-utility rationality [25], parametric recoverability with a minimal budget adjustment [24], and optimal-transport preference recovery [26].",
+      "rationale": "This is an audit trail sitting directly under the census table — readers arrive at it looking for one specific exclusion ground, and four bold-labelled bullets make the grounds findable in a way a 1,050-character prose block does not."
+    },
+    {
+      "id": "rec-7",
+      "category": "make-list",
+      "severity": "major",
+      "section": "## 3. The Economics Front Applied to AI Agents: Who Has Intervened",
+      "current": "**Weight-level axiom enforcement.** Llama 3.1 8B Instruct is fine-tuned toward two principal-specified risk-aversion targets with a multi-term loss whose auxiliary terms are, term by term, revealed-preference axioms: a reflexivity term penalising a non-zero logit gap on placebo menus where both labels describe the same portfolio; a mirror term penalising asymmetry under label-swapping; two independence-of-irrelevant-alternatives terms tying the average and dispersion of the three-option logit gap to the two-option gap for the same pair, so that adding a strictly dominated third alternative cannot shift the odds between the original two; a cycle term penalising the additivity residual across binary triads with a sign-margin hinge — transitivity written as a loss; and a path term forcing interpolation paths to bracket the indifference surface [6]. The effects are large and, crucially, *not monotone*.",
+      "recommended": "**Weight-level axiom enforcement.** Llama 3.1 8B Instruct is fine-tuned toward two principal-specified risk-aversion targets with a multi-term loss whose auxiliary terms are, term by term, revealed-preference axioms:\n\n- a **reflexivity** term penalising a non-zero logit gap on placebo menus where both labels describe the same portfolio;\n- a **mirror** term penalising asymmetry under label-swapping;\n- two **independence-of-irrelevant-alternatives** terms tying the average and dispersion of the three-option logit gap to the two-option gap for the same pair, so that adding a strictly dominated third alternative cannot shift the odds between the original two;\n- a **cycle** term penalising the additivity residual across binary triads with a sign-margin hinge — transitivity written as a loss;\n- and a **path** term forcing interpolation paths to bracket the indifference surface [6].\n\nThe effects are large and, crucially, *not monotone*.",
+      "rationale": "A single 848-character sentence carries the five loss terms that are the report's clearest example of axioms written as trainable penalties; bulleting them exposes the one-term-per-axiom mapping and simultaneously breaks an 1,800-character paragraph at its results hinge."
+    },
+    {
+      "id": "rec-8",
+      "category": "make-list",
+      "severity": "moderate",
+      "section": "## 3. The Economics Front Applied to AI Agents: Who Has Intervened",
+      "current": "**Label-free regularization, specified and unrun.** Three penalties, each continuous, each polynomial-time computable, each zero if and only if the corresponding representation theorem's axiom holds: the Dutch-book magnitude, obtained as the optimal value of a linear program bounded by total stake; one minus CCEI, via binary search with a GARP check at each step; and one minus the subjective-expected-utility distance, computable by binary search over the finitely many payoff ratios [7]. A supporting lemma addresses the known CCEI loophole, but only inside its hypothesis: with prices drawn independently from Lebesgue densities and budget-exhausting choices, CCEI equals 1 if and only if GARP holds, with probability one [7]. That is a guarantee about a *sampler*, not a property of the estimator,",
+      "recommended": "**Label-free regularization, specified and unrun.** Three penalties, each continuous, each polynomial-time computable, each zero if and only if the corresponding representation theorem's axiom holds:\n\n- the **Dutch-book magnitude**, obtained as the optimal value of a linear program bounded by total stake;\n- **one minus CCEI**, via binary search with a GARP check at each step;\n- and **one minus the subjective-expected-utility distance**, computable by binary search over the finitely many payoff ratios [7].\n\nA supporting lemma addresses the known CCEI loophole, but only inside its hypothesis: with prices drawn independently from Lebesgue densities and budget-exhausting choices, CCEI equals 1 if and only if GARP holds, with probability one [7].\n\nThat is a guarantee about a *sampler*, not a property of the estimator,",
+      "rationale": "Three genuinely parallel penalties are buried in one 487-character colon sentence, and pulling them out also splits a 1,530-character paragraph at the point where description turns into critique."
+    },
+    {
+      "id": "rec-9",
+      "category": "make-list",
+      "severity": "moderate",
+      "section": "## 4. The ML/Alignment Front: Coherence Theorems, Bradley-Terry Violations, and Nash Learning",
+      "current": "equilibrium [43]. Descendants extend the idea rather than the enforcement: a proximal-point outer loop removes a stability restriction on the regularization coefficient and yields last-iterate guarantees without it [44]; a multiplayer generalisation replaces the single opponent with a population [45]; an exploratory variant achieves O(√T) regret without exponential dependence on the KL-regularization parameter, improvable to O(log T) with a minimax oracle [46]; and a social-choice framing shows the Nash family approximates **maximal lotteries** — the randomised social-choice rule that is majority-undominated — inheriting majority support and robustness to irrelevant alternatives [47], with a leaderboard-aggregation application that assumes nothing about preference structure [48].",
+      "recommended": "equilibrium [43].\n\nDescendants extend the idea rather than the enforcement:\n\n- a proximal-point outer loop removes a stability restriction on the regularization coefficient and yields last-iterate guarantees without it [44];\n- a multiplayer generalisation replaces the single opponent with a population [45];\n- an exploratory variant achieves O(√T) regret without exponential dependence on the KL-regularization parameter, improvable to O(log T) with a minimax oracle [46];\n- and a social-choice framing shows the Nash family approximates **maximal lotteries** — the randomised social-choice rule that is majority-undominated — inheriting majority support and robustness to irrelevant alternatives [47], with a leaderboard-aggregation application that assumes nothing about preference structure [48].",
+      "rationale": "Four descendant systems are chained by bare semicolons inside a 740-character sentence at the end of a 1,500-character paragraph, and each is a separate citable line of work rather than a step in an argument."
+    },
+    {
+      "id": "rec-10",
+      "category": "make-list",
+      "severity": "moderate",
+      "section": "## 5. The ML/Alignment Front Applied to Agent Choice: Enforce or Accept?",
+      "current": "Both camps have shipped working systems on real agents. The enforcement camp is larger and better evidenced on non-preference metrics; the acceptance camp has the stronger theory and the weaker identification. This front has a measurement-only wave too, the same contrast class §3A draws on the economics side: per-instance transitivity diagnostics with conformal prediction sets [56]; behavioural consistency used as an uncertainty signal, with abstention rather than repair as the response [17]; elicited utility structure that is coherent and motivationally inert [58]; the measurement half of the non-transitivity judge audit [51]; and the dominant reward benchmark, which scores accuracy on prompt–chosen–rejected trios with no consistency construct at all [40]. None of these changes anything either.",
+      "recommended": "Both camps have shipped working systems on real agents. The enforcement camp is larger and better evidenced on non-preference metrics; the acceptance camp has the stronger theory and the weaker identification. This front has a measurement-only wave too, the same contrast class §3A draws on the economics side:\n\n- per-instance transitivity diagnostics with conformal prediction sets [56];\n- behavioural consistency used as an uncertainty signal, with abstention rather than repair as the response [17];\n- elicited utility structure that is coherent and motivationally inert [58];\n- the measurement half of the non-transitivity judge audit [51];\n- and the dominant reward benchmark, which scores accuracy on prompt–chosen–rejected trios with no consistency construct at all [40].\n\nNone of these changes anything either.",
+      "rationale": "Five measurement-only works are listed with idle semicolons, and bulleting them mirrors the treatment rec-1 gives the economics-side contrast class in §3A, making the two exclusion waves visibly parallel."
+    },
+    {
+      "id": "rec-11",
+      "category": "break-paragraph",
+      "severity": "moderate",
+      "section": "## 5. The ML/Alignment Front Applied to Agent Choice: Enforce or Accept?",
+      "current": "and its two preconditions are the whole story. The source's own remark concedes",
+      "recommended": "and its two preconditions are the whole story.\n\nThe source's own remark concedes",
+      "rationale": "The paragraph runs about 1,700 characters and the sentence naming \"two preconditions\" is an explicit signpost for the two-sentence critique that follows, so the break lands exactly where the reader expects a new movement."
+    },
+    {
+      "id": "rec-12",
+      "category": "break-paragraph",
+      "severity": "moderate",
+      "section": "## 7. Does Enforced Coherence Change Downstream Decision Quality? The Empirical Record",
+      "current": "does not beat the listwise baseline (65.49) [52]. Isotonic score editing yields a reward model",
+      "recommended": "does not beat the listwise baseline (65.49) [52].\n\nIsotonic score editing yields a reward model",
+      "rationale": "This ~1,684-character paragraph covers four separate systems; the break puts the three judge/ranking results in one paragraph and the isotonic reward-model result, which carries its own long caveat chain, in another."
+    },
+    {
+      "id": "rec-13",
+      "category": "break-paragraph",
+      "severity": "moderate",
+      "section": "## 7. Does Enforced Coherence Change Downstream Decision Quality? The Empirical Record",
+      "current": "multi-arm test of the relationship in the corpus. Separately, a study that reproduces",
+      "recommended": "multi-arm test of the relationship in the corpus.\n\nSeparately, a study that reproduces",
+      "rationale": "At about 1,730 characters this paragraph holds three distinct dissociation studies; \"Separately\" already marks the boundary between the first and second, so the break costs nothing and halves the block."
+    },
+    {
+      "id": "rec-14",
+      "category": "break-paragraph",
+      "severity": "moderate",
+      "section": "## 3. The Economics Front Applied to AI Agents: Who Has Intervened",
+      "current": "buys realism by spending test content. What is genuinely weak here is *conditional* power",
+      "recommended": "buys realism by spending test content.\n\nWhat is genuinely weak here is *conditional* power",
+      "rationale": "The paragraph is about 1,490 characters and turns cleanly from unconditional Bronars power to conditional power, which is the opposite half of the argument and deserves its own block."
+    },
+    {
+      "id": "rec-15",
+      "category": "break-paragraph",
+      "severity": "moderate",
+      "section": "## 7. Does Enforced Coherence Change Downstream Decision Quality? The Empirical Record",
+      "current": "not a powered equivalence test. Monotone recalibration of elicited belief probabilities left",
+      "recommended": "not a powered equivalence test.\n\nMonotone recalibration of elicited belief probabilities left",
+      "rationale": "The section promises three failures across three axiom systems; splitting after the first failure and its three sentences of unit-reading caveats keeps the second and third from being swallowed by the first."
+    },
+    {
+      "id": "rec-16",
+      "category": "break-paragraph",
+      "severity": "moderate",
+      "section": "## 7. Does Enforced Coherence Change Downstream Decision Quality? The Empirical Record",
+      "current": "and model competence. The human-cognition literature supplies the cautionary parallel:",
+      "recommended": "and model competence.\n\nThe human-cognition literature supplies the cautionary parallel:",
+      "rationale": "The paragraph passes 1,500 characters and changes evidence base entirely at this sentence, moving from LLM run-level correlations to a human poker-judgment experiment."
+    },
+    {
+      "id": "rec-17",
+      "category": "break-paragraph",
+      "severity": "moderate",
+      "section": "## 3. The Economics Front Applied to AI Agents: Who Has Intervened",
+      "current": "confirming the model exploits real structure [5]. Two details matter more than the headline.",
+      "recommended": "confirming the model exploits real structure [5].\n\nTwo details matter more than the headline.",
+      "rationale": "\"Two details matter more than the headline\" is an explicit pivot from the headline result to its two qualifications, and using it as a paragraph opener rather than a mid-block aside makes the qualifications harder to skip."
+    },
+    {
+      "id": "rec-18",
+      "category": "break-paragraph",
+      "severity": "moderate",
+      "section": "## 8. Where the Two Literatures Miss Each Other",
+      "current": "human consumption panels or survey respondents. Machine learning has the downstream metrics",
+      "recommended": "human consumption panels or survey respondents.\n\nMachine learning has the downstream metrics",
+      "rationale": "The paragraph gives each front a has/lacks pair, and putting the economics pair and the machine-learning pair in separate paragraphs makes the symmetry of the section's argument visible at a glance."
+    },
+    {
+      "id": "rec-19",
+      "category": "break-paragraph",
+      "severity": "minor",
+      "section": "## 7. Does Enforced Coherence Change Downstream Decision Quality? The Empirical Record",
+      "current": "Neither failure does. Monotone recalibration projects onto the calibration cone",
+      "recommended": "Neither failure does.\n\nMonotone recalibration projects onto the calibration cone",
+      "rationale": "\"Neither failure does\" closes the statement of the rule with a three-word punch; breaking after it separates the rule from the two case-by-case demonstrations that follow in a ~1,450-character block."
+    },
+    {
+      "id": "rec-20",
+      "category": "split-sentence",
+      "severity": "moderate",
+      "section": "## 5. The ML/Alignment Front Applied to Agent Choice: Enforce or Accept?",
+      "current": "Transitivity, symmetry/inverse and functional-uniqueness constraints are formalised over a relational output space and enforced twice: at inference time by constraint-aware prompting, verification enumerating the specific violated triples, targeted reflection on those triples, then transitive-closure propagation and deduplication; at training time by distilling teacher traces into Qwen2.5-7B and Qwen3-8B students and aligning with Group Relative Policy Optimization — a policy-gradient method that scores a group of sampled responses against their own mean rather than against a learned value model — on a joint accuracy-and-consistency reward [4].",
+      "recommended": "Transitivity, symmetry/inverse and functional-uniqueness constraints are formalised over a relational output space and enforced twice. **At inference time:** constraint-aware prompting, verification enumerating the specific violated triples, targeted reflection on those triples, then transitive-closure propagation and deduplication. **At training time:** distilling teacher traces into Qwen2.5-7B and Qwen3-8B students and aligning with Group Relative Policy Optimization — a policy-gradient method that scores a group of sampled responses against their own mean rather than against a learned value model — on a joint accuracy-and-consistency reward [4].",
+      "rationale": "A single 640-character sentence carries the report's only both-timings system, and labelling the two timings turns the sentence's buried semicolon into the structural point the next sentence relies on."
+    },
+    {
+      "id": "rec-21",
+      "category": "split-sentence",
+      "severity": "minor",
+      "section": "## 7. Does Enforced Coherence Change Downstream Decision Quality? The Empirical Record",
+      "current": "with train–test gaps 49% and 35% smaller and no measurable training tax; two 8B-class open-weight instruction models fine-tuned to the same incomplete-preference property reached near-maximum usefulness across 40 held-out task families [57].",
+      "recommended": "with train–test gaps 49% and 35% smaller and no measurable training tax. Two 8B-class open-weight instruction models fine-tuned to the same incomplete-preference property reached near-maximum usefulness across 40 held-out task families [57].",
+      "rationale": "The semicolon joins two separate experiments inside a 540-character sentence; a full stop separates the reinforcement-learning result from the language-model result without altering either."
+    },
+    {
+      "id": "rec-22",
+      "category": "bold-keyterms",
+      "severity": "minor",
+      "section": "## 7. Does Enforced Coherence Change Downstream Decision Quality? The Empirical Record",
+      "current": "a gain of 0.117, while three established generic self-reflection baselines",
+      "recommended": "**a gain of 0.117**, while three established generic self-reflection baselines",
+      "rationale": "This is the number §7G calls the strongest single piece of causal evidence in the literature, and it is currently unmarked in a paragraph containing seven other figures."
+    },
+    {
+      "id": "rec-23",
+      "category": "bold-keyterms",
+      "severity": "minor",
+      "section": "## 3. The Economics Front Applied to AI Agents: Who Has Intervened",
+      "current": "out-of-sample bundle prediction error falls 17–18% at forecast horizons 5, 10 and 15 and 31% at horizon 1",
+      "recommended": "**out-of-sample bundle prediction error falls 17–18%** at forecast horizons 5, 10 and 15 and 31% at horizon 1",
+      "rationale": "This is the corpus's cleanest win on a metric no preference judgment enters and it is referenced again in §6, §7A and §9, so it should be findable on a scan of §3B."
+    },
+    {
+      "id": "rec-24",
+      "category": "bold-keyterms",
+      "severity": "minor",
+      "section": "## 5. The ML/Alignment Front Applied to Agent Choice: Enforce or Accept?",
+      "current": "the non-transitivity ratio collapses from 18.74% to 4.40% on average",
+      "recommended": "**the non-transitivity ratio collapses from 18.74% to 4.40% on average**",
+      "rationale": "The headline effect size of the largest inference-time repair system sits in the middle of a semicolon chain of five percentages and is currently indistinguishable from the supporting figures."
+    },
+    {
+      "id": "rec-25",
+      "category": "bold-keyterms",
+      "severity": "minor",
+      "section": "## 2. The Economics Front: Afriat, Varian, Houtman-Maks and What They Offer as Repair",
+      "current": "transitivity ranges from 0.957 to 1.000 [6]",
+      "recommended": "**transitivity ranges from 0.957 to 1.000** [6]",
+      "rationale": "This range is the load-bearing evidence for the shallow-violation regime and is invoked again in §9C's fourth open cell, so marking it at first appearance helps the callback land."
+    }
+  ],
+  "summary": {
+    "total_recommendations": 25,
+    "by_category": {
+      "merge-paragraphs": 0,
+      "break-paragraph": 11,
+      "make-list": 7,
+      "make-table": 1,
+      "bold-keyterms": 4,
+      "split-sentence": 2,
+      "remove-hr": 0,
+      "add-whitespace": 0
+    },
+    "highest_severity": "major",
+    "expected_net_char_delta": 430
+  }
+}

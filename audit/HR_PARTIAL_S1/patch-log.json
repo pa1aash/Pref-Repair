@@ -1,0 +1,417 @@
+{
+ "total_findings": 44,
+ "by_severity_in": {
+  "critical": 14,
+  "major": 22,
+  "minor": 8
+ },
+ "draft": "research/notes/final_report_revealed-preference-repair-llm-4f6896.md",
+ "new_sources_added": [
+  "[62] De Peretti (2005) Macroeconomic Dynamics 9(3):372-397",
+  "[63] arXiv:2605.29361",
+  "[64] arXiv:2505.17691",
+  "[65] arXiv:2606.17832",
+  "[66] arXiv:1507.07581",
+  "[67] arXiv:2601.08777",
+  "[68] arXiv:2606.22652",
+  "[69] arXiv:2608.03091",
+  "[70] arXiv:2606.17634"
+ ],
+ "applied": [
+  {
+   "id": "A01",
+   "severity": "critical",
+   "critics": [
+    "depth",
+    "dialectic"
+   ],
+   "location": "5B, 9B",
+   "issue": "Draft asserted no dose-response curve exists; a nine-level sweep is published.",
+   "fix": "Replaced the false claim. New paragraph in 5B states the nine lambda levels, inverted U with interior optimum at +1.0 (41.90), decline into the cyclic-first regime (40.21/38.66/37.27), 4.63-point span, flat response length, and its four limits. 9B's third disjunct rewritten from 'the treatment is binary ... so no dose-response curve exists' to a statement that the one published curve doses a model-internal mixing weight with endpoints off the curve.",
+   "orchestrator_priority": 1
+  },
+  {
+   "id": "A02",
+   "severity": "critical",
+   "critics": [
+    "depth"
+   ],
+   "location": "2C, 3C, 6A, 9C",
+   "issue": "Report claimed the quantity-perturbation program 'was never written down'.",
+   "fix": "Corrected the causal claim in four places and cited De Peretti (2005) [62] with its mechanism (one violation at a time, one observation at a time, cheaper cycle orientation) and its stated failure mode (no optimality guarantee). Added to 6A exclusion list. 2D's 'has not done' sentence rescoped to 'has not worked out'. Source note records that the primary was not retrieved and the characterisation is via the 2019 EJOR survey.",
+   "orchestrator_priority": 2
+  },
+  {
+   "id": "A03",
+   "severity": "critical",
+   "critics": [
+    "depth",
+    "dialectic",
+    "width"
+   ],
+   "location": "3A, 7F, 9C",
+   "issue": "The single power sentence pointed the wrong way; no power figure appeared anywhere.",
+   "fix": "Deleted 'a regime of limited test power'. Added a dedicated paragraph at the end of 3A: 99.9% Bronars power, replicated 100.0%, mean simulated index 0.718; exponential decay in K with area 0.9996 at K=24/T=10 [63]; the real caveat as bootstrap power 7.9-26.3% vs 95.4-99.8% human; the identity predictive success = pass rate - (1 - power) with the 0.957/8.8%/0.045 calibration and the 31%-clear-0.99 threshold result; and the note that power is computable before any query. 9C's fourth cell now carries the ceiling-index/unfailable-test disjunction.",
+   "orchestrator_priority": 3
+  },
+  {
+   "id": "A04",
+   "severity": "critical",
+   "critics": [
+    "dialectic",
+    "depth"
+   ],
+   "location": "2B, 9C",
+   "issue": "Hardness stated flat, without the number-of-goods qualifier that makes it true.",
+   "fix": "2B now states the deletion index is polynomial at two goods (vertex cover on perfect graphs) and NP-complete from three [66], notes two goods is the regime every LLM budget-set study runs, adds the DFVS approximation equivalence and the no-constant-factor result, and separates measurement timings from a repair program whose L2 form is a MIQP. 9C's unsourced 'deletion is polynomial at two goods' now cites [66].",
+   "orchestrator_priority": 4
+  },
+  {
+   "id": "A05",
+   "severity": "major",
+   "critics": [
+    "instruction"
+   ],
+   "location": "3A, 3B, 5A, 7F",
+   "issue": "No model family named anywhere; the scale-dependence argument was unfalsifiable.",
+   "fix": "Restored model families and sizes at the load-bearing numbers: Llama-3.1-70B-Instruct and Llama-3.1-8B and GPT-4o in the judge-repair paragraph; Llama 3.1 8B Instruct in the axiom-term fine-tune; Qwen2.5-7B / Llama-3.1-8B moved vs GPT-4o / DeepSeek-V3 unmoved in 7F; Mistral v0.3 7B as the non-rationalizable smallest model in 3A; Qwen2.5-7B / Qwen3-8B students in the dual-track paragraph; GPT-3.5-Turbo as the weak judge in 5C. No vendor assistant name written.",
+   "orchestrator_priority": 5
+  },
+  {
+   "id": "A06",
+   "severity": "critical",
+   "critics": [
+    "dialectic",
+    "width",
+    "instruction"
+   ],
+   "location": "5A, 6A table, 6B, 8B",
+   "issue": "Two qualifying systems absent from table and exclusion list; census row 10 simultaneously credited to [7] and listed as never run.",
+   "fix": "Added ELSPR as row 13 with a 5A paragraph (13.8% non-transitivity reduction, 0.088 entropy drop, 34.4% vs 52.6% annotator agreement) and recited row 10 from [7] to the drift-to-coherence system [65] as an inference-and-training entry with a NULL sign on MCQA accuracy. Added prompt-perturbation graph filtering as row 14 [70]. Counts updated to fourteen entries / thirteen systems / nine inference / six training / seven axiom families, with 9A's family count matched. [7] now appears only in the never-run exclusion list, resolving the contradiction."
+  },
+  {
+   "id": "A07",
+   "severity": "critical",
+   "critics": [
+    "depth"
+   ],
+   "location": "2C",
+   "issue": "AQE reported as a sketch without the theorem that makes the cell fillable.",
+   "fix": "Quoted the AQE definition inline and added Theorem 2's ordinal, multiplier-free characterisation: inequalities linear jointly in utilities, prices AND quantities, so promoting the bundle to a decision variable keeps the program mixed-integer linear, whereas the Afriat route is bilinear even with the ordering fixed."
+  },
+  {
+   "id": "A08",
+   "severity": "critical",
+   "critics": [
+    "depth"
+   ],
+   "location": "3B",
+   "issue": "The CCEI=1 loophole was declared closed; the lemma's hypothesis fails on the design the field uses.",
+   "fix": "Rewrote the lemma sentence to carry its hypothesis and scope: a guarantee about a sampler, not the estimator; the inherited design keeps two decimals, a 91-point grid with no density; 100% of integer-price 25-observation designs contain a tie; 18.9% of uniform-random agents report exactly 1.0 while violating GARP against zero in 63,200 continuous-price replications carrying 12,102 real failures; 8.7% for a near-rational agent on a quarter-point grid."
+  },
+  {
+   "id": "A09",
+   "severity": "critical",
+   "critics": [
+    "depth",
+    "dialectic"
+   ],
+   "location": "7F",
+   "issue": "Format-invariance treated as reliability; ceiling indices read as absence of headroom.",
+   "fix": "Two edits. The bolded resolution downgraded: format-invariance is not test-retest reliability, near-zero between-model variance at the ceiling instantiates rather than refutes the ICC diagnosis, and no per-model ICC exists. The no-headroom inference replaced with the compression facts (0.997 = 3-5 points of allocation noise; human 0.963-0.985 = 8-12) and the demonstrated headroom (price rewording to 0.698-0.901, discretisation to 0.780-0.908, 32-88% of runs below 0.9), concluding the lever is presentational rather than absent. 9D's scale forecast now carries the matching 'if'."
+  },
+  {
+   "id": "A10",
+   "severity": "critical",
+   "critics": [
+    "depth"
+   ],
+   "location": "7A, 6A row 4, 6B",
+   "issue": "Rank fusion counted as an exogenous-metric positive for the coherence thesis; its transitivity component contributes nothing.",
+   "fix": "7A now attaches the decomposition (+0.01 on the headline cell, -1.12 on another, components losing up to 2.49, transitivity never re-measured, 65.10 vs 65.49 listwise on the second benchmark). Table row 4's reported sign changed to 'Positive overall; transitivity component approximately 0'. 6B's exogenous-metric reading carries the attribution caveat."
+  },
+  {
+   "id": "A11",
+   "severity": "critical",
+   "critics": [
+    "dialectic"
+   ],
+   "location": "8B",
+   "issue": "The report's most load-bearing technical distinction claimed the ordering search is the unsolved half; the project's own method note contradicts this.",
+   "fix": "Split into the three surviving claims: the guarantee is what fails to transfer (non-expansiveness over a convex cone has no analogue over a union of polyhedra); the ordering search is a solved encoding, absorbed into T(T-1) binaries in one MILP with no outer loop; and the real difficulty is that free bundles make the revealed-preference relation endogenous, so there is no outer scalar to bisect."
+  },
+  {
+   "id": "A12",
+   "severity": "critical",
+   "critics": [
+    "dialectic",
+    "depth"
+   ],
+   "location": "2C",
+   "issue": "Non-closedness stated without the operationally decisive consequence; the margin passed as an implementation detail.",
+   "fix": "Added the exact-zero failure mode with the cusp-dataset name: the least-squares distance can read 0 on GARP-violating data, so a minimising operator silently reports 'no repair needed'. Rewrote the margin sentence: gamma buys attainment by shrinking the target to a closed subset, so what is computed is the gamma-margin projection and the distance is a gamma-indexed upper bound, requiring gamma to be reported and swept."
+  },
+  {
+   "id": "A13",
+   "severity": "critical",
+   "critics": [
+    "dialectic"
+   ],
+   "location": "lede paragraph 2, 7C",
+   "issue": "The report's own rule has a counter-case in its own census table (row 12, maximal target alignment, negative sign).",
+   "fix": "Scoped the lede claim to a scalar operator and named the vector-of-axioms exception. 7C's 'Two concessions' became three, the first conceding row 12 with its numbers (independence 0.800, transitivity 0.9583, sweep 0.948/0.857/0.496) and stating that alignment on one component of a vector metric does not protect the others."
+  },
+  {
+   "id": "A14",
+   "severity": "major",
+   "critics": [
+    "depth"
+   ],
+   "location": "lede, 5A, 7A",
+   "issue": "Four over-readings of the flagship enforcement result.",
+   "fix": "5A now marks 20.15%/20.46% as abstract-only and unsubstantiated in the body while keeping the proved 0% as definitional, and adds the round-half-up remark (not a metric projection, extra error up to 0.87 on a 1-5 scale, projections over at most three numbers). 7A replaces the 10.13-point margin with the matched +0.87 against raw distillation on the same corpus, and replaces 'better embodied manipulation policies' with 68 human-judged generated-video comparisons, no CI, no closed-loop execution."
+  },
+  {
+   "id": "A15",
+   "severity": "major",
+   "critics": [
+    "depth"
+   ],
+   "location": "7B, 7C, 7F, 9C",
+   "issue": "Houtman-Maks delta stated without its unit; authors' concession paraphrased; practice effect missing.",
+   "fix": "7B now states the index is a count out of forty trials, so -0.262 is a quarter of one trial and is not a backfire, and that no p-value, CI or test statistic accompanies any of the four deltas. 7C replaced the paraphrase with the authors' verbatim concession. 7F added the practice effect (b = 0.037, p = 0.002) and the population-mean comparison. 9C's third open cell now cross-references the practice effect as the reason a distance-matched null arm is required."
+  },
+  {
+   "id": "A16",
+   "severity": "major",
+   "critics": [
+    "dialectic"
+   ],
+   "location": "4D",
+   "issue": "The two-poles reconciliation was stated for the whole acceptance pole but is true only of the Nash family, contradicting the report's own 4A and 4B.",
+   "fix": "Narrowed the claim to the Nash and maximal-lottery family by name and conceded the two harm-grounds objections that do exist (bounded-rationality intractability [37]; the representation-rationalizability trade-off [42]), scoping them to compute limits and to learned preference models rather than to one agent's own choice record."
+  },
+  {
+   "id": "A17",
+   "severity": "major",
+   "critics": [
+    "dialectic",
+    "width"
+   ],
+   "location": "8C, 9C",
+   "issue": "Claim that the ML front has no cardinal severity measure is contradicted by three items in the corpus.",
+   "fix": "Rescoped to 'lacks a cardinal dose IN USE' and named the three magnitudes that exist: cyclic energy at p = 0.008 [55], the Hodge curl component [49], and the additive-separability seminorm governing a Markov alignment procedure's convergence rate [68]. 9C's second open cell notes the dose need not be imported from economics."
+  },
+  {
+   "id": "A18",
+   "severity": "major",
+   "critics": [
+    "dialectic"
+   ],
+   "location": "6B 'The diagonal'",
+   "issue": "The judge-rankings vs own-choices distinction was asserted rather than defended.",
+   "fix": "Conceded that under the abstract choice-function definition entries 1, 2, 3 and 12 do repair an agent's own choice function and that rationalizability has been tested price-free, then defended the budget-set qualifier on three stated grounds (cardinal money-metric dose, outcome in the same units as the perturbation, experimenter-set menu), narrowing the unoccupied cell to that conjunction."
+  },
+  {
+   "id": "A19",
+   "severity": "major",
+   "critics": [
+    "width"
+   ],
+   "location": "4C, 5B",
+   "issue": "The Nash pole presented with no internal criticism; 5B's exogenous-metric claim over-generalised.",
+   "fix": "Added the published critique that the equilibrium collapses toward a single majority-preferred response with a proved k/(k+1) multi-sample ceiling [67], and narrowed 5B's exogenous-metric sentence to the two general-preference-model papers, noting that self-play descendants do report capability-leaderboard numbers."
+  },
+  {
+   "id": "A20",
+   "severity": "major",
+   "critics": [
+    "width"
+   ],
+   "location": "7E",
+   "issue": "Only the positive from the reranking domain was presented; a published dissociation in the same domain was omitted.",
+   "fix": "Added the listwise position-bias study as a third dissociation: consistency measures track each other but diverge from recommendation effectiveness, and improving relevance does not restore stable pairwise preferences [69]."
+  },
+  {
+   "id": "A21",
+   "severity": "major",
+   "critics": [
+    "instruction"
+   ],
+   "location": "7 lead, 7G",
+   "issue": "Query names two outcome classes; 'task performance' appeared nowhere and the two were never separated.",
+   "fix": "Section 7 now opens by splitting decision quality from general task performance and gives a verdict on each, with the capability-tax evidence gathered ([53] no significant regression, [57] no training tax, [65] accuracy preserved, [6] no suite run). 7G closes with the same split."
+  },
+  {
+   "id": "A22",
+   "severity": "major",
+   "critics": [
+    "instruction"
+   ],
+   "location": "5 lead",
+   "issue": "The measure/intervene contrast class was enumerated for economics (3A) but had no ML counterpart.",
+   "fix": "Added a compressed contrast-class passage at the head of section 5 enumerating [56], [17], [58], [51] and [40] with their numbers and closing on the same 'none of these changes anything' move, making the two fronts structurally symmetric."
+  },
+  {
+   "id": "A23",
+   "severity": "major",
+   "critics": [
+    "instruction"
+   ],
+   "location": "6A",
+   "issue": "Query scope is 'LLM-based OR AI agent'; the non-LLM branch was never answered.",
+   "fix": "Added a labelled paragraph after the exclusion list: entry 11 is the census's one non-LLM occupant [5], Afriat recovery exported to engineering systems is measurement only [29], and [57] is excluded for enforcing incompleteness rather than consistency. States the scope conclusion as a searched near-zero."
+  },
+  {
+   "id": "A24",
+   "severity": "major",
+   "critics": [
+    "instruction"
+   ],
+   "location": "3C",
+   "issue": "Varian and Houtman-Maks never got their required 'AI application' field.",
+   "fix": "Added the asymmetry explicitly: Afriat's index computed on agents repeatedly, neither Varian nor Houtman-Maks computed on an artificial agent's choices in any work found, and the inference that the AI-facing work reaches only for the polynomial index despite integer programming solving the NP-hard ones in under two seconds."
+  },
+  {
+   "id": "A25",
+   "severity": "minor",
+   "critics": [
+    "dialectic"
+   ],
+   "location": "7C",
+   "issue": "The rule's two clauses are disjunctively available, so no joint falsifier was named.",
+   "fix": "Named the falsifying conjunction (an information-removing operator enforcing an axiom true of the outcome's generating process that nonetheless degrades an exogenous metric) and conceded the rule is a hypothesis generated from eight readings rather than tested on them."
+  },
+  {
+   "id": "A26",
+   "severity": "minor",
+   "critics": [
+    "instruction"
+   ],
+   "location": "1A, 2A",
+   "issue": "Four query verbs unmapped; 1938-present horizon unhonoured.",
+   "fix": "Added a one-sentence mapping of CORRECTS/REPAIRS/PROJECTS/ENFORCES onto the three grades at the end of 1A. Attributed WARP to Samuelson 1938 and SARP to Houthakker 1950 in 2A, citing [14]."
+  },
+  {
+   "id": "A27",
+   "severity": "minor",
+   "critics": [
+    "instruction"
+   ],
+   "location": "5A, 7E",
+   "issue": "Several high-traffic terms used cold.",
+   "fix": "Glossed Group Relative Policy Optimization and AUROC on first use. Left max-di-cut (already contextualised via Kemeny in the lede), Blackwell approachability, trembling-hand and the utility-class adjectives."
+  },
+  {
+   "id": "A28",
+   "severity": "major",
+   "critics": [
+    "width"
+   ],
+   "location": "lede, 1B, 5B, 7E, 7G",
+   "issue": "Content dilution; one thesis restated six times.",
+   "fix": "Partial. Cut the front-separation meta-narration in the lede, the section-7 forward pointer in 1B, the relaxation-side restatement in 7G, the capacity-confound restatement in 5B's conclusion sentence, the poker restatement in 7E, and compressed 3C's missing-cell re-derivation to a clause. See orchestrator_escalated E01 for the residual."
+  },
+  {
+   "id": "S01",
+   "severity": "critical",
+   "critics": [
+    "dialectic"
+   ],
+   "location": "5A, 6A",
+   "issue": "Add the NeurIPS 2024 axiomatic reward-learning paper so '[8] is one of only two formal guarantees' is not overstated.",
+   "reason": "Partial skip within an otherwise-applied critical (A06). The ELSPR and drift-to-coherence halves were applied in full. This third half needs a tenth new source and a re-count of the formal-guarantee claim in 9A; deferred on the length budget. The 9A claim reads 'two carry formal guarantees' and remains defensible as stated about the census, but it is the weakest sentence left in section 9.",
+   "orchestrator_resolution": "Resolved by the orchestrator in step 15.4 rather than by adding a tenth source. The claim was rescoped from 'two carry formal guarantees' to 'at least two of those catalogued here', which is what the patcher itself said was already true of the census and removes the overstatement without spending length budget. Lint rule patch-surgery clears.",
+   "severity_after_resolution": "resolved",
+   "resolved_by": "orchestrator (step 15.4)",
+   "original_disposition": "skipped-by-patcher-on-length-budget"
+  }
+ ],
+ "skipped": [
+  {
+   "id": "S02",
+   "severity": "major",
+   "critics": [
+    "width"
+   ],
+   "location": "4C, 5B",
+   "issue": "Name self-play preference optimisation, its ICML 2026 successor, and the Stackelberg reformulation as deployed NLHF descendants.",
+   "reason": "Three further sources for a naming addition. The dialectically load-bearing half of this finding (the pole's missing internal critique, and 5B's over-general exogenous-metric claim) was applied as A19 without them."
+  },
+  {
+   "id": "S03",
+   "severity": "major",
+   "critics": [
+    "instruction"
+   ],
+   "location": "6A",
+   "issue": "Add a second table for specified-but-unrun constructions with an explicit 'Empirical?' value.",
+   "reason": "A second nine-column table would add roughly 200 words to a report already over ceiling. Applied the cheaper half: a sentence under the main table stating every row reads yes on the empirical field by inclusion rule (iii), with unrun constructions enumerated in the exclusion paragraph. Format contract is answered rather than dropped; the table shape is not restored."
+  },
+  {
+   "id": "S04",
+   "severity": "minor",
+   "critics": [
+    "width"
+   ],
+   "location": "7E, 9A",
+   "issue": "Add the preference-reasoning-under-indeterminacy result beside the completeness result.",
+   "reason": "A tenth new source for a minor finding, on a report over its length ceiling. The analytic counterpart (the empty-argmin / non-attainment problem) is already established in 2C and strengthened by A12, so the substantive point is present without the behavioural companion."
+  },
+  {
+   "id": "S05",
+   "severity": "minor",
+   "critics": [
+    "width"
+   ],
+   "location": "9B",
+   "issue": "Stop 9B re-arguing non-identification; spend its space on which identification failure is cheapest to fix.",
+   "reason": "Rewriting 9B's function rather than its content is a section-scale change, not a surgical edit. Its third disjunct was corrected in place (A01) and 9C's cells now carry the cost-and-closability content the finding asks for. Escalated as E02 rather than regenerated."
+  }
+ ],
+ "conflicts": [
+  {
+   "id": "X01",
+   "location": "7B, lede paragraph 2",
+   "finding": "Orchestrator flagged the isotonic-calibration figure as needing correction to the conservative 14-of-16.",
+   "resolution": "No edit made: the draft was already correct. Lede reads 'fourteen of sixteen model-by-domain cells'; 7B reads 'increased its estimated magnitude in fifteen, fourteen of them by margins outside the bootstrap intervals'. Both already use the conservative figure and distinguish nominal from interval-separated. Verified against the source claim (CMI 0.0753 to 0.3295 worst cell). Logged rather than silently dropped."
+  },
+  {
+   "id": "X02",
+   "location": "5B, 7A",
+   "finding": "Depth critic treats the +8.31 and +1.23% caveats as candidates for expansion; orchestrator instructed these are load-bearing corrections not to be softened or re-litigated.",
+   "resolution": "Followed the orchestrator. Both caveats retained verbatim. Added only the retrained-baseline number (79.76 vs 74.85) to the capacity-confound paragraph, phrased as 'five sixths of the headline advantage is baseline weakness' to avoid colliding with the separate +1.23% figure discussed two sentences later."
+  },
+  {
+   "id": "X03",
+   "location": "9B, 7G",
+   "finding": "Multiple critics push toward committing to a sign for the coherence-competence effect.",
+   "resolution": "Rejected per orchestrator instruction. The report's refusal to sign the effect is the finding, not a hedge. No edit weakens or strengthens the unidentified verdict; A01 sharpens what the one graded curve does and does not license without converting it into a signed estimate."
+  }
+ ],
+ "orchestrator_escalated": [
+  {
+   "id": "E01",
+   "severity": "major",
+   "critic": "width",
+   "issue": "Length. The draft was 12,852 words against a 10,000-word ceiling before this pass. Fourteen criticals required net-additive corrections: a power paragraph, a dose-response paragraph, two new census rows, nine new source lines, and the AQE/De Peretti/gamma-margin content. Compensating cuts were made in six places but do not offset the additions; the draft is now longer, not shorter.",
+   "why_not_patched": "Cutting 2,000-3,000 words is a section-scale restructure, not a surgical edit, and the width critic's own recommendation (rewrite 7G and 9B to different functions) is regeneration. Doing it here would have destroyed the corrections this pass exists to make.",
+   "recommendation": "Step 15 should treat length as its primary mandate. Highest-yield targets that cost no evidence: section 7E's poker paragraph (compressible by roughly half), section 5B's multi-objective paragraph, section 2D's modern-extensions sentence, and the lede's first paragraph, which enumerates results that sections 3 and 5 state again in full. The census table, the power paragraph, the dose-response paragraph and the section 2C repair-layer content are load-bearing and should not be cut."
+  },
+  {
+   "id": "E02",
+   "severity": "minor",
+   "critic": "width",
+   "issue": "Executive summary paragraph 2 and section 9B make the same argument in nearly the same words, and 7G states it a third time.",
+   "why_not_patched": "The fix requires changing what 9B is for, not what it says. That is orchestrator-level structure.",
+   "recommendation": "If a further pass is run, differentiate 9B by having it state the verdict in one sentence and then spend its space on which of the three identification failures is cheapest to fix. The material now exists in 9C to support that."
+  }
+ ],
+ "verification_notes": [
+  "All 14 critical findings were addressed. None skipped without a logged reason; S01 is a partial skip inside an applied critical, not an unaddressed critical.",
+  "Every new source was spot-checked against the vault note or method note that supplied it. [62] is recorded in the Sources list as characterised via the 2019 EJOR survey with the primary not retrieved, matching the fetch record in docs/METHOD_NOTE_Q3.md. Bronars (1987) is referred to by the statistic's established name only and is not cited as read, per the coverage-gaps warning.",
+  "Census counts recomputed by hand after adding rows 13 and 14 and reciting row 10: fourteen entries, thirteen distinct systems, nine touching inference, six touching training, seven axiom families. 9A's family count updated to match.",
+  "The [7] double-listing is resolved: [7] now appears only in the never-run exclusion list and in 3B, consistent with 3B's 'No model is trained in it'.",
+  "Markdown structure preserved: heading levels unchanged, all nine required H2 headings intact and in order, table column count unchanged at nine."
+ ]
+}

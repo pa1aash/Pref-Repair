@@ -1,0 +1,112 @@
+{
+  "critic_type": "instruction",
+  "structural_mirror_check": {
+    "status": "PASS",
+    "required_h2_count": 9,
+    "draft_h2_count": 10,
+    "note": "All nine required_section_headings match byte-for-byte and in order. The only additional H2 is '## Sources' at position 10, which is a wrapper/citation-style requirement rather than a violation. No orchestrator restructure needed."
+  },
+  "quantitative_checks": {
+    "citation_density_per_1000_body_chars": 3.25,
+    "citation_density_threshold": 1.5,
+    "citation_density_status": "PASS",
+    "per_section_min_density": 2.3,
+    "per_section_max_density": 6.83,
+    "citation_evenness_status": "PASS (no section below 2.3/1k)",
+    "forward_looking_analysis_status": "PASS (Section 9D, ~2600 chars, three named developments on a stated horizon)",
+    "comparison_table_status": "PASS (Section 6A, 12 rows x 9 columns)",
+    "explicit_verdict_status": "PASS (Section 9A 'Half one: occupied', 9B 'Half two: populated but unidentified')"
+  },
+  "findings": [
+    {
+      "severity": "major",
+      "atomic_item": "entities: {\"name\": \"LLM-based agents\", \"type\": \"entity\", \"required_fields\": [\"which models studied\"]}",
+      "failure_mode": "missing",
+      "location": "Throughout, densest in Section 3B ('An 8B-class instruction-tuned open-weight model...'), Section 5A ('With a 70B-class open-weight judge, the conflict ratio falls from 23.32% to 14.89%'), Section 7F ('a 7B open-weight model's efficiency index from 0.980 to 0.739... while two flagship systems are essentially unmoved'), and the Section 6A census table (System column).",
+      "issue": "The decomposition's 'LLM-based agents' entity requires the field 'which models studied', but a regex sweep for every major model family (GPT, Llama, [vendor-assistant], Qwen, Mistral, Gemini, DeepSeek, Gemma, Phi, OLMo) returns zero hits in the entire report; every LLM is referred to only by parameter class and openness ('8B-class instruction-tuned open-weight model', 'two flagship systems', 'a twelve-model pool', 'nearly forty models').",
+      "requires_orchestrator_restructure": false,
+      "recommendation": "Name the actual models behind the load-bearing numbers, drawn from the vault notes for the cited works. Highest-value spots, in order: (1) Section 5A judge-repair paragraph, name the 70B-class judge and the 8B judge whose inconsistency goes 20.26% -> 1.94% [2]; (2) Section 3B 'Weight-level axiom enforcement', name the 8B-class model fine-tuned to the risk targets [6]; (3) Section 7F, name the 7B and 8B open-weight models whose CCEI moves 0.980 -> 0.739 and 0.953 -> 0.841 and the two flagship systems that do not move [34], since the entire scale-dependence argument rests on which tier each result belongs to; (4) Section 3A, name the model families in the GARP-testing wave [30][31][32]. If a source genuinely anonymises its models, say so in-line rather than leaving the reader unable to tell which tier a finding applies to."
+    },
+    {
+      "severity": "major",
+      "atomic_item": "required_formats: \"a comparison table of interventions: work / front / inference-vs-training / axiom system / empirical? / downstream tested?\"",
+      "failure_mode": "wrong-format",
+      "location": "Section 6A, the table header row: '| # | System | Front | Timing | Axiom system | Formally minimal? | Downstream metric | Exogenous? | Reported sign |', and the following paragraph '**Excluded, and why.**'",
+      "issue": "The required table names six columns; the draft supplies front, timing, axiom system and three downstream-tested columns, but has no 'empirical?' column, substituting 'Formally minimal?' instead, and the theoretical/unrun constructions are therefore pushed entirely out of the census into one dense prose paragraph with no per-work fields.",
+      "requires_orchestrator_restructure": false,
+      "recommendation": "Add a second, short table immediately after the 'Excluded, and why' paragraph titled for specified-but-unrun constructions, with the same columns plus an explicit 'Empirical?' value of 'No (specified, not run)': one row each for the one-minus-CCEI / Dutch-book / SEU training penalties [7], majority-vote reward aggregation implementing Copeland [8], axiom-enforcing reweighting of the Bradley-Terry loss [42], and the economics-side operators never aimed at an artificial agent (minimum-expenditure and minimum-price perturbation programs [15], least-squares distance-to-nearest-rationalizable-dataset [16], minimal SEU perturbation [25], parametric recoverability [24], optimal-transport recovery [26]). Also add an 'Empirical?' column to the main table with a one-line note that all twelve entries read 'Yes' by inclusion rule (iii), so the reader can see the column was answered rather than dropped."
+    },
+    {
+      "severity": "major",
+      "atomic_item": "\"has the relationship between enforced choice-coherence and downstream decision-quality or task performance been empirically tested for LLM agents, in either direction?\" (sub-questions 9 and 10: DECISION QUALITY and TASK PERFORMANCE are enumerated separately)",
+      "failure_mode": "under-covered",
+      "location": "Section 7 as a whole; specifically the lead sentence 'It has been tested, in both directions, and the results are not a wash' and Section 7G 'Why no existing estimate is identified'.",
+      "issue": "The query names two outcome classes; the phrase 'task performance' appears nowhere in the report and the two are never separated, so the capability-tax question ('does enforcing coherence cost general task performance?') is answered only in three scattered asides ([53] 'no significant capability regression', [57] 'no measurable training tax', [6] 'No capability benchmark is run afterwards') rather than as a stated finding.",
+      "requires_orchestrator_restructure": false,
+      "recommendation": "Add a short labelled paragraph at the top of Section 7 (before 7A) that splits the second half of the question into its two named outcome classes and gives a verdict on each: decision quality (the agent's own choices graded against a payoff) has eight readings across seven systems, all unidentified per 7G; general task performance is near-untested, with only [53] reporting no significant capability regression and [57] no measurable training tax, while the one paper that installs axiom terms directly in weights ran no capability suite at all [6]. Then reuse that split in 7G's closing sentence so the report states which of the two halves is populated-but-confounded and which is simply empty."
+    },
+    {
+      "severity": "major",
+      "atomic_item": "sub-question: \"Which works merely MEASURE or SCORE consistency, as opposed to intervening? (the contrast class that defines the gap)\" and scope_condition \"intervention, not measurement, is the target - measurement work is the contrast class\"",
+      "failure_mode": "under-covered",
+      "location": "Section 5 ('## 5. The ML/Alignment Front Applied to Agent Choice: Enforce or Accept?'), which opens directly with 'Both camps have shipped working systems on real agents' and then 5A 'The enforcers'. Compare Section 3A, 'The measurement wave, which is the contrast class', which does the job properly for the economics front.",
+      "issue": "The contrast class is enumerated systematically for the economics front (Section 3A, ten measurement-only works, closing 'None of these changes anything. That is what makes them the contrast class') but has no counterpart on the ML/alignment front, where the measurement-only works are scattered - [17] in 1B and 7E, [56] in 5C, [40] in 8C - and never counted as the contrast that defines the gap.",
+      "requires_orchestrator_restructure": false,
+      "recommendation": "Insert a short subsection at the head of Section 5, parallel in construction to 3A, enumerating the ML/alignment measurement-only wave with its numbers: per-instance transitivity diagnostics and conformal prediction sets showing 0.8-4.1% aggregate violation concealing 33-67% of documents with a directed three-cycle [56]; behavioural consistency as an uncertainty signal, 8,000 runs, failure-detection AUROC 0.62-0.78, with abstention rather than repair as the intervention [17]; the utility-behaviour gap study that elicits coherent utility structure and finds it motivationally inert [58]; the measurement half of the non-transitivity judge audit [51]; and the dominant reward benchmark, which scores accuracy on prompt-chosen-rejected trios with no consistency construct at all [40]. Close it with the same 'none of these changes anything' move so the two fronts are structurally symmetric."
+    },
+    {
+      "severity": "major",
+      "atomic_item": "entities: {\"name\": \"AI agents (non-LLM)\", \"type\": \"entity\", \"required_fields\": [\"whether in scope for any found intervention\"]} / research_query: \"an LLM-based or AI agent\"",
+      "failure_mode": "under-covered",
+      "location": "Section 6A, the inclusion rule ('it has been implemented and run on an AI system's outputs, weights or training data') and the '**Excluded, and why.**' paragraph; also Section 2's closing mention of [29] ('an export beyond humans... from the observed actions of engineering systems').",
+      "issue": "The query's scope is 'LLM-based OR AI agent', but the report never states the scope answer for the non-LLM branch: [29] (inverse RL / engineering systems) is dismissed in half a clause as measurement, [57] (RL agents trained to violate completeness) is discussed only in 7E and is absent from the census's excluded list, and census entry 11 operates on a time-series foundation model rather than an LLM without the report noting that this is the one non-LLM occupant.",
+      "requires_orchestrator_restructure": false,
+      "recommendation": "Add two or three sentences to Section 6A immediately after the 'Excluded, and why' paragraph answering the non-LLM branch explicitly: note that census entry 11 acts on a transformer-based time-series foundation model rather than a language model [5], that Afriat-based recovery has been exported to non-LLM engineering systems as measurement only [29], and add [57] to the excluded list with its reason stated (it is a training-time intervention on an RL agent's preference axioms, but it enforces incompleteness rather than consistency, so it fails the direction the question asks about). Then state the scope conclusion in one clause - that the non-LLM AI-agent branch of the question is nearly empty on the intervention side, not merely unsearched."
+    },
+    {
+      "severity": "major",
+      "atomic_item": "entities: {\"name\": \"Varian goodness-of-fit methods\", \"required_fields\": [\"what it does\", \"repair vs measure\", \"AI application\"]} and {\"name\": \"Houtman-Maks methods\", \"required_fields\": [..., \"AI application\"]}",
+      "failure_mode": "missing",
+      "location": "Section 2B ('The Varian index refines this to observation-specific deflations. The Houtman-Maks index deletes whole observations') and Section 3C ('What this front has and has not done').",
+      "issue": "Two of the three repair/efficiency method families the query names by surname get 'what it does' and 'repair vs measure' but never get the required 'AI application' field: every Varian-index and Houtman-Maks mention in the report is either definitional (2B, 2C), complexity-theoretic (2B), or human-subject ([11] in 7B and 7F, [27] in 2D), while the AI-facing econ work discussed in 3A is described only in terms of CCEI and rationalizability.",
+      "requires_orchestrator_restructure": false,
+      "recommendation": "Add one or two sentences to Section 3C stating the AI-application status of each of the three named families explicitly - Afriat/CCEI has been computed on agents repeatedly [30][33][34][18], while the Varian index and Houtman-Maks have (verify against the vault notes for [30][31][32][33][34]) not been computed on an artificial agent's choices in any work found - and draw the inference the asymmetry supports: the AI-facing economics work reaches only for the one index that is polynomial-time, leaving the two NP-hard indices [15] unused on agents even though integer programming solves them in under two seconds at agent-experiment scale."
+    },
+    {
+      "severity": "major",
+      "atomic_item": "required_formats: \"per-work enumerative census for the occupancy half, with named fields per work\" (and Section 6A's own auditability claim, 'so that every count is auditable')",
+      "failure_mode": "wrong-format",
+      "location": "Section 6A, census table row 10: '| 10 | Coherence-targeted fine-tuning on probabilistic axioms [7] | ML | Training | de Finetti coherence; martingale consistency | No | Task metrics, per source | Partly | Positive where reported |', versus the excluded paragraph three lines below: 'Failing test (iii), specified but never run: the one-minus-CCEI training penalty and its Dutch-book and subjective-expected-utility companions [7]'.",
+      "issue": "Source [7] is simultaneously a census occupant credited with a run training intervention and a listed exclusion for never having been run, and Section 3B states of the same work 'No model is trained in it' - so the row's 'Downstream metric: Task metrics, per source' points at underlying works that appear nowhere in the Sources list, making the entry unauditable and breaking the per-work census contract.",
+      "requires_orchestrator_restructure": false,
+      "recommendation": "Resolve the double-listing one of two ways. Either give row 10 its own primary citations - name the coherence-targeted fine-tuning works that [7] surveys and add them to the Sources list, so the row has a locatable work and a real downstream metric - or move row 10 out of the main table into the specified-but-unrun table proposed above and correct the count sentence that follows ('Twelve entries clear all three tests, covering eleven distinct systems... Seven act at inference time and five at training time') to match. Whichever is chosen, the [7] mention in the excluded paragraph must be made non-contradictory with the table."
+    },
+    {
+      "severity": "minor",
+      "atomic_item": "sub-questions 1-4: \"an intervention that CORRECTS...\", \"an intervention that PROJECTS choices onto the consistent set\", \"an intervention that REPAIRS...\", \"an intervention that otherwise ENFORCES revealed-preference consistency\"",
+      "failure_mode": "under-covered",
+      "location": "Section 1A, 'Three grades separate cleanly, and works are routinely miscategorised across them' (Grade I diagnostic index / Grade II post-hoc repair operator / Grade III installed constraint), and Section 9A, 'Interventions that correct, project, repair or enforce revealed-preference consistency on an AI agent's choices or outputs exist at both timings'.",
+      "issue": "The query enumerates four intervention verbs and the decomposition kept them as four separate sub-questions; the report answers them collectively via its own three-grade taxonomy and lists all four verbs in a single lumped clause in the verdict, so a reader checking any one verb has to perform the mapping themselves - PROJECTS is the only one given a dedicated handle, through the 'Formally minimal?' column and Section 6B.",
+      "requires_orchestrator_restructure": false,
+      "recommendation": "Add one sentence at the end of Section 1A explicitly mapping the query's four verbs onto the three grades: REPAIRS and CORRECTS are Grade II post-hoc operators, PROJECTS is the strict subset of Grade II that performs a minimum-distance projection onto a consistency-defined set (the 'Formally minimal?' column in Section 6), and ENFORCES is the Grade III installed constraint plus the generative case. Then in Section 9A replace the lumped 'correct, project, repair or enforce' clause with a per-verb verdict line so each of the four is separately answerable."
+    },
+    {
+      "severity": "minor",
+      "atomic_item": "time_horizons: \"1938-present for the economics foundations\"",
+      "failure_mode": "missing",
+      "location": "Section 2A, which opens 'Afriat's theorem (1967) is the hinge' and introduces WARP and SARP with no attribution.",
+      "issue": "The decomposition sets the economics horizon at 1938-present, but the report's economics history begins at Afriat 1967 and Varian 1985; Samuelson 1938 (which originates revealed preference and WARP) and Houthakker 1950 (which originates SARP) appear nowhere, so the two axioms the query names alongside GARP are defined without their sources.",
+      "requires_orchestrator_restructure": false,
+      "recommendation": "Add a single clause to the start of Section 2A attributing WARP to Samuelson 1938 and SARP to Houthakker 1950 before the Afriat 1967 hinge sentence, citing the survey [14] which covers this lineage, so the 1938-present horizon is visibly honoured and WARP/SARP carry provenance rather than bare definitions."
+    },
+    {
+      "severity": "minor",
+      "atomic_item": "readability-structural: audience adaptation / definitions on first use",
+      "failure_mode": "missing-definitions",
+      "location": "Section 5A ('aligning with Group Relative Policy Optimization against a joint accuracy-and-consistency reward'), Section 5A/5B ('iterative max-di-cut', 'A Blackwell-approachability solution concept'), Section 7E ('failure-detection AUROC of 0.62-0.78'), Section 7F ('roughly forty intraclass correlation estimates'), Sections 3A and 7F ('trembling-hand error bound below 50%'), Section 2A ('concave, homothetic, quasi-linear, single-peaked').",
+      "issue": "The draft's definition discipline is unusually strong overall - GARP, WARP, SARP, CCEI, MILP, LoRA, PAVA, Kemeny, Borda, Copeland, Condorcet cycles, NDCG, von Neumann winner, maximal lotteries, Dutch book and money pump are all defined inline - but six or so terms are used cold, which is low-leverage rather than pervasive, hence minor rather than major.",
+      "requires_orchestrator_restructure": false,
+      "recommendation": "Add brief parenthetical glosses on first use for the highest-traffic offenders only: Group Relative Policy Optimization (a policy-gradient RL method that scores a group of sampled responses against their own mean instead of a learned value model), max-di-cut (the maximum directed cut problem, used here as the approximation route to a minimum-feedback-arc ranking), AUROC (probability a randomly chosen failure is scored above a randomly chosen success), and trembling-hand error (an allowance for a bounded rate of random deviation from the fitted policy). Leave the remainder as-is."
+    }
+  ]
+}

@@ -335,4 +335,87 @@ Unverified or unavailable as of 2026-08-21. **None of these are filled with a gu
 
 ## Fit audit
 
-_Written separately after Phase D/E findings are in._
+Written after Phases C–E. The venue is **locked by standing instruction**, so this audit informs
+*how to reframe*, not *whether to switch*.
+
+### Scoring F3 as currently scoped against each CFP bullet
+
+Scale: **direct** (the bullet names this work) / **adjacent** (a reframe lands it) / **no**.
+
+**Theme 1 — Economics in Training, Alignment, and Evaluation**
+
+| Bullet | Fit | Why |
+|---|---|---|
+| Formal abstractions of AI rationality and bias **in economic contexts** | **direct** | GARP/Afriat over budget sets with prices and income is exactly a formal abstraction of rationality in an economic context. The qualifier the brief truncated is satisfied, not violated — this project has real budget constraints, which most "LLM rationality" work does not. |
+| AI decision making and bias in economic contexts | **direct** | The downstream-payoff half of the work is literally this. The brief never targeted this bullet; it is at least as good a landing spot as the one it did target. |
+| Preference aggregation for alignment **and its limitations** | **adjacent, and newly important** | The closest published neighbour (HAR 2025) solves repair *as an aggregation problem* using social-choice machinery. A reframe that positions repair-vs-aggregation as the same problem in two vocabularies lands here squarely — and "and its limitations" is where the coherence-costs-quality evidence goes. |
+| Social choice and auction mechanisms for steering alignment | **adjacent** | Only if the projection is presented alongside voting-rule repair as an alternative operator. Viable but not the strongest framing. |
+| Discrete choice and behavioral modeling in learning pipelines | **adjacent** | Fits the elicitation half; weak on its own. |
+| Mechanisms for eliciting high-quality data and feedback | **no** | Not what this does. |
+| Strategic behavior in model evaluation / strategic classification / pricing / algorithmic collective action | **no** | No contact. |
+
+**Theme 2 — Ecosystems with Many Interacting Models:** **no fit on any bullet.** Single-agent
+work. Do not attempt to stretch it; a strained Theme-2 framing would read as padding.
+
+**Emphasis directions**
+
+| Emphasis | Fit | Why |
+|---|---|---|
+| **Empirical evidence** — "empirical evaluation of theoretical models" | **direct, and this is the strongest card** | Andrews (arXiv:2608.05015) is 25 pages of theory with zero experiments, and it is six months old and circulating in this exact community. "Empirical evaluation of theoretical models" describes the relationship between this paper and that one precisely. |
+| **Unique economic properties** | **adjacent** | The argument would be that budget-set revealed preference gives a *graded, cardinal* consistency measure (CCEI) that the ML front's binary cycle-counting does not. That is a real economic property and a real contribution. |
+| **Insights across scales** | **adjacent** | Only under the reframe below, connecting a per-choice repair operator to task-level outcomes. |
+| **Emerging domains** — "motivate an emerging topic… spur further inquiry" | **damaged** | This was the brief's implicit pitch, and Phase E removed its basis. The topic is not emerging and not unclaimed: it has an ICML'25 paper, an ICML'26 paper, a *Philosophical Studies* article, and at least three deployed repair systems. Pitching it as emerging invites a reviewer who knows that literature to reject on prior art. |
+
+### Verdict
+
+**The venue fit is good. The current framing is strained, and needs a specific named reframe.**
+
+Two things are true at once and the brief conflates them. The *venue* is close to ideal — two topic
+bullets are direct hits, the empirical-evidence emphasis describes the Andrews relationship exactly,
+and the unbounded appendix absorbs the LP/MILP formalism that would otherwise eat the page budget.
+But the *framing* — "everyone measures, nobody repairs; we repair first" — is the one thing Phase C
+and Phase E jointly falsified. Submitting on that framing to a workshop whose organizers work on
+preference aggregation and social choice is submitting into the teeth of the reviewers most likely
+to know the counter-evidence.
+
+### The named reframe
+
+**From** "Repairing, Not Just Measuring, LLM Preference Inconsistency" — a priority claim.
+
+**To** *"What Does Repairing Choice Inconsistency Actually Buy? A Budget-Set Diagnosis"* — a
+**dose–response and diagnosis** claim. Four moves make it work:
+
+1. **Concede the operator immediately and completely.** Repair exists — as a voting rule (HAR 2025),
+   as rank fusion (arXiv:2406.00231), as judge calibration (arXiv:2509.21117), as a training penalty
+   (arXiv:2608.05015), as fine-tuning on rationalizable data (arXiv:2603.23993). Say so in the
+   introduction, before a reviewer does. This is the brief's own S7 advice, applied harder than the
+   brief anticipated it would need to be.
+2. **Claim the measurement instrument, not the operator.** What the ML front does not have is a
+   *graded* consistency measure over a real budget constraint. Cycle-counting is binary; CCEI is
+   cardinal and has a 90-year interpretation. That is the economics contribution, and it is what
+   makes a **dose–response curve** possible where the ML papers only have on/off ablations.
+3. **Move to an exogenous payoff.** Every occupied result scores repair on a *preference-derived*
+   metric — win rates, NDCG, judge agreement. The genuinely unoccupied cell is repair scored against
+   a payoff that does not come from the preference data at all. That is the paper.
+4. **Report Bronars power beside every CCEI, and switch the S4 lever from persona to framing.**
+   Both are Phase E findings (`audit/BRONARS_NOTE.md`, `audit/killcheck_E3.md`), both are cheap,
+   and the second is the difference between a gate built on one shaky citation and a gate built on
+   the PNAS paper's own within-paper manipulation.
+
+Under that reframe the target bullet becomes **"Preference aggregation for alignment and its
+limitations"** with **"Formal abstractions of AI rationality and bias in economic contexts"** as the
+secondary, and the emphasis card played is **Empirical evidence**, not Emerging domains.
+
+### Time-critical actions, independent of the reframe
+
+The deadline is **8 days out** and three of these are blocking, not cosmetic:
+
+1. **Nominate a reviewer on the OpenReview form.** Required field. If no author has published in a
+   NeurIPS/ICML/ICLR/AAAI/EC/WWW main track, the organizers must be emailed **before** the deadline.
+2. **Include the NeurIPS checklist.** Its absence is an explicit desk reject. Ships as
+   `checklist.tex` in the style zip; goes last; does not count toward pages.
+3. **Use `\usepackage[dblblindworkshop]{neurips_2026}` with `\workshoptitle{Economics for Machine Learning}`.**
+   The sibling option `sglblindworkshop` de-anonymizes silently, with no error.
+4. Check the author list against the organizer COI rule (Hossain, Jagadeesan, Mazumdar, Procaccia,
+   Saig, Yang).
+5. Decide long (9 pp) vs short (4 pp) — it is a radio button on the form, not inferred from the PDF.

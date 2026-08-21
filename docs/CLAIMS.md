@@ -242,5 +242,32 @@ see `docs/COMPUTE_NOTE.md`.
 
 ## Kill-check summary
 
-Appended in Phase E. One line per kill-check, against the claims it bears on.
+All six kill-checks completed. One line each, against the claims they bear on.
+
+| Check | Bears on | One-line finding |
+|---|---|---|
+| **E1** | S4, C2, C3 | Andrews arXiv:2608.05015 is 25 pp of pure theory — 0 figures, 0 experiments, no inference-time mechanism, so **S4's load-bearing content is verified**. But he does *not* "decline" the sufficiency question: he answers it *no*, by assertion, in five places. |
+| **E2** | S2, C4 | arXiv:2501.18190 reports CCEI 0.916 basic → 0.127 biotech / 0.298 economist. Huge on its face, but one retired 2024 single-family model, zero CIs or replications, and 0.127 sits **below its own budget grid's arithmetic floor of 0.25**. Sign survives; magnitude is unusable. **HEADROOM MARGINAL.** |
+| **E3** | S1, C4 | The PNAS figure is confirmed to the digit (0.998 / 0.997 / 0.997 / 0.999, GPT-3.5-Turbo, T=0) and is **not** a low-power artefact — budget lines cross 58% of the time, Bronars power 99.9%. Crucially it is **baseline-only**: reframing the *same* budget sets drops CCEI to 0.698–0.908. |
+| **E4** | C4, S9 | At K=2 goods and n=25–50 the design has Bronars power ≈0.999 (random agent scores CCEI ≈0.72), so the test genuinely can fail. But power **collapses exponentially in the number of goods** and n cannot buy it back. Every CCEI must ship with its power. |
+| **E5** | **C2**, S6 | **C2 PARTIALLY OCCUPIED, and the occupied part is the larger part.** ICML'25 and ICML'26 papers already run the enforce-a-total-order vs accept-cycles ablation on LLMs and find enforcement *degrades* downstream quality; a 2026 paper deliberately breaks a coherence axiom and finds **+11%/+18%** task usefulness. The headline sentence is already a peer-reviewed thesis (*Philosophical Studies* 2024). |
+| **E6** | C1, S5 | "Back to Blackwell" is a **FOIL**, not a refutation — it accepts cycles because no optimal policy *exists*, not because repair *harms*, and has zero contact with GARP/Afriat/CCEI. One edge: its scalarising baseline loses head-to-head 0.68, which C1 must answer. |
+
+### Revised claim status after Phase C and Phase E
+
+| Claim | Status entering the session | Status now |
+|---|---|---|
+| **C1** — projection works, downstream effect measurable | load-bearing, untested | **Survives, but the operator is no longer novel.** Inference-time repair of LLM choice consistency is published (see C3). C1 must be rescoped to the specific thing that is unoccupied. |
+| **C2** — coherence-vs-competence is open | load-bearing, "what makes it a full paper" | **PARTIALLY REFUTED.** Both directions have precedent. The plan's risk asymmetry — "either result is publishable and surprising" — is substantially gone, because neither result would now surprise a reviewer in the ML strand. |
+| **C3** — nobody corrects/projects/repairs/enforces | load-bearing novelty claim | **REFUTED AS WORDED.** At least three published systems repair LLM choice/judgment consistency at inference time. See `audit/INSTRUMENT_CALIBRATION.md` §4 and `audit/killcheck_E5.md`. |
+| **C4** — CCEI headroom exists | hard gate | **Holds, but the lever is wrong.** Headroom is real and well evidenced — but by *framing and format* variation (E3), not by the persona conditioning the brief's gate is built on (E2). The gate should be restated. |
+| **C5** — venue reachable as scoped | load-bearing | **Holds.** Deadline, page limits, blind mode and the topic bullet all confirmed against the live CFP. Two unrecorded desk-reject risks found — see `docs/VENUE.md`. |
+| **S1** | supporting | Confirmed exactly; add "baseline condition only". |
+| **S2** | supporting (carrying C4) | Downgraded — cannot carry the gate. |
+| **S4** | supporting | Verified on the two clauses that matter; one factual correction needed. |
+| **S5** | supporting | Confirmed as foil. |
+| **S7** — "the novelty cannot be the projection operator" | supporting, self-critical | **Vindicated, and more forcefully than the brief anticipated.** The brief guessed the operator was un-novel because economists have known it since Afriat. It is un-novel for a second, worse reason: it has already been *built for LLMs*. |
+| **S8** — Afriat feasibility is an LP | supporting | Open — see `docs/OPEN_QUESTIONS.md` Q3. |
+| **S9** — n ≤ 60 | supporting | Holds at K=2; needs a K bound added. |
+| **S10** — CPU-trivial | supporting | Confirmed by measurement. See `docs/COMPUTE_NOTE.md`. |
 

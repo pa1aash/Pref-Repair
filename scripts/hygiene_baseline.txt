@@ -1,0 +1,25 @@
+# hygiene_guard baseline — known-and-accepted matches in COMMIT HISTORY ONLY.
+#
+# Each entry is the truncated SHA-256 of a matched line with its diff marker (+/-) stripped,
+# followed by a one-line justification. Hashes rather than literal strings, deliberately:
+# a baseline file spelling the offending text out would re-introduce into the working tree
+# exactly what the guard exists to keep out of it.
+#
+# SCOPE: these suppress history hits ONLY. Content, path and identity scans are never
+# suppressed — a leak in a tracked file always fails, regardless of this file.
+#
+# ADDING AN ENTRY IS A DECISION, NOT A CHORE. An entry means "this string is public, we
+# looked at it, and we accept it." Anything carrying a credential, a token, a personal
+# identifier (ORCID, non-public email), or third-party copyrighted text must be purged from
+# history instead — never baselined.
+#
+# Regenerate a hash with:
+#   printf '%s' '<the matched line without its +/- marker>' | shasum -a 256 | cut -c1-32
+#
+# Provenance: all three entries were introduced by session G0 (2026-08-21) and were fixed in
+# the working tree within the same session. Only history retains them. See docs/DECISIONS.md
+# D10 (the decision to accept rather than rewrite) and D13 (this mechanism).
+
+21ddc1726c67544adb9b66078bca8907  Decision-log line naming the agent-harness directory and its generated root file, written while documenting the wildcard-escaped ignore rules for them. Vendor name only; no identifier, no secret.
+c9c8923f07fac12197094f6695a15763  Decision-log line recording that the home directory was itself a git repository. Contains the machine-absolute home path. Discloses the OS account name, which is already visible in the repository owner's public profile name.
+24953eece6f526ce5e44388a39b19c41  Comment inside the guard's own header listing the ignored trees, naming the generated root file literally before the wildcard-escaped form was adopted. Vendor name only; no identifier, no secret.

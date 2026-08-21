@@ -14,7 +14,11 @@
 # Patterns are written with bracket escapes (e.g. cl[a]ude) so that this script never
 # matches itself. The escapes are regex no-ops; the patterns match the real strings.
 #
-# Exit 0 = clean. Exit 1 = at least one leak found (all matches are printed).
+# BASELINE: scripts/hygiene_baseline.txt lists SHA-256 hashes of history lines that have been
+# reviewed and accepted as public. Those suppress HISTORY hits only. Content, path and identity
+# hits are never suppressible — a leak in a tracked file always fails. See docs/DECISIONS.md D13.
+#
+# Exit 0 = clean (or clean modulo the documented baseline). Exit 1 = at least one live leak.
 
 set -uo pipefail
 
@@ -35,10 +39,25 @@ FOUND=0
 report() { FOUND=1; echo "LEAK [$1] $2"; }
 
 # --- 1. commit history: messages, diffs, and metadata --------------------------------
+# History hits are checked against the documented baseline. A hit whose hash is listed there is
+# reported as ACCEPTED and does not fail the run; anything else is a live leak.
+BASELINE_FILE="scripts/hygiene_baseline.txt"
+ACCEPTED=0
 if git rev-parse HEAD >/dev/null 2>&1; then
   hist=$(git log --all -p --format='commit %H%nauthor %an <%ae>%ncommitter %cn <%ce>%n%B' \
          | grep -n -i -E "$RE" || true)
-  [ -n "$hist" ] && while IFS= read -r line; do report "history" "$line"; done <<<"$hist"
+  if [ -n "$hist" ]; then
+    while IFS= read -r line; do
+      content=${line#*:}                      # strip grep's line number
+      content=${content#[+-]}                 # strip the diff marker
+      h=$(printf '%s' "$content" | shasum -a 256 | cut -c1-32)
+      if [ -f "$BASELINE_FILE" ] && grep -q "^$h  " "$BASELINE_FILE" 2>/dev/null; then
+        ACCEPTED=$((ACCEPTED + 1))
+      else
+        report "history" "$line"
+      fi
+    done <<<"$hist"
+  fi
 fi
 
 # --- 2 + 3. file contents: tracked, plus untracked-and-not-ignored -------------------
@@ -46,6 +65,7 @@ fi
   | while IFS= read -r -d '' f; do
       [ -f "$f" ] || continue
       [ "$f" = "scripts/hygiene_guard.sh" ] && continue
+      [ "$f" = "scripts/hygiene_baseline.txt" ] && continue
       grep -n -i -E -a "$RE" -- "$f" 2>/dev/null \
         | sed "s|^|$f:|" || true
     done > /tmp/hygiene_content_hits.$$ 2>/dev/null
@@ -62,10 +82,24 @@ paths=$({ git ls-files; git ls-files --others --exclude-standard; } | grep -i -E
 ident="$(git config --local user.name || true) <$(git config --local user.email || true)>"
 echo "$ident" | grep -i -E "$RE" >/dev/null && report "identity" "$ident"
 
+# --- 6. stale-baseline check --------------------------------------------------------
+# A baseline entry that no longer matches anything is dead weight and should be deleted.
+if [ -f "$BASELINE_FILE" ]; then
+  n_entries=$(grep -c '^[0-9a-f]\{32\}  ' "$BASELINE_FILE" 2>/dev/null || echo 0)
+  if [ "$ACCEPTED" -eq 0 ] && [ "$n_entries" -gt 0 ]; then
+    echo "hygiene_guard: NOTE — $n_entries baseline entries, none matched. They may be stale; consider pruning $BASELINE_FILE."
+  fi
+fi
+
 if [ "$FOUND" -ne 0 ]; then
   echo
   echo "hygiene_guard: FAILED — see matches above."
+  [ "$ACCEPTED" -gt 0 ] && echo "hygiene_guard: ($ACCEPTED further history match(es) suppressed by the documented baseline.)"
   exit 1
 fi
-echo "hygiene_guard: clean (history, tracked + untracked-unignored files, paths, identity)."
+if [ "$ACCEPTED" -gt 0 ]; then
+  echo "hygiene_guard: clean — $ACCEPTED history match(es) accepted per $BASELINE_FILE; no live leaks."
+else
+  echo "hygiene_guard: clean (history, tracked + untracked-unignored files, paths, identity)."
+fi
 exit 0

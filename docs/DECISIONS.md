@@ -136,3 +136,55 @@ else entirely. Second, **`git add -A` is not safe in this repository** while age
 files concurrently; stage explicit paths instead. This is also the strongest argument for keeping
 the guard exiting 0 in normal operation (see D10): had it already been red, this would have been
 lost in the noise.
+
+---
+
+## 2026-08-21 — Session G0.5 (closeout)
+
+**D13. The guard's permanent-red state is resolved with a documented baseline, NOT a history
+rewrite. This CLOSES D10. No force-push was performed and none is needed.**
+
+D10 left `scripts/hygiene_guard.sh` exiting 1 on six history matches, and flagged that a
+permanently-red guard is one people stop reading. Two options were on the table: a documented
+baseline of accepted history hits, or a `filter-repo` rewrite purging the strings and a
+force-push.
+
+**Chosen: the baseline.** The reasoning turns on the fact that the repository is public, which
+cuts the *opposite* way to intuition:
+
+1. **A force-push does not actually purge a public repository.** Rewritten-away objects remain
+   reachable on the forge by their old SHA until garbage collection, which is not guaranteed or
+   scheduled on demand; forks, caches and any existing clone retain them regardless. A rewrite
+   would deliver the *appearance* of removal without the substance — the worst outcome, because
+   it would also retire the record of what happened.
+2. **A rewrite is irreversible and outward-facing; the baseline is neither.** It breaks every
+   existing clone and rewrites 17 published commit SHAs, to remove a machine home path and a
+   filename.
+3. **The content does not warrant it.** Three distinct strings: a home-directory path that
+   discloses an OS account name already visible in the repository owner's public profile, and a
+   generated filename naming a tool vendor. No credential, no token, no ORCID, no non-public
+   email, no third-party copyrighted text. The one item in this session's history that *would*
+   have warranted a rewrite — a 59 KB full-text dump of a copyrighted paper — was caught before
+   it was pushed (D12) and is not in history at all.
+4. **The principal investigator already declined the rewrite once**, in D10, on the same facts.
+
+**Mechanism.** `scripts/hygiene_baseline.txt` lists the truncated SHA-256 of each accepted
+history line with a one-line justification. Hashes rather than literal strings, deliberately: a
+baseline file spelling the text out would re-introduce into the working tree precisely what the
+guard exists to keep out of it — the failure mode that caught this repository twice already.
+
+**The suppression is narrow by construction, and that was verified rather than assumed:**
+
+- Baseline entries suppress **history** hits only. Content, path and identity hits are never
+  suppressible. Confirmed: planting a file containing an ORCID and a co-author trailer still
+  fails the run.
+- An un-baselined history hit still fails. Confirmed by removing one entry and re-running — the
+  guard failed on exactly that string and no other.
+- A wrong or stale hash surfaces the hit rather than silently passing. Confirmed.
+- Suppressed matches are **counted and reported on every run**, pass or fail, so the baseline can
+  never quietly grow without someone seeing the number move.
+
+**Standing rule.** Adding a baseline entry is a decision, not a chore: it asserts "this string is
+public, we looked at it, and we accept it." Anything carrying a credential, a personal identifier,
+or third-party copyrighted text is purged, never baselined. That rule is written into the head of
+the baseline file, where the next person to hit a red guard will actually read it.

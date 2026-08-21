@@ -71,3 +71,32 @@ labels to hang on, which makes it close to unfalsifiable as written. One drafter
 bibliographic title unnecessarily for the same reason.
 
 **Status: handed to the step-14 patcher as an explicit instruction to restore model identities.**
+
+---
+
+## C-4 (MAJOR) — an exogenous-payoff test of coherence enforcement exists, and it is non-monotonic
+
+**What FRAMING says.** C1 and the §5.2 positioning rest on the claim that no existing work scores a
+coherence intervention against "a payoff that is not derived from any preference judgment", and that the
+dose–response shape is unclaimed on that axis.
+
+**What the step-13 gap-fill found.** `arXiv:2406.01168` ("AI as Decision-Maker: Ethics and Risk
+Preferences of LLMs") fine-tunes on alignment data, causally shifts the model's risk preferences, and
+then evaluates the result against **actual future capital expenditure** drawn from a financial-statement
+database — genuine ground truth, not a judge score and not derived from anyone's preferences. The
+reported relationship is **non-monotonic**: single-dimension alignment *improves* predictive power
+(coefficient 0.5346, p<0.01, against a base of 0.0607) while full three-dimension alignment *destroys*
+it (0.2969, not significant).
+
+**Why this matters more than the other occupants.** It holds two of the four conjuncts simultaneously —
+an exogenous payoff *and* a coarse dose (one alignment dimension versus three) — where every previously
+catalogued system held at most one. It also reports the interior-optimum shape the project expected to
+discover.
+
+**What still survives.** It is not a revealed-preference intervention: no GARP, no efficiency index, no
+minimal-perturbation objective, and the manipulation is training-time fine-tuning rather than projection
+of an observed choice sequence. The dose has two levels, not a curve.
+
+**Status: NOT patched into FRAMING.md.** But the sentence in §5.2 asserting that an exogenous payoff is
+"the single cleanest unoccupied axis" is now too strong, and the principal investigator should see this
+paper before that framing is submitted anywhere.

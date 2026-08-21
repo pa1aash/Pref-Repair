@@ -1,6 +1,8 @@
 # Reference ledger
 
-One row per citation appearing in `docs/F3-PLAN-ORIGINAL.md`. Every row starts at
+Rows R1-R12 are the citations appearing in `docs/F3-PLAN-ORIGINAL.md`. Rows R13+ were found
+during this session's audit and are **absent from the plan** - they are listed here because the
+plan's reference list is incomplete in ways that matter. Every row starts at
 **unverified** and is only moved to **verified** by an actual fetch of the actual document in
 this repository's audit trail. A reference that could not be resolved stays **unverified** —
 it is never silently dropped, and never upgraded on the strength of a search-result snippet.
@@ -30,6 +32,13 @@ it is never silently dropped, and never upgraded on the strength of a search-res
 | R10 | Varian, H. R. (1990), "Goodness-of-fit in optimizing models" | *Journal of Econometrics* 46(1–2) | Goodness-of-fit framework for revealed preference | S7 | unverified | Classical |
 | R11 | Samuelson, P. A. (1938), "A note on the pure theory of consumer's behaviour" | *Economica* 5(17) | Origin of revealed preference | — | unverified | Foundational citation; decorative in the plan's argument |
 | R12 | Echenique, F., Lee, S. & Shum, M., "The money pump as a measure of revealed preference violations" | *Journal of Political Economy* 119(6), 2011 | Third violation-severity index alongside CCEI and Houtman–Maks | S7, method step 2 | unverified | Year/venue reconstructed, not fetched |
+| **R13** | Chadwick, A., Kahng, A. & Kipper, J. (2025), "Dutch books and money pumps: rectifying vulnerabilities in LLMs through rationality" | HAR 2025 (5th Intl. Conf. on Human and Artificial Rationality), Paris | **NOT in the plan.** Found this session. Builds an inference-time "rationality layer" repairing LLM intransitivity + probabilistic incoherence | **C3**, C1, C2 | **verified** | Fetched and read in full, 19 pp. See `audit/INSTRUMENT_CALIBRATION.md` §4.1. Refutes C3 as worded |
+| **R14** | Zhu, J.-Q., Yan, H. & Griffiths, T. L., "Recovering Event Probabilities from Large Language Model Embeddings via Axiomatic Constraints" | arXiv:2505.07883 | **NOT in the plan.** Enforces probability axioms on LLM-derived quantities | C3 | unverified | Abstract only. Adjacent occupant; full read deferred |
+| **R15** | Echenique, F., Imai, T. & Saito, K. (2023), minimal-perturbation / money-pump-adjacent index work | *JEEA* | **NOT in the plan.** Surfaced by kill-check E1: "minimal perturbation index" is an already-owned term | S7, naming | unverified | Flagged by E1; term collision with the brief's headline phrase |
+| **R16** | Echenique, F. (2021), critique of the CCEI's interpretation | — | **NOT in the plan.** Cited approvingly by Andrews; absent from the brief | S1, C4 | unverified | Flagged by E1 |
+| **R17** | Bronars, S. G. (1987), "The power of nonparametric tests of preference maximization" | *Econometrica* 55(3):693–698 | **NOT in the plan.** Test-power benchmark | C4, S9 | unverified | See `audit/BRONARS_NOTE.md` |
+| **R18** | Beatty, T. K. M. & Crawford, I. A. (2011), "How demanding is the revealed preference approach to demand?" | *AER* 101(6):2782–2795 | **NOT in the plan.** Power-vs-pass tradeoff | C4, S9 | unverified | See `audit/BRONARS_NOTE.md` |
+| **R19** | Crawford, I. & Tian, L. (2026), "The Empirical Content of Revealed Preference in High Dimensions" | arXiv:2605.29361 | **NOT in the plan.** Power falls as the number of goods rises | C4, S9 | unverified | Directly bears on the brief's design |
 
 ---
 

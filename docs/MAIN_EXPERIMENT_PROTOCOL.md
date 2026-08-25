@@ -341,6 +341,10 @@ turns on is not raw feasibility but **stability risk**: this exact machine's oll
 once already this session under sustained multi-model load (§1), and a 5.4-hour unattended run is a
 materially longer exposure window than the 2.1-hour primary design.
 
+**Gate resolved by the operator, 2026-08-26: run `N=30` locally now; revisit the CCEI-matched `N=150`
+scale-up (local or rented) as a separate decision after seeing the primary run's results and this
+machine's stability over the ~2-hour window.** Part Three below executes the `N=30` design only.
+
 ---
 
 ## 8. Deliberate scope limits, stated rather than silently assumed

@@ -1,6 +1,14 @@
 # FRAMING — locked positioning for the F3 paper
 
-**Status: FROZEN as of session S1, 2026-08-21.** Nothing in this file may be silently revised. If
+**Status: FROZEN as of session S1, 2026-08-21.**
+
+**AMENDED 2026-08-22 (§5.1 only).** The freeze was lifted deliberately, once, by the principal
+investigator, to resolve contradiction C-1 recorded in `audit/HR_PARTIAL_S1/FRAMING_CONTRADICTIONS.md`.
+Pre-amendment sha256 `716dfc699e20a2a1aba6475e575d36b50288ca1606a15815906f57d1beb4afc4`;
+post-amendment sha256 `9c73659f9878997f7d2ed5395502c64d756e53b8b900edb7f6500bc8b74ea4e3`.
+Only §5.1 was touched. Every other section stands as frozen, and the report-don't-revise rule remains
+in force for them.
+ Nothing in this file may be silently revised. If
 the resumed research pipeline (or anything else) surfaces evidence that contradicts a claim here,
 the contradiction is **reported**, not edited away. The record of what was believed at freeze time
 is the point.
@@ -199,14 +207,37 @@ in August 2026, with a proof, and you did not cite it."
 **Why it is dangerous.** It is precise, it is recent, it is correct on the words, and it takes about
 thirty seconds for a reviewer to make.
 
-**The positioning, which must appear in the first two pages.** POISE projects **cardinal levels onto
-a convex chain-monotone cone with the ordering held fixed** — its own precondition is that the
-pairwise values already induce a valid partial order, and it handles cycles by *expert
-re-annotation*, not by the operator. A GARP repair must **search over orderings**, and the
-GARP-consistent set is a **non-convex union** over them; the Pythagorean guarantee that makes POISE
-clean does not survive the union. **Same words, different mathematical object, and the difference is
-exactly the combinatorial half.** Cite it as the closest convex analogue and as independent evidence
-that the order-conditional half is solved.
+**What the defence is NOT.** An earlier version of this section argued that POISE takes the ordering
+as input while a GARP repair must *search over orderings*. **That argument is withdrawn.** It does not
+survive contact with this project's own method note: the recommended formulation is a single MILP in
+which the ordering is absorbed into `T(T−1)` binary comparison indicators, with no outer search and no
+factorial enumeration (`docs/METHOD_NOTE_Q3.md`). The ordering search is a **solved encoding**, not an
+open problem, and a reviewer who reads both documents would find them contradicting each other. Stated
+that way the distinction is attackable as a distinction without a difference.
+
+**The positioning, which must appear in the first two pages. The difference is in what can be
+GUARANTEED, not in what is computed.** POISE projects cardinal scores onto a **convex** chain-monotone
+cone. Projection onto a closed convex set is non-expansive in L2 — the projection of two points is
+never further apart than the points themselves — and it is precisely that property which licenses
+POISE's theorem that the edit lands **weakly closer to ground truth**. The GARP-consistent set is not
+convex: it is a **union of polyhedra**, one per admissible preference ordering, and a union of convex
+sets is not convex. **Projection onto such a union is not non-expansive, and no analogue of the
+weakly-closer-to-truth theorem is available for it.** That is a structural difference in the strength
+of claim the two operators can support, and it holds regardless of how efficiently either is computed.
+
+Two supporting points, which reinforce the distinction but do not carry it:
+
+- The continuous **quantity**-perturbation objective is unworked in the prior literature. The
+  state-of-the-art integer-programming treatment of revealed-preference goodness-of-fit sketches it in
+  two sentences, with no inequalities written down and no complexity classification, in contrast to the
+  fully worked price-error case.
+- Once bundles become decision variables rather than data, the revealed-preference relation is itself
+  **endogenous** to the optimisation — the constraint set depends on the solution. POISE's cone is
+  fixed by its input ordering and has no such feedback.
+
+Cite POISE as the closest convex analogue, and as independent evidence that the **order-conditional,
+convex** half of the problem is solved. The honest claim is that the non-convex half is not, and that
+the guarantee does not transfer.
 
 *Bonus, and it should be used:* POISE's own Table 2 contains a matched pair in which the isotonic
 projection **alone lowers Overall quality by 0.50 while raising consistency by 2.27**, and its Table

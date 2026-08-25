@@ -28,9 +28,10 @@ difference — the ordering search is a **solved encoding**, not an open problem
    treatment sketches it in two sentences with no inequalities and no complexity classification.
 3. Once bundles become decision variables, the revealed-preference relation itself becomes endogenous.
 
-**Status: NOT patched into FRAMING.md.** This is a substantive correction to the locked positioning and
-belongs to the principal investigator, not to this session. As written, §5.1 is attackable as a
-distinction without a difference; recast on the guarantee, it is not.
+**Status: RESOLVED 2026-08-22 — patched into FRAMING.md §5.1 by explicit instruction from the principal
+investigator.** The ordering-search argument is withdrawn in the text rather than quietly dropped, and the
+defence is restated on the non-expansiveness guarantee. The two secondary points are carried as supporting
+rather than load-bearing. Post-amendment sha256 of `docs/FRAMING.md`: `a6a5468a1860d79d5625c5b8aee5c45f5a79c41b6104d6d68be1b5ec664824b3`.
 
 ---
 

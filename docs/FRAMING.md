@@ -8,7 +8,30 @@ Pre-amendment sha256 `716dfc699e20a2a1aba6475e575d36b50288ca1606a15815906f57d1be
 post-amendment sha256 `9c73659f9878997f7d2ed5395502c64d756e53b8b900edb7f6500bc8b74ea4e3`.
 Only §5.1 was touched. Every other section stands as frozen, and the report-don't-revise rule remains
 in force for them.
- Nothing in this file may be silently revised. If
+
+**AMENDED 2026-08-26 (§1 rewritten; new §3 added; §§3–7 renumbered to §§4–8 accordingly).** The freeze
+was lifted deliberately a second time, by the principal investigator, to reconcile C1 with what
+`docs/PILOT_RESULTS.md` and `docs/GO_NOGO_ASSESSMENT.md` actually license, and to promote a pilot
+finding to a standalone claim (C3). Three pilot findings motivate the changes, each cited at the point
+it is used below: (i) headroom and measurement reliability do not coexist across the two piloted
+scales (`PILOT_RESULTS.md` §5) — the 1.5B model has headroom but a noisy CCEI (WSCV 14.8%), the 3B
+model has a stable CCEI (WSCV 2.0%) but almost no headroom (mean baseline CCEI 0.9919); (ii) the 3B
+framing manipulation is clean and large on the violation-count metric (GARP pass 0.76→0.17, p=0.0010)
+while the 1.5B framing "effect" is confounded by selective discard (`PILOT_RESULTS.md` §3); (iii) the
+1.5B discard rate itself — 52% of reciprocal-framing sessions failed the output-format contract — is a
+finding about instrument validity, not a footnote (`PILOT_RESULTS.md` §3, §6).
+Pre-amendment sha256 (measured at the start of this session)
+`a6a5468a1860d79d5625c5b8aee5c45f5a79c41b6104d6d68be1b5ec664824b3`;
+post-amendment sha256 `4ab272f403f5e9fce61c9937c642626b60f42aad6a26dba184327c3bc08e3107`
+(computed immediately before this hash string was inserted, per the same convention as the
+2026-08-22 entry — the hash necessarily does not cover the bytes of its own insertion).
+**Reported, not silently fixed:** the pre-amendment hash just above does not reproduce the
+post-amendment hash recorded in the 2026-08-22 entry immediately above
+(`9c73659f9878997f7d2ed5395502c64d756e53b8b900edb7f6500bc8b74ea4e3`). Either that earlier hash was
+mis-recorded, or the file changed between 2026-08-22 and the start of this session without a logged
+amendment. This is flagged for the operator's attention and is not resolved by this amendment.
+
+Nothing in this file may be silently revised. If
 the resumed research pipeline (or anything else) surfaces evidence that contradicts a claim here,
 the contradiction is **reported**, not edited away. The record of what was believed at freeze time
 is the point.
@@ -32,18 +55,34 @@ can make with their design. The claims below are scoped to exactly that and no f
 
 ---
 
-## 1. C1 — restated
+## 1. C1 — restated (amended 2026-08-26)
 
-> **C1 (frozen).** For an LLM agent's *own* choice sequence over budget sets, the minimal
-> perturbation required to restore GARP-rationalizability is computable exactly, and the
-> relationship between the **amount** of that perturbation and the agent's performance on an
-> **exogenous payoff** — one not derived from any preference judgment — is measurable, monotone
-> or non-monotone as the data determine, and identified without confounding coherence with model
-> capacity.
+> **C1 (amended).** For an LLM agent's *own* choice sequence over budget sets, **at the model scale
+> where the pilot found headroom (1.5B-class, `qwen2.5:1.5b`)**, the minimal perturbation required to
+> restore GARP-rationalizability is computable exactly, and the relationship between the **amount** of
+> that perturbation and the agent's performance on an **exogenous payoff** — one not derived from any
+> preference judgment — is measurable, monotone or non-monotone as the data determine, and identified
+> without confounding coherence with model capacity. **The identical procedure is also run at a scale
+> with no measured headroom (3B-class, `llama3.2:3b`) as a null-effect control** — not to extend the
+> dose curve across scale, but to demonstrate the identification strategy works correctly where there
+> is nothing to repair.
+
+**What changed from the frozen (2026-08-21) statement, and why.** The original C1 reads as if a single
+dose–response curve would be traced *across* a scale range. `docs/PILOT_RESULTS.md` found that headroom
+and measurement reliability do not coexist anywhere in the two-model range piloted: at 1.5B there is
+dispersion to repair, but CCEI's own test–retest WSCV is **14.8%** (95% CI [3.0%, 23.5%]) —
+statistically indistinguishable from Nitsch et al.'s human band (WSCV ≈ 15%); at 3B CCEI is stable
+(WSCV **2.0%**, CI [0.4%, 2.7%], ~7× tighter than the human band), but there is almost nothing to
+repair — mean baseline CCEI 0.9919 and not one of 25 sessions below the random-agent benchmark of
+0.7406. Running the main experiment "across a scale range" would silently blend a noisy-but-real
+candidate effect with a clean-but-absent one. **The experiment is instead run at the scale where
+headroom actually exists (1.5B), and the 3B result is kept as what it is — a null-effect control on
+the identification strategy, not a second point on the same dose curve.**
 
 **What is claimed:** the *conjunction* — own choices, exogenous payoff, and a dose axis indexed by
-a coherence measure — and the identification argument that follows from applying the operator post
-hoc to a fixed agent.
+a coherence measure, run at 1.5B where the pilot licenses it — the identification argument that follows
+from applying the operator post hoc to a fixed agent, and the null-control demonstration at 3B that the
+same pipeline reports no repairable incoherence where none is expected.
 
 **What is explicitly NOT claimed, and is conceded in the paper's first two pages:**
 
@@ -53,20 +92,28 @@ hoc to a fixed agent.
   **non-linear Least Squares index** (R43, traced to Varian 1985) — and we use that name.
 - Not that varying a degree rather than toggling is new. It is not (R25 App. C.4, R24 Table 2).
 - Not that the sign of the effect is predicted. It is not; that is the measurement.
+- **Added 2026-08-26: not that the 1.5B dose–response curve is measurable on a single replicate.**
+  Within-condition CCEI at 1.5B is as noisy as Nitsch's human data. The paper states this as a limitation
+  it owns rather than a problem it hides. It is why `docs/MAIN_EXPERIMENT_PROTOCOL.md` draws
+  **independent** budget-set replicates per session rather than the pilot's repeated-identical-condition
+  design, and why the required replicate count comes from an explicit power calculation against the
+  pilot's own effect size rather than a round number.
 
-**C1's three sub-claims, and how each now dies:**
+**C1's three sub-claims, and how each now dies — scoped to the 1.5B headroom model unless noted:**
 
-- **C1a (computability).** Dead if the MILP in §4 fails to solve to a usable gap at the design's
+- **C1a (computability).** Dead if the MILP in §5 fails to solve to a usable gap at the design's
   (T, K), or if the γ-margin projection distance proves sensitive to γ. Both are checkable before
-  any model call.
+  any model call. Unaffected by this amendment.
 - **C1b (bounded cost).** Dead if the perturbation needed is so large the projected sequence is a
   different agent. Note R6's own data cuts *for* us here: cycles are frequent but shallow — a
   Condorcet winner survives in >90% of cases — which is the regime where minimal perturbation is
-  cheap.
+  cheap. Unaffected by this amendment.
 - **C1c (identified, measurable effect).** Dead if projected and raw agents are indistinguishable
   on the exogenous payoff **and** the distance-matched null-operator control is also
-  indistinguishable, leaving no signal of any kind. **A negative direction does not kill C1c** — but
-  see C2 for what a negative is now worth.
+  indistinguishable, leaving no signal of any kind, **at 1.5B, over enough independent replicates
+  that "indistinguishable" is a power statement rather than a noise statement.** A negative direction
+  does not kill C1c — but see C2 for what a negative is now worth. **At 3B, C1c is expected to fail to
+  reject the null; that is the control functioning correctly, not the claim failing.**
 
 **The adverse prior, stated in the claim rather than hidden from it.** Three published attempts to
 enforce a coherence constraint moved the wrong way: a choice-revision intervention on human
@@ -114,7 +161,51 @@ is not confounded.
 
 ---
 
-## 3. Abstract-level framing
+## 3. C3 — the discard-selection instrument-validity finding (new, 2026-08-26)
+
+> **C3 (new).** A framing manipulation that measurably disrupts an LLM agent's task performance does
+> not necessarily register as measured incoherence — it can instead register as **failure to produce a
+> scoreable output at all**. At 1.5B, the reciprocal-framing manipulation broke the required
+> output-format contract in **52% of sessions** (13 of 25; median valid rounds fell from 24 to 16). A
+> naive revealed-preference instrument that discards unparseable sessions — standard practice, and the
+> pilot's own baseline handling — silently drops exactly the observations where the framing
+> manipulation had its largest behavioural effect, biasing any measured coherence effect toward zero.
+> **This is a finding about instrument validity. It holds regardless of whether preference repair
+> helps, hurts, or does nothing to downstream performance**, and it is reported as a claim in its own
+> right rather than folded into C1's dose–response result.
+
+**Why this is a separate claim, not a footnote to C1.** C1 is about what happens to the observations
+that survive discard. C3 is about the observations that do not survive, and about what discarding them
+does to any inference drawn from the ones that remain. The two are logically independent: C3 is true
+even if C1 turns out to be entirely null, and C1 could in principle be answered cleanly even if C3's
+selection problem did not exist — e.g. if disruption and discard were uncorrelated with the framing
+treatment. The pilot shows they are not: discards under reciprocal framing at 1.5B (13/25) vastly
+exceed discards under baseline framing at 1.5B (3/25) and reciprocal framing at 3B (0/25).
+
+**The evidence.** `docs/PILOT_RESULTS.md` §3: under reciprocal framing at 1.5B, 13 of 25 sessions were
+discarded for failing to produce ≥20 of 25 valid, format-conforming rounds. The 12 surviving sessions
+are not a random subsample of what the model would have produced; they are precisely the sessions where
+the model coped with the harder framing, which is itself informative about the manipulation's effect
+and is exactly the information a silent discard throws away. The pilot's own illustration: 1.5B's naive
+baseline→reciprocal CCEI delta is +0.0169 (p = 0.66, not significant) — a number the pilot explicitly
+flags as "almost certainly survivorship, not an effect" (`PILOT_RESULTS.md` §3), because it is computed
+only on the observations the manipulation did *not* disrupt enough to break the output contract.
+
+**What C3 requires of the main experiment.** `docs/MAIN_EXPERIMENT_PROTOCOL.md` Part 6 specifies how
+disrupted sessions are handled going forward — not silently dropped, as the pilot's own baseline
+handling did. The discard rate is reported as a per-condition outcome alongside CCEI, GARP pass rate,
+and the projection dose, so C3's finding is measured at the scale the main experiment actually runs
+(1.5B), not merely asserted from the pilot alone.
+
+**Kill condition.** C3 is killed by evidence that the pilot's 52% figure is an artefact of one prompt
+template or one seed range rather than a property of the framing manipulation itself — e.g. if the main
+experiment's larger, independently-seeded replicate set shows the reciprocal-framing discard rate is
+statistically indistinguishable from the baseline discard rate. That comparison is reported explicitly
+in `docs/MAIN_EXPERIMENT_RESULTS.md`, not assumed.
+
+---
+
+## 4. Abstract-level framing
 
 Title: **"What Does Repairing Choice Inconsistency Actually Buy? A Budget-Set Diagnosis."**
 
@@ -150,7 +241,7 @@ contexts"** — the full bullet including the qualifier the brief truncated. Emp
 
 ---
 
-## 4. Method, stated — Q3's resolution, not left implicit
+## 5. Method, stated — Q3's resolution, not left implicit
 
 The projection is a **single mixed-integer linear program**. It uses the multiplier-free ordinal
 characterisation of GARP (R42, Demuynck & Rehbeck 2023), under which the constraints are linear
@@ -171,7 +262,7 @@ ordering fixed) and wrong for construction.
 Three stated method commitments, each with its risk:
 
 1. **Budget exhaustion imposed as an equality.** Standard for this design, it makes the big-M
-   constant computable a priori, and it is simultaneously the fix for the Lemma-1 tie trap (§5).
+   constant computable a priori, and it is simultaneously the fix for the Lemma-1 tie trap (§7).
 2. **A fixed strict-preference margin γ > 0, reported, with the distance shown insensitive across
    two or three decades.** This is not a nicety. The GARP-consistent set is **not closed** (R43,
    Prop. 1), so the unregularised index can read exactly 0 on violating data and the minimum may be
@@ -194,12 +285,12 @@ where an MIQP solver is available.
 
 ---
 
-## 5. What kills this paper — updated for the six-occupant landscape
+## 6. What kills this paper — updated for the six-occupant landscape
 
-Andrews is no longer the central risk. He is now an *asset* (§3, sentence 5). The three dangerous
+Andrews is no longer the central risk. He is now an *asset* (§4, sentence 5). The three dangerous
 comparisons are these, in order.
 
-### 5.1 R27 (TrustRoboReward / POISE, arXiv:2608.08491) — the vocabulary collision
+### 6.1 R27 (TrustRoboReward / POISE, arXiv:2608.08491) — the vocabulary collision
 
 **The attack.** "You claim a minimal projection onto a preference-consistent set. That was published
 in August 2026, with a proof, and you did not cite it."
@@ -245,7 +336,7 @@ projection **alone lowers Overall quality by 0.50 while raising consistency by 2
 unremarked coherence/competence dissociations inside a paper whose thesis is that the projection
 helps.
 
-### 5.2 R25 (HRC/DSPPO, ICML 2026) — the published dose–response curve
+### 6.2 R25 (HRC/DSPPO, ICML 2026) — the published dose–response curve
 
 **The attack.** "Appendix C.4, Table 5. Nine levels, inverted U, interior optimum. Your dose–response
 is not new."
@@ -265,7 +356,7 @@ never reaches either endpoint, ours runs from the raw sequence to full rationali
 Cite both as **friendly precedent answering a different question about a different object** — not as
 rivals. One of their authors may well be a reviewer.
 
-### 5.3 R31 (Nitsch et al., *PNAS* 2022) — the human analogue that failed, and the reliability attack
+### 6.3 R31 (Nitsch et al., *PNAS* 2022) — the human analogue that failed, and the reliability attack
 
 **The attack, at full strength.** "You propose to grade an unreliable quantity, perturb it with an
 operator class that has twice been published as failing, and read the payoff difference as a
@@ -291,13 +382,13 @@ estimates reaches 0.75, and presentation format alone drops agreement to 0.071."
    differences "using a manipulation (i.e., a between-groups design)". ICC is a property of the
    population, not the instrument. Their humans cluster near ceiling; our conditions do not.
    **This must be measured on the actual models, not asserted** — which is why it is a pilot
-   precondition (§6).
+   precondition (§7).
 3. **Concession, stated plainly: there is no answer to the third-negative-in-a-row problem.** Three
    independent instances across three axiom systems point one way. That does not refute C1, but it
    converts the "clean negative" fallback from an interesting outcome into a fourth confirmation.
    The paper concedes this rather than pretending the prior is neutral.
 
-### 5.4 Also required, lower risk
+### 6.4 Also required, lower risk
 
 - **R41 (Cook, Kazinnik, Modig & Palmer, KC Fed / FEDS 2026-006)** — must be cited. Not on arXiv,
   economics vocabulary, and it already steers LLM economic choices with learned control vectors
@@ -314,7 +405,7 @@ estimates reaches 0.75, and presentation format alone drops agreement to 0.071."
 
 ---
 
-## 6. Preconditions before drafting (from `docs/GO_NOGO_ASSESSMENT.md`)
+## 7. Preconditions before drafting (from `docs/GO_NOGO_ASSESSMENT.md`)
 
 Frozen here because they bound what this framing is licensed to claim:
 
@@ -331,7 +422,7 @@ Frozen here because they bound what this framing is licensed to claim:
 
 ---
 
-## 7. Banned sentences
+## 8. Banned sentences
 
 Literal strings that must not appear in the paper. Each is false or fatal.
 

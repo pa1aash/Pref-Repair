@@ -1,0 +1,643 @@
+\documentclass{article}
+
+\usepackage[dblblindworkshop]{neurips_2026}
+\workshoptitle{Economics for Machine Learning}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{nicefrac}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{graphicx}
+
+\title{What Does Repairing Choice Inconsistency Actually Buy? \\ A Budget-Set Diagnosis}
+
+\author{%
+  Anonymous Author(s) \\
+  Affiliation \\
+  Address \\
+  \texttt{email} \\
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Repairing an AI agent's incoherent preferences is not a new idea: inference-time layers that
+restore transitivity, isotonic projections onto preference-defined cones, and training-time
+rationality penalties have all been proposed, and several report downstream gains. What no
+existing result establishes is \emph{how much} coherence is worth, because every published
+comparison either varies the coherence assumption by swapping in a strictly richer model class
+--- confounding coherence with capacity --- or scores the outcome with another preference
+judgment, or treats repair as binary. We take the economics route instead. Given an LLM agent's
+own choices over budget sets, we compute the minimal perturbation restoring
+GARP-rationalizability as a single mixed-integer program, which yields a graded, cardinal dose
+(an Afriat-style efficiency index) where prior work has mostly used binary cycle-counting or
+toggled interventions, and we apply it \emph{post hoc} to a frozen agent, so capacity, training
+and policy are identical across doses by construction. Scoring the repaired sequences against a
+fixed, pre-registered exogenous payoff that no preference judgment enters, we trace the
+dose--response relationship from the raw sequence toward full rationalizability at two model
+scales (a 1.5B-parameter model with measured coherence headroom, and a 3B-parameter model with
+almost none, run as an identification control rather than a second point on one scale curve).
+The relationship is real, strongly monotone, and precisely estimated at both scales (Spearman
+$\rho=0.756$, $p<0.0001$, $n=60$ at 1.5B; $\rho=0.614$, $p=0.0011$, $n=25$ at 3B) and survives a
+targeted robustness check against the mechanical confound that larger violations simply have
+more room to improve. We also report two findings the design was not built to predict. First,
+the reciprocal-price framing manipulation that motivated the study does not reliably move
+coherence at 1.5B once a discard-selection bias in the output-format contract is corrected by a
+capped retry protocol --- the pilot's positive finding was survivorship, not an effect, and we
+show the correction rather than assume it. Second, an independently published format mechanism
+(single-turn vs.\ multi-turn elicitation) produces the largest, cleanest confirmatory effect in
+the study, with zero discard confound on either arm. Throughout, we report Bronars power beside
+every efficiency index and report the discard rate as a first-class per-condition outcome rather
+than a silently-dropped nuisance.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:intro}
+
+An LLM agent asked to allocate a fixed budget across two goods at varying prices, repeatedly,
+will frequently violate the Generalized Axiom of Revealed Preference (GARP): it prefers bundle
+$x_1$ to $x_2$ at one budget line and the reverse at another, in a way no monotone utility
+function can rationalize. A growing literature repairs exactly this kind of inconsistency in LLM
+systems --- restoring transitivity in pairwise judgments, projecting cardinal scores onto
+monotone cones, penalizing incoherence during training --- and several of these systems report
+that the repaired outputs are downstream-better than the raw ones. What none of them establishes
+is a \emph{dose}: how much better, as a function of how much repair was needed, isolated from the
+capacity and training confounds that come from comparing a richer model class to a poorer one.
+
+We study this question in a setting where it can be answered cleanly. An LLM agent makes a
+sequence of budget-constrained choices over two goods. We compute, as a single mixed-integer
+linear program, the minimal quantity perturbation that would make the agent's own realized choice
+sequence GARP-consistent --- a projection applied \emph{post hoc} to a frozen agent, so nothing
+about its weights, training, or decoding changes across doses. The size of that perturbation is a
+graded, cardinal dose. We score both the raw and the repaired sequence against a fixed,
+equal-weight Cobb--Douglas payoff whose optimum at each budget line is a closed-form function of
+prices and income alone --- never of the agent's own choices --- so the outcome measure is
+exogenous to the preference data by construction, not a restatement of coherence. Tracing dose
+against $\Delta$payoff gives the relationship this paper reports.
+
+We do not claim any of the individual pieces are new; \S\ref{sec:related} concedes exactly what
+is not. What has not been done is the conjunction: an agent's own realized choices, a graded
+coherence-indexed dose, and an outcome that is not itself a preference judgment, run together so
+that the identification is clean. We run this at a model scale where a pilot study found
+measurable coherence headroom (1.5B parameters), and repeat the identical pipeline at a scale with
+almost none (3B parameters) as an identification control on the method itself, not as a second
+point on a shared dose curve across scale.
+
+Two results were not predicted by the design. The reciprocal-price framing manipulation intended
+to induce coherence variation at 1.5B produced, in a pilot run, a large apparent effect driven by
+which sessions survived an output-format contract rather than by a change in choices; correcting
+for that selection with a capped retry protocol, the framing effect at 1.5B is indistinguishable
+from zero. We report this as a finding about instrument validity in its own right (our claim C3),
+since the same selection mechanism would silently bias any revealed-preference measurement of a
+disruptive manipulation toward zero. Separately, an independently published mechanism
+(single-turn vs.\ multi-turn elicitation) produces the largest, cleanest confirmatory effect in
+the study, with no discard confound on either arm.
+
+\textbf{Contributions.} (1) A minimal-perturbation MILP projection over an agent's own realized
+choices, verified independently on every output rather than trusted from solver status alone. (2)
+A pre-registered, closed-form exogenous payoff audited adversarially for leakage and for the
+mechanical confound that larger violations simply have more room to improve. (3) A measured
+dose--response relationship at two model scales, run as headroom model and null-effect
+identification control rather than two points on one curve. (4) An instrument-validity finding
+(discard-selection bias under a disruptive manipulation), corrected for by a stated retry
+protocol and reported as a first-class outcome. (5) A replication of an independently published
+format effect that dominates our own manipulation at the scale we study.
+
+\section{Related Work}
+\label{sec:related}
+
+\subsection{Repairing LLM preference and judgment consistency}
+
+Repairing an AI system's incoherent preferences is not new; we concede what is occupied before
+claiming what is not. At least six published systems restore some consistency property of an
+LLM's choices or judgments, three at inference time. None applies such an operator to an agent's
+\emph{own} choice sequence over budget sets, indexes it by a graded coherence measure, and scores
+the result against a payoff into which no preference judgment enters --- that conjunction is our
+claim (Table~\ref{tab:related}, Appendix~\ref{app:related-table}).
+
+The sharpest vocabulary collision is POISE \citep{wang2026poise}: it reads pairwise labels as a
+fixed partial order and returns the pool-adjacent-violators projection onto the closed convex
+chain-monotone cone $\{s': s'_1\le\cdots\le s'_m\}$, with a proved Pythagorean guarantee that the
+edit lands weakly closer to a posited ground truth. We concede the minimum-distance priority
+unqualified. \textbf{The difference is in what can be guaranteed, not in what is computed.}
+Projection onto a closed convex set is non-expansive in $L_2$, which is what licenses that
+guarantee; the GARP-consistent set is a union of polyhedra, one per admissible ordering, hence
+not convex, so no analogue transfers. POISE also projects a \emph{teacher's} offline training
+labels rather than an agent's own choices, excludes cycles by precondition, and validates on a
+68-comparison human preference vote --- and its own ablation shows the projection alone
+\emph{lowering} overall quality by $0.50$ while raising consistency by $2.27$.
+
+Three further inference-time repairs, each on a different object.
+\citet{chadwick2025dutchbooks} project incoherent probability judgments onto the nearest coherent
+point by quadratic program and break intransitive preferences via a polynomial-time Kemeny
+approximation, nearest to ours in spirit but tested only on synthetic election data with no
+downstream task-quality comparison. TrustJudge \citep{wang2025trustjudge} cuts a judge's pairwise
+transitivity violations from $15.22\%$ to $4.40\%$, but repairs judgments of third-party
+responses with no degree parameter. CONSISTRE \citep{sun2026consistre} enforces
+transitivity/symmetry/functional-uniqueness over relation-extraction triples, with no budget sets
+and no Afriat machinery. Two training-time systems alter the agent itself, so neither holds
+capacity fixed across doses: \citet{buchanan2026innate} fine-tune with IIA-invariance losses
+(compliance $0.920\to0.948$) with no downstream evaluation; \citet{aguiar2026garpefm} fine-tune
+on GARP-consistent synthetic data.
+
+\subsection{Coherence versus downstream competence: the open sign}
+
+A parallel line varies the transitivity of the \emph{preference model} rather than an agent's
+choices. GPM \citep{zhang2025gpm} replaces the scalar Bradley--Terry reward head with a
+skew-symmetric embedding able to represent cycles; HRC/DSPPO \citep{huang2026hrc} decomposes the
+preference function into transitive and cyclic components and schedules their weight through
+self-play. We cite both as friendly precedent, not rivals: in both, the cycle-tolerant arm is a
+strict superset model class (each states Bradley--Terry is its dimension-one special case), so
+coherence is confounded with capacity by construction, and on GPM's own length-controlled metric
+that arm \emph{loses} in 18 of 24 head-to-head cells.
+
+\textbf{HRC/DSPPO already publishes a dose--response curve, and we say so before claiming
+anything about grading.} Its Appendix C.4 traces nine settings of a schedule weight
+$\lambda\in\{-2,\dots,2\}$ against win rate: an inverted U, interior optimum at $\lambda=+1.0$,
+span $4.63$ points. Four differences separate it from ours. \emph{Object}: $\lambda$ weights a
+component of a learned third-party preference proxy during training; ours acts post hoc on the
+agent's own realized choices, so capacity and training are identical across doses by
+construction. \emph{Units}: $\lambda$ has no reading as incoherence removed, where our
+projection-distance dose does. \emph{Outcome}: every downstream number in both ICML papers is an
+LLM-judge score; ours is exogenous. \emph{Endpoints}: their schedules never reach either extreme;
+ours runs from the raw sequence to full rationalizability.
+
+Our closest theoretical neighbour is \citet{andrews2026revealed}, who argues representation
+theorems furnish label-free evaluation/regularization signals and proposes $1-\mathrm{CCEI}$ as a
+penalty, running no experiments and proposing no inference-time operator. He states plainly ---
+in the abstract, twice in \S1, and as his first limitation --- that coherence is \emph{not}
+sufficient for good behaviour; that position is argued a priori and never measured, and he never
+asks whether \emph{imposing} coherence helps or hurts. Ours is the empirical counterpart to a
+theoretical proposal that has circulated unrun. One study already reports the qualitative shape
+we look for: \citet{ouyang2025aidecisionmaker} find alignment fine-tuning's relationship to
+realized capital-expenditure prediction is non-monotonic --- moderate single-dimension alignment
+\emph{raises} the predictive coefficient while full composite alignment degrades it --- for a
+different enforced property and no minimum-distance objective, but the shape our design is built
+to detect.
+
+\subsection{Reliability of the instrument, and a record of repair that failed}
+
+\textbf{The sharpest objection is psychometric, and it is in \emph{PNAS}.} Across eight datasets
+and $>1{,}600$ participants, \citet{nitsch2022reliability} find not one of $\sim$40 ICC estimates
+for CCEI or Houtman--Maks reaches $0.75$, and that 97 participants given the chance to revise
+their own inconsistent budget-set choices saw mean CCEI \emph{fall}, with test--retest reliability
+dropping from $0.522$ to $0.443$. Our answer has three parts, the third a concession. First,
+\emph{that revision arm is not a repair operator}: participants saw a random subset of choices,
+not the violating ones, with no consistency objective and no guarantee the revised set had fewer
+violations --- our operator attains rationalizability by construction and verifies it
+independently. The same distinction disposes of \citet{yamin2026elicited}'s isotonic-calibration
+repair, worse in 14 of 16 cells: it projects onto the monotone \emph{calibration} cone while the
+metric it is graded on scores conditional independence, a different set than the one repaired.
+Second, the reliability finding is diagnosed by its own authors as a between-subject-variance
+problem, not measurement error (within-subject CV $\approx15\%$), with their own prescribed
+remedy --- ``a manipulation (i.e., a between-groups design)'' --- being this paper's design.
+Third, the concession, stated plainly: \emph{there is no answer to the third-negative-in-a-row
+problem.} Adding \citet{zhu2025axiomatic}'s frozen-embedding probability-axiom enforcement
+(coherence improved, held-out MSE slightly worse), three independent results across three axiom
+systems point one way, and a null result here would be a fourth confirmation rather than a
+discovery. We therefore carry a distance-matched null-operator control --- identical
+displacement, no consistency gain --- which neither published negative had.
+
+\subsection{Economics-side interventions on LLM choice behaviour}
+
+The closest neighbour on the economics side is invisible to any arXiv sweep.
+\citet{cook2026whatllmswant} elicit economic choices from ten open-weight models and steer them
+toward payoff-maximising behaviour via personas, prompt masking, and learned control vectors ---
+occupying two of our three legs (intervention on an agent's own economic choices, continuously
+graded strength) without Afriat machinery, a minimum-perturbation objective, or a payoff-traced
+frontier; their finding that reframing and control vectors move models while persona prompting
+does not corroborates our manipulation choice. That choice is anchored in \citet{wang2025tactics},
+who find \emph{format}, not persona or temperature, moves the Afriat index: collapsing multi-turn
+elicitation to single-turn drops CCEI by up to $0.241$. We adopted this as an experimental arm on
+that evidence, and \textbf{it yields the cleanest result we obtain}: splitting rounds into
+separate calls at 1.5B collapses GARP pass rate from $0.40$ to $0.10$ ($p=0.0073$) with zero
+discards --- confirming, in a different model family, the literature's own strongest lever
+outperforms our purpose-built framing manipulation.
+
+\section{Method}
+\label{sec:method}
+
+\subsection{The projection: a single mixed-integer program, not a search over orderings}
+\label{sec:method-projection}
+
+For a sequence of $T$ observations $(p_t, x_t)_{t=1}^T$, $K$ goods, GARP holds if there is no
+sequence of choices such that $x_{t_1}$ is revealed preferred to $x_{t_2}$, ..., $x_{t_n}$ is
+revealed preferred to $x_{t_1}$, with at least one strict revealed preference in the cycle.
+Given a GARP-violating sequence, we seek the minimal perturbation $\tilde{x}_t$ that restores
+GARP-consistency. The naive formulation parameterizes this with Afriat multipliers, which makes
+the resulting constraints bilinear in the unknowns once $\tilde{x}$ is itself a decision variable
+--- fixing a candidate preference ordering does not remove the bilinearity, since a price-weighted
+multiplier term remains a product of two unknowns regardless of ordering. We instead use the
+multiplier-free ordinal characterization of \citet{demuynck2023computing}, under which every
+constraint is linear jointly in the perturbed bundles, a set of ordinal utility levels $u_t\in[0,1]$
+that carry no multipliers, and binary comparison indicators $U_{t,v}\in\{0,1\}$ for $t\neq v$. At
+$T=25$ this is 600 binaries and 75 continuous variables per trace, solved as a single MILP on the
+HiGHS backend, with no outer search over preference orderings and no alternating scheme.
+
+Three method commitments, each carrying an explicit risk. \textbf{Budget exhaustion is imposed as
+an equality}, $p_t\!\cdot\!\tilde{x}_t = I_t$ for every observation (income fixed at 100
+throughout this project); this is standard for the design, and it makes the big-$M$ constant in
+the ordering constraints computable a priori as $\alpha > \max_t I_t$. \textbf{A fixed
+strict-preference margin $\gamma > 0$}, set to $10^{-4}\cdot\min_t I_t$, converts an unattained
+infimum into an attained minimum: the GARP-consistent set is not closed, so an unregularized
+projection can read a distance of exactly zero on genuinely violating data. We verified the
+reported distance is stable across $\gamma \in \{10^{-2},\ldots,10^{-6}\}$ before treating it as
+reportable. \textbf{Every returned $\tilde{x}$ is verified independently} via the same
+combinatorial Warshall-closure GARP check used everywhere else in this project, never trusted
+from solver optimality status alone --- all 85 GARP-violating traces' projections in the main
+experiment were independently re-verified GARP-consistent, with MIP gap $\le 8.1\times10^{-5}$ on
+every solve.
+
+The objective is $L_1$: $\min \sum_t\sum_k w_{t,k} d_{t,k}$ subject to
+$\tilde{x}_{t,k}-x_{t,k}\le d_{t,k}$ and $x_{t,k}-\tilde{x}_{t,k}\le d_{t,k}$, with uniform weights
+$w=1$. This keeps the program a pure MILP; $L_\infty$ is reported as a free-to-add robustness
+check. $L_2$, the literature's own least-squares index, would require an MIQP solver we do not
+have configured and is not computed. The \emph{dose} for a trace is its $L_1$ projection distance
+$\sum_t\sum_k |x_{t,k}-\tilde{x}_{t,k}|$, comparable across sessions without further normalization
+because income is fixed throughout. A Cobb--Douglas demand share-fitted to each trace's own
+observed data is computed as a feasibility incumbent and sanity ceiling on the reported distance
+--- but this share-fitted quantity is never actually passed to the solver as a warm start (the
+underlying solver has no incumbent-injection interface), so it never influences the direction or
+magnitude of any reported projection; it is used only as a logged upper-bound diagnostic.
+
+\subsection{What can be guaranteed, and what cannot: positioning against convex projection}
+\label{sec:method-guarantee}
+
+\S\ref{sec:related} positions this projection against the closest published structural analogue,
+a proved-optimal projection onto a convex monotone cone \citep{wang2026poise}: because the
+GARP-consistent set is a union of polyhedra rather than a single convex set, the non-expansiveness
+that licenses a weakly-closer-to-ground-truth guarantee there has no analogue here. Concretely for
+this formulation, the prior operator's cone is fixed by an ordering supplied as input, whereas a
+GARP repair must decide which revealed-preference comparisons to give up --- the ordering search
+is absorbed into the binary comparison indicators of \S\ref{sec:method-projection} rather than
+eliminated, which is why no distance-minimization guarantee analogous to the convex case is
+claimed.
+
+\subsection{The exogenous payoff}
+\label{sec:method-payoff}
+
+The payoff must not be derived from the agent's own revealed choices --- a utility function fit
+to the agent's choices (such as the projection's own feasibility incumbent above) would be
+circular if used as the outcome measure, rewarding the agent for resembling its own revealed
+preferences rather than measuring anything external to them. We instead fix, before any model was
+queried and never re-estimated from any agent's choices, an equal-weight Cobb--Douglas valuation
+$U_{\mathrm{exo}}(x) = x_A^{0.5} x_B^{0.5}$. At budget line $(p_t, I_t)$ the optimal bundle
+$x^*_t$ is the closed-form Cobb--Douglas demand $x^*_{t,A}=0.5 I_t/p_{t,A}$,
+$x^*_{t,B}=0.5 I_t/p_{t,B}$ --- a function of prices and income alone, never of the agent's
+observed or projected bundle. The payoff score is the efficiency ratio
+$\mathrm{payoff}(x_t) = U_{\mathrm{exo}}(x_t)/U_{\mathrm{exo}}(x^*_t) \in (0,1]$, computed
+identically for the raw and projected sequence at the same budget lines, so that
+$\Delta\mathrm{payoff} = \mathrm{payoff}(\tilde{x}) - \mathrm{payoff}(x)$ is comparable across
+conditions, models, and repairs. This mirrors --- not the specifics, but the structure of --- a
+money-metric utility index, the standard device for welfare comparison over the same
+GARP/Afriat objects this paper's method already relies on.
+
+We audited this design adversarially, before treating any dose--response result as reportable, for
+four failure modes: a shared-data leak between payoff and projection, a mechanical link between
+GARP-consistency and payoff, a projection direction secretly aimed at the payoff optimum, and the
+confound that larger-dose traces simply start worse and have more room to improve. None survived
+the audit (Appendix~\ref{app:payoff-audit} gives every check and number); the result we report in
+\S\ref{sec:results} is not an artifact of any of the four.
+
+\section{Experimental design}
+\label{sec:design}
+
+\subsection{Models and conditions}
+
+Two locally-hosted open-weight models, run entirely on local compute at zero API cost:
+\texttt{qwen2.5:1.5b-instruct} (the headroom model, per a pilot study that found measurable
+within-condition coherence variation at this scale) and \texttt{llama3.2:3b-instruct} (the
+null-effect control, per the same pilot finding almost no coherence headroom at this scale ---
+mean baseline CCEI 0.99). A third model family was tested for feasibility but excluded after a
+reproducible multi-model-residency crash under sustained rotation on the local machine; the
+two-model, model-major design (all sessions for one model complete before the next model loads)
+is both a wall-clock optimization and, after that observed failure, a correctness requirement.
+\textbf{Compute.} All model inference ran locally via 4-bit-quantized weights on a single
+consumer CPU-class machine, no GPU and no commercial API calls; the full $N=30$ design across
+both models and every condition completed in approximately 2.1 hours wall-clock. Every MILP
+projection (\S\ref{sec:method-projection}) solved in under 5 seconds on the same machine, CPU-only,
+with MIP gap $\le 8.1\times10^{-5}$ on every solve.
+
+Three conditions at 1.5B, two at 3B. \textbf{Baseline}: direct per-token-return framing, single
+turn, all 25 rounds in one prompt and one response. \textbf{Reciprocal}: identical single-turn
+format with an inverted-price framing manipulation, the strongest manipulation identified in the
+pilot. \textbf{Multiturn} (1.5B only): baseline framing, but each of the 25 rounds is a separate
+sequential API call carrying the running conversation history, isolating the elicitation-format
+mechanism from the price-framing mechanism; the arm is motivated by an independently published
+finding that single-turn vs.\ multi-turn elicitation moves LLM coherence measures by up to
+$-0.241$ CCEI in a different domain \citep{wang2025tactics}, an order of magnitude larger than
+this project's own pilot framing effect. It is not added at 3B, whose role is a null-effect
+control on the identification strategy rather than a second scale point requiring the full
+condition set.
+
+\subsection{Budget sets and power}
+
+Each of $N=30$ independent replicates per (model, condition) cell draws its own fresh $T=25$,
+$K=2$ budget set (continuous-density prices, $M,N\sim U[0.1,1.0]$ i.i.d.\ rejected unless
+$\max(M,N)\ge0.5$, budget exhaustion enforced), seeded independently from every other replicate
+--- unlike a pilot study's single shared set, needed because the main experiment targets
+independent between-condition replication, not test--retest reliability. Continuous,
+independently-drawn prices with enforced budget exhaustion also avoid a known pathology: CCEI can
+read exactly 1.0 on data that violates GARP whenever a comparison lands on exact budget-line
+equality, an event common under grid-sampled or rounded prices \citep{andrews2026revealed}.
+$N=30$ gives power $\ge0.999$ against the pilot's full framing-effect magnitude on the pass-rate
+metric and $\ge0.80$ down to $\sim$60\% attenuation, but is explicitly underpowered for a
+CCEI-scale effect of the pilot's magnitude at 1.5B (minimum detectable $\approx0.11$), which we
+report rather than paper over. Every replicate's Bronars power is logged; all 150 draws held
+power $\ge0.998$.
+
+\subsection{The discard-selection problem, and its correction as a stated contribution}
+\label{sec:discard}
+
+A pilot run found that under reciprocal framing at 1.5B, 52\% of sessions (13 of 25) failed the
+required output-format contract and were silently discarded under the pilot's own naive handling
+--- standard practice, and precisely the practice that biases a measured coherence effect toward
+zero, since the discarded sessions are exactly those where the manipulation disrupted the agent
+most. We treat this as a claim about instrument validity in its own right, not a footnote to the
+dose--response result, true regardless of whether projection helps, hurts, or does nothing
+downstream. The main experiment implements a capped retry protocol: a session failing the
+$\ge20/25$-valid-rounds threshold is retried up to three total attempts with a fresh seed offset,
+every attempt logged; a slot still failing is a residual discard, excluded from CCEI/GARP but
+retained for audit. We report first-attempt and residual post-retry discard rates as a
+first-class per-condition outcome for every cell.
+
+\section{Results}
+\label{sec:results}
+
+187 attempt-records were logged across 150 replicate slots (2 models $\times$ up to 3 conditions
+$\times$ 30 replicates); 142 slots kept a usable trace, 8 were residual discards after three
+attempts. Every cell reached its full 30 replicates.
+
+\begin{table}[t]
+\caption{Headline results per (model, condition) cell. GARP pass and CCEI are computed on kept
+traces only; dose and $\Delta$payoff are computed on the subset of kept traces that violate GARP.}
+\label{tab:headline}
+\centering
+\small
+\begin{tabular}{llrrrrr}
+\toprule
+Model & Condition & $n$ kept & mean CCEI & GARP pass & mean dose ($L_1$) & mean $\Delta$payoff \\
+\midrule
+llama3.2:3b  & baseline   & 30 & 0.9900 & 0.73 & 5.01  & +0.0018 \\
+llama3.2:3b  & reciprocal & 28 & 0.9713 & 0.39 & 6.27  & +0.0016 \\
+qwen2.5:1.5b & baseline   & 30 & 0.9522 & 0.40 & 16.68 & +0.0090 \\
+qwen2.5:1.5b & multiturn  & 30 & 0.9540 & 0.10 & 14.54 & +0.0083 \\
+qwen2.5:1.5b & reciprocal & 24 & 0.9413 & 0.38 & 12.02 & +0.0065 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{The dose--response relationship (C1)}
+
+Across all 85 GARP-violating traces with a computed, independently-verified projection (60 at
+1.5B, 25 at 3B): Spearman $\rho=0.729$ ($p<0.0001$), Pearson $r=0.821$ ($p<0.0001$), mean
+$\Delta$payoff $+0.0091$ (one-sample $t=5.41$, $p<0.00001$), with 70 of 85 traces (82\%) improving
+after repair and 15 (18\%) worsening. Figure~\ref{fig:doseresponse} shows the relationship split
+by model on shared axes. \textbf{Both scales show a significant, positive relationship, and it is
+stronger at the headroom model}: $\rho=0.756$ ($p<0.0001$, $n=60$) at 1.5B versus $\rho=0.614$
+($p=0.0011$, $n=25$) at 3B. This is the one place our data contradicts our own pre-registered
+expectation for the 3B control, and we report the contradiction rather than silently absorb it:
+we expected the 3B arm to fail to reject the null, on the reasoning that a model with almost no
+baseline incoherence has little for the identification strategy to act on. Instead, on the
+smaller set of violations that 3B does produce (mostly induced by reciprocal framing,
+\S\ref{sec:results-framing}), projection toward GARP-consistency still measurably helps on the
+exogenous payoff, at roughly a third the strength of the 1.5B relationship. The correct reading is
+not that the control found nothing, but that it found a real effect of about a third the
+magnitude --- evidence that the identification strategy is not an artifact specific to the 1.5B
+model, though not the null result our design anticipated.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.76\linewidth]{../figures/fig1_dose_response.pdf}
+  \caption{Projection dose ($L_1$) against the change in exogenous payoff after repair, for every
+  GARP-violating trace, split by model on shared axes so the two panels' slopes are directly
+  comparable. Both relationships are positive and significant; the headroom model's (left) is
+  steeper and tighter than the null-control's (right), though the control's relationship is
+  itself significant rather than null.}
+  \label{fig:doseresponse}
+\end{figure}
+
+We tested the mechanical confound that larger-dose traces might simply start from worse raw
+payoff and therefore have more room to improve. The confound is real (dose vs.\ raw payoff,
+Pearson $r=-0.41$, $p<0.0001$) but does not explain the relationship away: the partial correlation
+of dose against $\Delta$payoff controlling for raw payoff is $r=0.784$ ($p=7\times10^{-19}$), and
+an OLS regression of $\Delta$payoff on dose and raw payoff jointly finds dose highly significant
+($t=11.4$, $p<10^{-16}$) with raw payoff's own marginal contribution not distinguishable from zero
+($p=0.18$) once dose is included. Full detail in Appendix~\ref{app:payoff-audit}.
+
+\subsection{The reciprocal-framing manipulation: a survivorship artifact, corrected}
+\label{sec:results-framing}
+
+At 3B, reciprocal framing replicates the pilot's finding on an independently-drawn budget-set
+design: GARP pass rate collapses from 0.73 (22/30) to 0.39 (11/28), $p=0.0089$; CCEI moves much
+less and reaches only borderline significance (0.9900 vs.\ 0.9713, $t$-test $p=0.0508$) --- the
+same near-1 compression the pilot flagged, and a third confirmation in this project alone that
+GARP pass rate is the sensitive instrument for framing/format disruption while CCEI understates
+it.
+
+At 1.5B, the manipulation this study was designed around does \emph{not} survive proper
+correction for discard-selection. First-attempt discard under reciprocal framing at 1.5B was
+43.3\% (13/30), falling to a residual 20.0\% (6/30) after the retry protocol --- smaller than the
+pilot's unretried 52\%, plausibly because independent per-replicate budget sets less often
+reproduce one unusually hard draw, but the pattern is unchanged: reciprocal framing produces far
+more discards than any other condition, including the \emph{other} 1.5B manipulation (multiturn,
+0\%). Once the surviving 24 sessions are compared, GARP pass rate (0.40 vs.\ 0.38, $p=0.85$) and
+CCEI (0.9522 vs.\ 0.9413, $p=0.73$) are indistinguishable between baseline and reciprocal framing;
+the CCEI point estimate moves in the pilot's predicted direction but is small relative to 1.5B's
+own noise, with confidence intervals overlapping almost entirely. The pilot's confounded
+$+0.0169$ finding is superseded by this properly-powered, still-noisy null, not confirmed or
+refuted. Figure~\ref{fig:discardbias} shows why: as the residual discard rate falls from 52\%
+toward 20\%, the naive framing "effect" collapses toward zero and changes sign.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.6\linewidth]{../figures/fig2_discard_bias.pdf}
+  \caption{Top: the 1.5B reciprocal-framing CCEI comparison, pilot (naive single-attempt discard
+  handling, grey) vs.\ main experiment (capped-retry-corrected, blue). Bottom: the corresponding
+  discard rate at each stage. As it falls, the apparent CCEI ``effect'' collapses toward zero and
+  reverses sign --- the pilot's finding was driven by which sessions survived, not by choices
+  changing.}
+  \label{fig:discardbias}
+\end{figure}
+
+\subsection{The multiturn/format effect: the cleanest confirmatory result}
+
+Splitting the 25 rounds into separate sequential calls collapses the GARP pass rate from 40\% to
+10\% ($p=0.0073$) while CCEI barely moves (0.9522 vs.\ 0.9540, $p=0.91$; Figure~\ref{fig:multiturn})
+--- a larger drop than reciprocal framing produced at 1.5B, comparable to 3B's reciprocal-framing
+collapse, with \emph{zero discards on either arm} so no selection-bias caveat applies. This is a
+third independent replication of the same pattern: GARP pass rate is the sensitive instrument for
+framing/format disruption; CCEI is not. Against the literature this arm was designed to test
+\citep{wang2025tactics}: the format mechanism confirmed here as the dominant lever at this scale
+outperforms our purpose-built price-framing manipulation, cheaply and without the
+discard-selection confound that compromises the reciprocal-framing comparison.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.72\linewidth]{../figures/fig3_multiturn_format.pdf}
+  \caption{1.5B, baseline vs.\ multiturn elicitation format. GARP pass rate (left) collapses; mean
+  CCEI (right, $\pm1$ SD) is visually flat with heavily overlapping dispersion. Zero discards
+  occurred in either arm, unlike Figure~\ref{fig:discardbias}.}
+  \label{fig:multiturn}
+\end{figure}
+
+\section{Limitations}
+\label{sec:limitations}
+
+\textbf{CCEI is noisy at 1.5B, and the paper leads with GARP pass rate because of it, not by
+preference.} The 1.5B model's within-condition CCEI noise (baseline within-subject coefficient of
+variation 14.8\%) is comparable to published human test--retest noise on the same index
+\citep{nitsch2022reliability}, and $N=30$ is explicitly underpowered for a CCEI-scale effect of
+the pilot's own magnitude at this scale (the minimum reliably detectable effect at this $N$ is
+roughly $2.5\times$ the pilot's magnitude). A CCEI-power-matched design would need $N\approx111$
+to $161$ depending on the assumed baseline variance; that scale-up was deferred by the operator
+pending this run's results and was not executed. We treat this as an open design tradeoff, not a
+result masked by a metric choice: the pass-rate metric is adequately powered throughout and every
+CCEI result we report is accompanied by its own confidence interval rather than presented as
+equally reliable.
+
+\textbf{Single run per condition per model at $N=30$.} Every (model, condition) cell in this paper
+is one run of the stated protocol; we do not have repeated full runs of the entire pipeline to
+report a between-run variance on the headline dose--response statistic itself, only the
+within-run replicate variance captured by the reported confidence intervals and $p$-values.
+
+\textbf{Two model families, one scale point each.} The headroom/null-control design isolates the
+identification strategy from a scale confound but does not trace a dose--response relationship
+\emph{across} model scale: a pilot found headroom and measurement reliability do not coexist
+anywhere in the range piloted, so the design targets the scale where headroom exists rather than
+blending a noisy-but-real candidate effect with a clean-but-absent one across a wider range. A
+third model family was excluded after an observed multi-model-residency failure on the local
+machine; extending the roster is a documented follow-up, not a silent omission.
+
+\textbf{One fixed exogenous payoff.} $U_{\mathrm{exo}}$ uses equal Cobb--Douglas weights,
+chosen for being a zero-degrees-of-freedom, closed-form, no-solver-dependency reference rather
+than swept over alternative fixed weightings; \S\ref{sec:method-payoff}'s audit addresses whether
+this specific choice leaks information from the agent's revealed preferences, not whether a
+different fixed weighting would trace the same curve.
+
+\textbf{An adverse prior the paper does not shed.} Three independently published repair attempts
+moved the wrong way (\S\ref{sec:related}). Our own reciprocal-framing manipulation at 1.5B
+(\S\ref{sec:results-framing}) is a fourth negative in the narrower sense that the manipulation
+intended to induce measurable coherence variation did not do so once properly measured. The
+dose--response relationship we do report (\S\ref{sec:results}) argues against reading this prior
+as universal, but it is a relationship over naturally- and framing-induced violations pooled
+together, not a demonstration that any one manipulation reliably induces the violations repaired.
+
+\paragraph{Broader impacts.} A positive dose--response relationship, read carelessly, could be
+taken as license to impose coherence-repair on deployed AI economic agents by default. Our own
+result argues against that reading: 18\% of repairs in this study \emph{worsened} the exogenous
+payoff (\S\ref{sec:results}), and the reciprocal-framing manipulation this study was designed
+around turned out, once corrected, to have no measurable effect on the coherence it was thought to
+disrupt (\S\ref{sec:results-framing}). The paper's contribution is a measurement design for
+asking whether repair helps in a given setting, not a recommendation to deploy it universally.
+Separately, the discard-selection finding (\S\ref{sec:discard}) generalizes beyond this project:
+any revealed-preference or consistency instrument that silently drops unparseable or
+disruption-caused failures risks systematically underestimating exactly the manipulations that
+matter most, which bears on how AI economic-behavior audits are designed and reported more
+broadly. We see no elevated misuse risk specific to this work: it uses only synthetic
+budget-allocation tasks on publicly available open-weight models, releases no new model or
+dataset, and does not involve human subjects.
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+Applying a minimal-perturbation GARP repair to an LLM agent's own realized choices, post hoc and
+scored against a fixed exogenous payoff, we find a real, precisely estimated, monotone
+dose--response relationship between repair size and payoff gain, at a model scale with measured
+coherence headroom and one without. The relationship survives an adversarial audit for leakage and
+for the confound that larger repairs simply start from more room to improve. Two unpredicted
+findings --- a purpose-built framing manipulation's apparent 1.5B effect was a discard-selection
+artifact, and an independently published format mechanism outperforms it cleanly --- are reported
+in their own right: an instrument that silently discards its most-disrupted observations is
+exactly the failure this literature should check for by default.
+
+\begin{ack}
+\end{ack}
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\appendix
+
+\section{Where prior repair systems sit}
+\label{app:related-table}
+
+Table~\ref{tab:related} positions every system discussed in \S\ref{sec:related} against the four
+criteria that jointly define our claim: whether the repaired object is a choice the agent made
+for itself from a budget set (not a judgment about third-party items), whether the outcome
+measure is exogenous (no preference judgment enters it), whether the intervention is graded
+rather than binary, and whether the operator is a formal minimum-distance projection.
+
+\begin{table}[h]
+\centering\small
+\caption{Where prior repair systems sit. \emph{Own choices}: the repaired object is a choice the
+agent made for itself from a budget set, not a judgment about third-party items.
+\emph{Exogenous payoff}: an outcome into which no preference judgment enters.}
+\label{tab:related}
+\begin{tabular}{lcccc}
+\toprule
+& Own & Exogenous & Graded & Min.-distance \\
+& choices & payoff & dose & projection \\
+\midrule
+POISE \citep{wang2026poise}                       & no  & no  & no  & \textbf{yes} \\
+Rationality layer \citep{chadwick2025dutchbooks}  & no  & no  & no  & \textbf{yes} \\
+TrustJudge \citep{wang2025trustjudge}             & no  & no  & no  & no \\
+CONSISTRE \citep{sun2026consistre}                & no  & partial & no & no \\
+LLM-RankFusion \citep{zeng2024rankfusion}         & no  & \textbf{yes} & no & no (declined) \\
+Innate preferences \citep{buchanan2026innate}     & \textbf{yes} & no & no & no \\
+HRC/DSPPO \citep{huang2026hrc}                    & no  & no  & \textbf{yes} & no \\
+Control vectors \citep{cook2026whatllmswant}      & \textbf{yes} & no & \textbf{yes} & no \\
+\midrule
+This paper                                        & \textbf{yes} & \textbf{yes} & \textbf{yes} & \textbf{yes} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Payoff exogeneity audit}
+\label{app:payoff-audit}
+Full detail of the four-part adversarial audit summarized in \S\ref{sec:method-payoff}.
+
+\textbf{(1) No shared derived quantity beyond the exogenous $(p, I)$.} The payoff implementation
+has no dependency on the projection implementation; the optimal bundle $x^*_t$ is a function of
+$(p_t, I_t)$ alone and never references $x_t$ or $\tilde{x}_t$. The one near-miss is that the
+projection's feasibility incumbent is a Cobb--Douglas demand \emph{share-fitted to the agent's own
+observed data} --- a plausible leakage channel on first read --- but this quantity is never passed
+to the underlying MILP solver as an actual incumbent (the solver used has no such interface); it
+is used only to log an upper-bound sanity ceiling on the reported distance, never to steer the
+solution.
+
+\textbf{(2) The payoff's optimum is independent of revealed preference, checked empirically as
+well as by construction.} Comparing raw (pre-repair) payoff between the 57 traces that were
+already GARP-consistent and the 85 that were not: mean 0.7872 vs.\ 0.7899, Welch $t=-0.07$,
+$p=0.94$. GARP-consistency status alone does not predict payoff, ruling out a population-level
+mechanical link between coherence and payoff score.
+
+\textbf{(3) Hand-derived mechanism check.} Five traces spanning the full dose range (0.17 to
+111.64) were inspected directly, comparing the direction of the actual projection movement
+$(\tilde{x}-x)$ against the direction toward the exogenous optimum $(x^*-x)$ via cosine
+similarity. Similarities were low (0.16--0.31) on the four traces where payoff improved after
+repair, and \emph{negative} ($-0.35$) on the single trace where payoff worsened --- the sign of
+the outcome tracks a geometric quantity the projection objective never references, evidence
+against the mechanism being a disguised optimization toward the payoff target.
+
+\textbf{(4) The severity-confound check.} Larger-dose traces do start from worse raw payoff
+(Pearson $r=-0.41$, $p<0.0001$), and worse-starting traces do have more room to improve
+($r=-0.41$ between raw payoff and $\Delta$payoff) --- a genuine ceiling-effect confound. It does
+not explain the dose--response relationship away: the partial correlation of dose against
+$\Delta$payoff controlling for raw payoff is $r=0.784$ ($p=7\times10^{-19}$, attenuated only
+slightly from the unconditional $r=0.821$), and in a joint OLS regression the dose coefficient is
+highly significant ($t=11.43$, $p<10^{-16}$) while raw payoff's own coefficient is not
+($t=-1.36$, $p=0.18$).
+
+\newpage
+\input{checklist.tex}
+
+\end{document}

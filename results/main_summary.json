@@ -1,0 +1,77 @@
+{
+ "llama3.2:3b-instruct-q4_K_M|baseline": {
+  "n_kept": 30,
+  "mean_ccei": 0.9899844169616699,
+  "sd_ccei": 0.027727811436763748,
+  "garp_pass_rate": 0.7333333333333333,
+  "mean_dose_l1": 5.013089975939086,
+  "mean_delta_payoff": 0.0017878525432102111,
+  "discard_rate_first_attempt": 0.0,
+  "discard_rate_residual": 0.0,
+  "n_slots_total": 30
+ },
+ "llama3.2:3b-instruct-q4_K_M|reciprocal": {
+  "n_kept": 28,
+  "mean_ccei": 0.971271446772984,
+  "sd_ccei": 0.041500254691238254,
+  "garp_pass_rate": 0.39285714285714285,
+  "mean_dose_l1": 6.273855040628439,
+  "mean_delta_payoff": 0.0015539882368152144,
+  "discard_rate_first_attempt": 0.3,
+  "discard_rate_residual": 0.06666666666666667,
+  "n_slots_total": 30
+ },
+ "qwen2.5:1.5b-instruct-q4_K_M|baseline": {
+  "n_kept": 30,
+  "mean_ccei": 0.9521850268046061,
+  "sd_ccei": 0.07205699448179415,
+  "garp_pass_rate": 0.4,
+  "mean_dose_l1": 16.680554856091543,
+  "mean_delta_payoff": 0.009038126410140068,
+  "discard_rate_first_attempt": 0.16666666666666666,
+  "discard_rate_residual": 0.0,
+  "n_slots_total": 30
+ },
+ "qwen2.5:1.5b-instruct-q4_K_M|multiturn": {
+  "n_kept": 30,
+  "mean_ccei": 0.9539504686991374,
+  "sd_ccei": 0.050861534957640994,
+  "garp_pass_rate": 0.1,
+  "mean_dose_l1": 14.538221019462108,
+  "mean_delta_payoff": 0.008307421229452439,
+  "discard_rate_first_attempt": 0.0,
+  "discard_rate_residual": 0.0,
+  "n_slots_total": 30
+ },
+ "qwen2.5:1.5b-instruct-q4_K_M|reciprocal": {
+  "n_kept": 24,
+  "mean_ccei": 0.9413000345230103,
+  "sd_ccei": 0.13745645564212147,
+  "garp_pass_rate": 0.375,
+  "mean_dose_l1": 12.02453850211341,
+  "mean_delta_payoff": 0.00654062440356066,
+  "discard_rate_first_attempt": 0.43333333333333335,
+  "discard_rate_residual": 0.2,
+  "n_slots_total": 30
+ },
+ "llama3.2:3b-instruct-q4_K_M|framing_test": {
+  "garp_pass_p": 0.008884785082153401,
+  "ccei_ttest_p": 0.05082350525424994,
+  "baseline_pass_rate": 0.7333333333333333,
+  "reciprocal_pass_rate": 0.39285714285714285,
+  "baseline_ccei_ci95": [
+   0.5555169795568831,
+   0.8581750444608938
+  ]
+ },
+ "qwen2.5:1.5b-instruct-q4_K_M|framing_test": {
+  "garp_pass_p": 0.85145965683372,
+  "ccei_ttest_p": 0.7276359806117279,
+  "baseline_pass_rate": 0.4,
+  "reciprocal_pass_rate": 0.375,
+  "baseline_ccei_ci95": [
+   0.24590394326083403,
+   0.5767994750172616
+  ]
+ }
+}

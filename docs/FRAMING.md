@@ -224,9 +224,11 @@ Title: **"What Does Repairing Choice Inconsistency Actually Buy? A Budget-Set Di
 > dose–response curve from the raw sequence to full rationalizability. This is the empirical
 > counterpart to a theoretical proposal that has been circulating unrun: representation theorems
 > have been argued to furnish label-free evaluation and regularization signals for AI systems, but
-> that argument has never been tested on a model, and its author explicitly declines to claim that
-> coherence suffices for good behaviour. We test it, and report the Bronars power of every budget
-> set beside every efficiency index we report.
+> that argument has never been tested on a model. Its author states plainly — in his abstract,
+> twice in §1, and as his first limitation — that coherence is *not* sufficient for good behaviour,
+> but that position is argued a priori and never measured, and he never asks whether *imposing*
+> coherence helps or hurts. We supply that measurement, and report the Bronars power of every
+> budget set beside every efficiency index we report.
 
 **What that paragraph does, sentence by sentence:** concedes priority immediately (1); names the
 gap as *identification*, not novelty (2); states the method and the two things that make the design

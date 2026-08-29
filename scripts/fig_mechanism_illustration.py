@@ -50,7 +50,7 @@ MUTED = "#52514e"
 RULE = "#c9c8c2"
 
 plt.rcParams.update({
-    "font.size": 9,
+    "font.size": 11.5,
     "axes.edgecolor": RULE,
     "axes.labelcolor": TEXT,
     "text.color": TEXT,
@@ -146,9 +146,9 @@ def draw_panel(ax, d, alpha, title, summary, show_oracle):
     ss = np.linspace(1e-4, 1 - 1e-4, 800)
     ax.plot(ss, payoff_share(ss, alpha), color=MUTED, linewidth=1.4, zorder=3)
     ax.axvline(alpha, color=RULE, linewidth=0.9, linestyle=(0, (3, 3)), zorder=1)
-    ax.text(alpha, 0.30, f"peak\n$s={alpha:.3f}$", ha="center", va="center",
-            fontsize=6.8, color=MUTED, zorder=6,
-            bbox=dict(boxstyle="round,pad=0.18", fc="white", ec="none", alpha=0.85))
+    ax.text(alpha, 0.22, f"peak\n$s={alpha:.3f}$", ha="center", va="center",
+            fontsize=11.0, color=MUTED, zorder=6,
+            bbox=dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=0.85))
 
     t_spend, t_idle = 3, 9   # the round the repair spends most on; a modal untouched round
     for t, marker, ms in [(t_spend, "o", 30), (t_idle, "s", 27)]:
@@ -176,21 +176,22 @@ def draw_panel(ax, d, alpha, title, summary, show_oracle):
                 arrowprops=dict(arrowstyle="-|>", color=ORANGE, linewidth=1.0,
                                 connectionstyle="arc3,rad=-0.3", shrinkA=4, shrinkB=4), zorder=4)
 
-    label_bbox = dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=0.82)
-    ax.text(0.015, 0.02, "round 3\n(42% of the repair's\ndisplacement budget)",
-            fontsize=6.6, color=MUTED, ha="left", va="bottom", linespacing=1.3,
+    label_bbox = dict(boxstyle="round,pad=0.12", fc="white", ec="none", alpha=0.82)
+    ax.text(0.015, 0.02, "round 3\n(42% of budget)",
+            fontsize=11.0, color=MUTED, ha="left", va="bottom", linespacing=1.2,
             zorder=6, bbox=label_bbox)
-    ax.text(0.985, 0.02, "round 9\n(one of the 16 rounds\nthe repair never touches)",
-            fontsize=6.6, color=MUTED, ha="right", va="bottom", linespacing=1.3,
+    ax.text(0.985, 0.02, "round 9\n(untouched)",
+            fontsize=11.0, color=MUTED, ha="right", va="bottom", linespacing=1.2,
             zorder=6, bbox=label_bbox)
-    ax.text(0.5, 0.53, summary, transform=ax.transAxes, ha="center", va="center",
-            fontsize=6.9, color=TEXT, linespacing=1.35, zorder=6,
-            bbox=dict(boxstyle="round,pad=0.3", fc="white", ec=RULE, linewidth=0.6, alpha=0.92))
+    ax.text(0.5, 0.58, summary, transform=ax.transAxes, ha="center", va="center",
+            fontsize=11.0, color=TEXT, linespacing=1.3, zorder=6,
+            bbox=dict(boxstyle="round,pad=0.25", fc="white", ec=RULE, linewidth=0.6, alpha=0.92))
 
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1.02)
-    ax.set_xlabel("expenditure share on good A, $s$", fontsize=8.4)
-    ax.set_title(title, fontsize=8.4, loc="left", color=TEXT, pad=6)
+    ax.set_xlabel("share on good A, $s$", fontsize=13.0)
+    ax.set_title(title, fontsize=13.0, loc="left", color=TEXT, pad=6)
+    ax.tick_params(axis="both", labelsize=11.0)
 
 
 def main():
@@ -199,16 +200,16 @@ def main():
     T = d["T"]
 
     fig = plt.figure(figsize=(6.9, 5.4))
-    gs = fig.add_gridspec(2, 2, height_ratios=[2.5, 1.0], hspace=0.78, wspace=0.13)
+    gs = fig.add_gridspec(2, 2, height_ratios=[2.2, 1.3], hspace=1.05, wspace=0.30)
     axA = fig.add_subplot(gs[0, 0])
     axB = fig.add_subplot(gs[0, 1], sharey=axA)
     axC = fig.add_subplot(gs[1, :])
 
-    draw_panel(axA, d, 0.5, "A. Original payoff, $2\\sqrt{s(1-s)}$",
+    draw_panel(axA, d, 0.5, "A. Original payoff",
                "trace mean $\\Delta$payoff\n"
                f"real repair {d['A']['real'] - d['A']['raw']:+.4f}\n"
                f"null operator {d['A']['nullfix'] - d['A']['raw']:+.4f}", show_oracle=False)
-    draw_panel(axB, d, a, f"B. Corrected payoff, $\\alpha_s={a:.3f}$ (draw $k=0$)",
+    draw_panel(axB, d, a, "B. Corrected payoff",
                "trace mean $\\Delta$payoff\n"
                f"real repair {d['B']['real'] - d['B']['raw']:+.4f}\n"
                f"null operator {d['B']['nullfix'] - d['B']['raw']:+.4f}\n"
@@ -218,16 +219,16 @@ def main():
 
     handles = [
         plt.Line2D([], [], marker="o", linestyle="", color=GREY, markersize=5.2,
-                   markeredgecolor="white", label="raw choice"),
+                   markeredgecolor="white", label="raw"),
         plt.Line2D([], [], marker="o", linestyle="", color=BLUE, markersize=5.2,
                    markeredgecolor="white", label="GARP-repaired"),
         plt.Line2D([], [], marker="o", linestyle="", color=ORANGE, markersize=5.2,
-                   markeredgecolor="white", label="null operator (size-matched, GARP-blind)"),
+                   markeredgecolor="white", label="null (matched, GARP-blind)"),
         plt.Line2D([], [], marker="o", linestyle="", color=AQUA, markersize=5.2,
-                   markeredgecolor="white", label="oracle null (panel B only; upper bound)"),
+                   markeredgecolor="white", label="oracle null (B only)"),
     ]
-    fig.legend(handles=handles, loc="upper center", bbox_to_anchor=(0.52, 0.375), ncol=4,
-               frameon=False, fontsize=7.2, handletextpad=0.3, columnspacing=1.4)
+    fig.legend(handles=handles, loc="upper center", bbox_to_anchor=(0.52, 0.015), ncol=4,
+               frameon=False, fontsize=11.0, handletextpad=0.25, columnspacing=0.9)
 
     # --- Panel C: where each operator spends its identical L1 budget ---------------------
     ts = np.arange(T)
@@ -237,26 +238,20 @@ def main():
     axC.bar(ts + w / 2, d["disp_null"], width=w, color=ORANGE, zorder=3,
             label="null operator")
     axC.set_xticks(ts[::2])
-    axC.set_xticklabels([str(t) for t in ts[::2]], fontsize=7.5)
+    axC.set_xticklabels([str(t) for t in ts[::2]], fontsize=11.0)
     axC.set_xlim(-0.8, T - 0.2)
-    axC.set_xlabel("round $t$", fontsize=8.4)
-    axC.set_ylabel("$\\|\\tilde{x}_t - x_t\\|_1$", fontsize=8.4)
+    axC.set_xlabel("round $t$", fontsize=13.0)
+    axC.set_ylabel("$\\|\\tilde{x}_t - x_t\\|_1$", fontsize=13.0)
     n_touched = int((d["disp_real"] > 1e-6).sum())
-    axC.set_title(f"C. Where each operator spends the identical $L_1$ budget of {d['dose']:.2f}",
-                  fontsize=8.4, loc="left", color=TEXT, pad=17)
-    axC.legend(loc="upper right", frameon=False, fontsize=7.2, handlelength=1.2,
-               borderaxespad=0.2, ncol=2, columnspacing=1.2)
-    axC.set_ylim(0, float(d["disp_real"].max()) * 1.22)
-    axC.text(0.0, 1.02,
-             f"the repair puts all of it on {n_touched} of the {T} rounds; "
-             f"the null spreads it over all {T} ($\\lambda={d['lam_fix']:.3f}$)",
-             transform=axC.transAxes, fontsize=7.2, color=MUTED, va="bottom", ha="left")
+    axC.set_title(f"C. Where each operator spends its identical $L_1$ budget of {d['dose']:.1f}",
+                  fontsize=13.0, loc="left", color=TEXT, pad=10)
+    axC.legend(loc="upper right", frameon=False, fontsize=11.0, handlelength=1.2,
+               borderaxespad=0.2, ncol=1, columnspacing=1.2)
+    axC.set_ylim(0, float(d["disp_real"].max()) * 1.28)
 
-    fig.suptitle("Why a GARP-blind null outperforms the real repair, on the sample's "
-                 "largest-dose trace\n"
-                 "(qwen2.5:1.5b, reciprocal, replicate 12; $T=21$ valid rounds; "
-                 "one illustrative trace, not a statistical result)",
-                 fontsize=8.5, y=1.0, color=MUTED)
+    fig.suptitle("Why a GARP-blind null outperforms the real repair\n"
+                 "(one illustrative trace, not a statistical result --- see caption)",
+                 fontsize=12.5, y=1.0, color=MUTED)
 
     fig.savefig("figures/fig_mechanism_illustration.pdf", bbox_inches="tight")
     fig.savefig("figures/fig_mechanism_illustration.png", dpi=200, bbox_inches="tight")

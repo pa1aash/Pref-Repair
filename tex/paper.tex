@@ -66,9 +66,14 @@ silently-dropped nuisance.
 \label{sec:intro}
 
 An LLM agent asked to allocate a fixed budget across two goods at varying prices, repeatedly,
-will frequently violate the Generalized Axiom of Revealed Preference (GARP): it prefers bundle
+will frequently violate the Generalized Axiom of Revealed Preference (GARP;
+\citealp{afriat1967construction,varian1982nonparametric}): it prefers bundle
 $x_1$ to $x_2$ at one budget line and the reverse at another, in a way no monotone utility
-function can rationalize. A growing literature repairs exactly this kind of inconsistency in LLM
+function can rationalize. The same budget-allocation instrument is the standard paradigm for
+testing GARP experimentally on human subjects \citep{andreoni2002giving,choi2007consistency,
+choi2014rational}, and a growing literature applies it to GPT-family models directly, without a
+repair step, to ask whether they satisfy classical rationality axioms at all
+\citep{chen2023emergence}. A separate, growing literature repairs exactly this kind of inconsistency in LLM
 systems --- restoring transitivity in pairwise judgments, projecting cardinal scores onto
 monotone cones, penalizing incoherence during training --- and several of these systems report
 that the repaired outputs are downstream-better than the raw ones. What none of them establishes
@@ -186,13 +191,16 @@ measured, never asking whether \emph{imposing} coherence helps or hurts; ours is
 counterpart to a proposal that has circulated unrun.
 
 \textbf{The sharpest objection is psychometric, and it is in \emph{PNAS}.}
-\citet{nitsch2022reliability} find CCEI/Houtman--Maks reliability never reaches acceptable levels
+\citet{nitsch2022reliability} find CCEI/Houtman--Maks \citep{houtman1985determining} reliability never reaches acceptable levels
 across eight datasets, and that participants given the chance to revise their own inconsistent
 choices saw mean CCEI \emph{fall}. That revision arm is not a repair operator (a random subset of
 choices, no consistency objective, no guarantee of fewer violations) --- ours attains
 rationalizability by construction and verifies it independently, the same distinction that
 disposes of \citet{yamin2026elicited}'s isotonic-calibration repair (worse in 14 of 16 cells,
-projecting onto a different set than the one it is graded on). The reliability finding is
+projecting onto a different set than the one it is graded on). A companion paper by an overlapping
+author team fits revealed-preference-derived cost functions to LLM decisions to diagnose alignment
+and steerability rather than to repair anything \citep{yamin2026steering} --- the same GARP/Afriat
+machinery used here for measurement rather than projection. The reliability finding is
 diagnosed by its own authors as a between-subject-variance problem whose prescribed remedy --- a
 between-groups design --- is this paper's design; the concession we do not shed is that three
 independently published axiom-enforcement results (adding \citet{zhu2025axiomatic}'s) all point
@@ -239,7 +247,7 @@ multiplier-free ordinal characterization of \citet{demuynck2023computing}, under
 constraint is linear jointly in the perturbed bundles, a set of ordinal utility levels $u_t\in[0,1]$
 that carry no multipliers, and binary comparison indicators $U_{t,v}\in\{0,1\}$ for $t\neq v$. At
 $T=25$ this is 600 binaries and 125 continuous variables per trace, solved as a single MILP on the
-HiGHS backend, with no outer search over preference orderings and no alternating scheme.
+HiGHS backend \citep{huangfu2018parallelizing}, with no outer search over preference orderings and no alternating scheme.
 
 Three method commitments, each carrying an explicit risk. \textbf{Budget exhaustion is imposed as
 an equality}, $p_t\!\cdot\!\tilde{x}_t = I_t$ for every observation (income fixed at 100
@@ -250,7 +258,7 @@ infimum into an attained minimum: the GARP-consistent set is not closed, so an u
 projection can read a distance of exactly zero on genuinely violating data. We verified the
 reported distance is stable across $\gamma \in \{10^{-2},\ldots,10^{-6}\}$ before treating it as
 reportable. \textbf{Every returned $\tilde{x}$ is verified independently} via the same
-combinatorial Warshall-closure GARP check used everywhere else in this paper, never trusted
+combinatorial Warshall-closure \citep{warshall1962theorem} GARP check used everywhere else in this paper, never trusted
 from solver optimality status alone --- all 85 GARP-violating traces' projections in the main
 experiment were independently re-verified GARP-consistent, with MIP gap $\le 8.1\times10^{-5}$ on
 every solve.
@@ -261,7 +269,9 @@ $w=1$. This keeps the program a pure MILP; $L_\infty$ distance is recorded along
 every trace but is not separately analyzed in this paper. $L_2$, the literature's own least-squares
 index, would require an MIQP solver we do not have configured and is not computed. The \emph{dose} for a trace is its $L_1$ projection distance
 $\sum_t\sum_k |x_{t,k}-\tilde{x}_{t,k}|$, comparable across sessions without further normalization
-because income is fixed throughout. A Cobb--Douglas demand share-fitted to each trace's own
+because income is fixed throughout --- the same style of graded, minimum-cost severity measure as
+\citet{dean2016measuring}, applied here to an LLM's own choices rather than lab or survey human
+data and paired with an exogenous behavioral payoff rather than left as a standalone index. A Cobb--Douglas demand share-fitted to each trace's own
 observed data is computed as a feasibility incumbent and sanity ceiling on the reported distance,
 recorded only as an upper-bound diagnostic; Appendix~\ref{app:payoff-audit}(1) checks in detail that
 it never reaches the solver and so never influences any reported projection.
@@ -352,7 +362,7 @@ equality, an event common under grid-sampled or rounded prices \citep{andrews202
 $N=30$ gives power $\ge0.999$ against the pilot's full framing-effect magnitude on the pass-rate
 metric and $\ge0.80$ down to $\sim$60\% attenuation, but is explicitly underpowered for a
 CCEI-scale effect of the pilot's magnitude at 1.5B (minimum detectable $\approx0.11$), which we
-report rather than paper over. Every replicate's Bronars power is recorded; all 150 draws held
+report rather than paper over. Every replicate's Bronars power \citep{bronars1987power} is recorded; all 150 draws held
 power $\ge0.998$.
 
 \subsection{The discard-selection problem, and its correction as a stated contribution}

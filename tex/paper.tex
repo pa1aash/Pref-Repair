@@ -571,6 +571,34 @@ Experiment 1's. Experiment 2's oracle null, which targets a genuinely different,
 point, shows essentially the same extremity-advantage (mean $r=0.624$) --- read as partial, not
 conclusive, support for an ``escape a bad start'' mechanism rather than pure centering, offered as
 a discussion-level hypothesis rather than a load-bearing result with its own significance test.
+Figure~\ref{fig:mechanism} illustrates the same idea concretely on a single trace: the rounds
+that generate the null's advantage there are precisely the extreme-share rounds the real repair
+leaves untouched.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.98\linewidth]{../figures/fig_mechanism_illustration.pdf}
+  \caption{Why the size-matched, GARP-blind null outperforms the real repair, shown on one trace
+  rather than argued from aggregate statistics. With $K=2$ and budget exhaustion the payoff is
+  exactly a function of the expenditure share $s$ on good A: $2\sqrt{s(1-s)}$ under the original
+  design (panel A, peak fixed at $s=0.5$ for every trace) and
+  $s^{\alpha_s}(1-s)^{1-\alpha_s}/[\alpha_s^{\alpha_s}(1-\alpha_s)^{1-\alpha_s}]$ under the
+  corrected one (panel B, peak at this trace's own draw $\alpha_s=0.704$, draw $k=0$ of the 20).
+  The trace is qwen2.5:1.5b, reciprocal, replicate 12 --- the largest-dose violation in the sample
+  ($L_1=111.64$, $T=21$ valid rounds), hand-audited in Appendix~\ref{app:payoff-audit}; every
+  plotted quantity is recomputed by re-solving the projection MILP. Panel C gives the mechanism:
+  the minimal-perturbation repair spends its whole displacement budget on 5 of the 21 rounds (42\%
+  on round 3 alone) and leaves the other 16 untouched, where the null spreads the identical budget
+  over all 21. \emph{On the rounds it does touch the repair beats the null} --- at round 3 it moves
+  the share $0.11\to0.65$, payoff $0.626\to0.953$ against the null's $0.706$ --- and loses on the
+  trace average only because the 16 untouched rounds sit at a near-corner $s=0.99$ and stay there
+  (payoff $0.199$) while the null lifts each of them (to $0.457$). Panel B shows this surviving the
+  corrected payoff: even aiming at the wrong point ($0.5$, not $0.704$), the null still gains more.
+  \textbf{One trace and two of its rounds, chosen for legibility: an illustration, not a
+  statistical result} --- the evidence is the 85-trace paired comparison in this section and
+  Appendix~\ref{app:payoff-audit}.}
+  \label{fig:mechanism}
+\end{figure}
 
 \textbf{C1 as originally proposed --- that restoring GARP-consistency specifically, beyond mere
 displacement toward the interior of the budget line, buys more exogenous payoff --- is not

@@ -22,6 +22,8 @@ __pycache__/
 *.synctex.gz
 *.bbl
 *.blg
+*.fls
+*.fdb_latexmk
 
 # Scratch
 scratch/

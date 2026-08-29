@@ -412,16 +412,48 @@ $\ge20/25$-valid-rounds threshold is retried up to three total attempts with a f
 every attempt recorded; a slot still failing after three attempts is a residual discard, excluded
 from CCEI/GARP but retained for audit.
 
-Broken down by attempt outcome at 1.5B reciprocal framing, retry-rescued sessions ($n=7$, recovered
-on attempt 2 or 3) are not a close stand-in for first-attempt sessions ($n=17$): they show
-\emph{higher} mean CCEI ($0.965$ vs.\ $0.932$) but a substantially \emph{lower} GARP pass rate
-($14\%$ vs.\ $47\%$). The sessions that never produce a usable trace even after three attempts
-($n=6$, three with zero valid rounds recorded at all) show the lowest CCEI among the three groups
-on the handful that can be scored ($0.882$, $n=3$) --- consistent with, though not conclusive given
-the small residual sample, some of the same selection concern the pilot's naive handling raised
-persisting at a smaller scale even after correction; the retry protocol reduces but does not
-eliminate it. We report first-attempt and residual post-retry discard rates as a first-class
-per-condition outcome for every cell.
+Table~\ref{tab:discardbreakdown} breaks every reciprocal-framing session down by attempt outcome
+--- kept on the first attempt, rescued by a later retry, or still discarded after three attempts
+--- for both models. At 1.5B, retry-rescued sessions ($n=7$, recovered on attempt 2 or 3) are not
+a close stand-in for first-attempt sessions ($n=17$): they show \emph{higher} mean CCEI ($0.965$
+vs.\ $0.932$) but a substantially \emph{lower} GARP pass rate ($14\%$ vs.\ $47\%$). The sessions
+that never produce a usable trace even after three attempts ($n=6$, three with zero valid rounds
+recorded at all) show the lowest CCEI among the three groups on the handful that can be scored
+($0.882$, $n=3$) --- consistent with, though not conclusive given the small residual sample, some
+of the same selection concern the pilot's naive handling raised persisting at a smaller scale even
+after correction; the retry protocol reduces but does not eliminate it. At 3B, by contrast, the
+first-attempt and retry-rescued groups sit much closer together on CCEI ($0.974$ vs.\ $0.962$)
+than the 1.5B groups do, and the small residual-discard group ($n=2$) is trivially
+GARP-consistent; the selection concern that motivates this section shows up more sharply at 1.5B
+than at 3B, though the 3B residual group is too small to draw a firm conclusion from. We report
+first-attempt and residual
+post-retry discard rates as a first-class per-condition outcome for every cell.
+
+\begin{table}[h]
+\centering
+\small
+\caption{Discard-outcome breakdown for all 60 reciprocal-framing sessions (30 per model), by
+attempt group: kept on the first attempt, rescued by a later retry, or still discarded after three
+attempts (\S\ref{sec:discard}). GARP pass and CCEI use the same methodology as
+Table~\ref{tab:headline}; mean dose ($L_1$) is averaged over the full group, with $0$ for any
+already-GARP-consistent trace. $^*$qwen residual discard: 3 of the 6 slots returned zero valid
+rounds on every attempt (no $p$/$x$ data at all); the reported CCEI, GARP pass rate, and dose for
+this row are computed over the remaining 3 slots only.}
+\label{tab:discardbreakdown}
+\begin{tabular}{llrrrr}
+\toprule
+Model & Attempt group & $n$ & mean CCEI & GARP pass & mean dose ($L_1$) \\
+\midrule
+llama3.2:3b  & first-attempt success & 21 & 0.9742 & 0.4286 & 5.086 \\
+llama3.2:3b  & retry-rescued         & 7  & 0.9624 & 0.2857 & 9.839 \\
+llama3.2:3b  & residual discard      & 2  & 1.0000 & 1.0000 & 0.000 \\
+\midrule
+qwen2.5:1.5b & first-attempt success & 17 & 0.9315 & 0.4706 & 13.847 \\
+qwen2.5:1.5b & retry-rescued         & 7  & 0.9651 & 0.1429 & 7.600 \\
+qwen2.5:1.5b & residual discard      & 6  & 0.8821$^*$ & 0.6667$^*$ & 24.196$^*$ \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \section{Results}
 \label{sec:results}
@@ -562,18 +594,9 @@ with confidence intervals overlapping almost entirely. This is no detectable CCE
 confirmation of the pilot's own naive point estimate: the pilot's $+0.0169$ ($p=0.66$, itself not
 significant) and the main experiment's $-0.0109$ ($p=0.73$) are two statistically indistinguishable
 nulls, and reading the difference in their signs as a reversal of a real effect overstates what
-either number supports. Figure~\ref{fig:discardbias} shows both measurements side by side.
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=0.6\linewidth]{../figures/fig2_discard_bias.pdf}
-  \caption{Top: the 1.5B reciprocal-framing CCEI comparison, pilot (naive single-attempt discard
-  handling, grey) vs.\ main experiment (capped-retry-corrected, blue). Bottom: the corresponding
-  discard rate at each stage. Neither measurement detects a CCEI shift ($p=0.66$ pilot, $p=0.73$
-  main) --- two statistically indistinguishable nulls, not a sign reversal; the pilot's point
-  estimate reflects which sessions survived, not a real effect that was later corrected away.}
-  \label{fig:discardbias}
-\end{figure}
+either number supports. Table~\ref{tab:discardbreakdown} in \S\ref{sec:discard} gives the
+finer-grained per-attempt-outcome breakdown that these top-line pilot and main-experiment numbers
+average over.
 
 \subsection{The multiturn/format effect: a large effect in the opposite direction from the
 literature}
@@ -599,7 +622,7 @@ confirmation of the literature's own strongest lever.
   \includegraphics[width=0.72\linewidth]{../figures/fig3_multiturn_format.pdf}
   \caption{1.5B, baseline vs.\ multiturn elicitation format. GARP pass rate (left) collapses; mean
   CCEI (right, $\pm1$ SD) is visually flat with heavily overlapping dispersion. Zero discards
-  occurred in either arm, unlike Figure~\ref{fig:discardbias}.}
+  occurred in either arm, unlike the reciprocal-framing condition (Table~\ref{tab:discardbreakdown}).}
   \label{fig:multiturn}
 \end{figure}
 

@@ -28,6 +28,9 @@ __pycache__/
 # Scratch
 scratch/
 
+# Local submission-package build output (rebuilt from tex/ + figures/, not archival)
+build/
+
 # Tool-integration file dropped into the repo root by `hyperresearch init`.
 # Wildcard-escaped so this rule carries no vendor string into a public repo.
 ?LAUDE.md

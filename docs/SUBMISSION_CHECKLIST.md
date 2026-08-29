@@ -23,10 +23,19 @@ action possible yet; re-check the CFP page after acceptance.
   fixing but noted in case the operator wants to strip it (`TZ=UTC pdflatex ...`).
 - [x] **hygiene_guard.sh** — clean (`scripts/hygiene_guard.sh` exit 0, no live leaks beyond the
   accepted baseline).
-- [x] **Page limit.** Content ends at page 9 of `tex/paper.pdf`; References start page 10; checklist
-  starts page 12. CFP: "References, appendices and checklist are not included in the page limit."
-  This paper is a **Long paper (up to 9 pages of main text)** by content — see the track field below,
-  which must still be selected explicitly on the form.
+- [ ] **Page limit — NEEDS ATTENTION, re-verified 2026-08-30.** Content now ends on page 10 of
+  `tex/paper.pdf` (References begin mid-page-10); Appendix A starts page 11, Appendix B page 12,
+  checklist page 14. This is 1 page over the **9-page main-text limit** for a Long paper. This
+  drifted from the "content ends page 9" state recorded above (accurate as of 2026-08-26) via the
+  prose-audit and figure-restructuring commits made after that date, and was not fully recovered by
+  this session's page-budget pass (appendix table move, ~15% prose trim across Related
+  Work/Method/Limitations/Broader-Impacts/Conclusion, figure width reduction, tighter table row
+  spacing) — those changes pulled content back from an intermediate 11-page state (this session's
+  own additions) to the current 10, matching the pre-session baseline, but closing the last page
+  requires either cutting further substantive content or removing/shrinking a figure, which was not
+  done unilaterally. **Action required before submission:** either accept as a Short paper (no page
+  minimum concern, but check the CFP's Short-paper limit) or cut further content to reach 9 pages.
+  CFP: "References, appendices and checklist are not included in the page limit."
 - [x] **`\workshoptitle{}`.** Set to `Economics for Machine Learning` in `tex/paper.tex:4`, alongside
   `\title{}` — both are required by the template.
 - [x] **PDF file size.** `tex/paper.pdf` is 336 KB. OpenReview's `pdf` field caps uploads at **50 MB**
@@ -69,8 +78,8 @@ qualified to serve as a reviewer and inform the workshop organizers before the s
 
 ### 3. Fill the OpenReview submission form
 All fields below are required unless marked optional. Have ready at submission time:
-- `title` — paper title (already fixed: "What Does Repairing Choice Inconsistency Actually Buy? A
-  Budget-Set Diagnosis").
+- `title` — paper title (updated 2026-08-30: "GARP-Blind Perturbations Outperform Minimal GARP
+  Repair Under an Exogenous Payoff").
 - `authors` — searched/added via OpenReview profile (see step 1).
 - `keywords` — comma-separated list (not yet drafted; pick from the paper's own vocabulary, e.g.
   GARP, revealed preference, LLM agents, coherence, AI alignment).

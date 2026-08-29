@@ -49,12 +49,14 @@ The relationship is real, strongly monotone, and precisely estimated at both sca
 $\rho=0.756$, $p<0.0001$, $n=60$ at 1.5B; $\rho=0.614$, $p=0.0011$, $n=25$ at 3B) and survives a
 targeted robustness check against the mechanical confound that larger violations simply have
 more room to improve. We also report two findings the design was not built to predict. First,
-the reciprocal-price framing manipulation that motivated the study does not reliably move
-coherence at 1.5B once a discard-selection bias in the output-format contract is corrected by a
-capped retry protocol --- the pilot's positive finding was survivorship, not an effect, and we
-show the correction rather than assume it. Second, an independently published format mechanism
-(single-turn vs.\ multi-turn elicitation) produces the largest, cleanest confirmatory effect in
-the study, with zero discard confound on either arm. Throughout, we report Bronars power beside
+the reciprocal-price framing manipulation that motivated the study shows no detectable CCEI shift
+at 1.5B in either the pilot or the corrected main measurement --- two statistically
+indistinguishable nulls, not a sign reversal --- while the output-format discard rate itself
+remains large enough under this manipulation to matter on its own. Second, splitting single-turn
+elicitation into separate sequential calls at 1.5B collapses GARP pass rate from 0.40 to 0.10
+($p=0.0073$), with zero discard confound on either arm, moving in the \emph{opposite} direction
+from an independently published single-turn-vs-multi-turn finding in the same domain and model
+family at a larger scale --- not a replication of it. Throughout, we report Bronars power beside
 every efficiency index and report the discard rate as a first-class per-condition outcome rather
 than a silently-dropped nuisance.
 \end{abstract}
@@ -92,24 +94,32 @@ almost none (3B parameters) as an identification control on the method itself, n
 point on a shared dose curve across scale.
 
 Two results were not predicted by the design. The reciprocal-price framing manipulation intended
-to induce coherence variation at 1.5B produced, in a pilot run, a large apparent effect driven by
-which sessions survived an output-format contract rather than by a change in choices; correcting
-for that selection with a capped retry protocol, the framing effect at 1.5B is indistinguishable
-from zero. We report this as a finding about instrument validity in its own right (our claim C3),
-since the same selection mechanism would silently bias any revealed-preference measurement of a
-disruptive manipulation toward zero. Separately, an independently published mechanism
-(single-turn vs.\ multi-turn elicitation) produces the largest, cleanest confirmatory effect in
-the study, with no discard confound on either arm.
+to induce coherence variation at 1.5B produced, in a pilot run, a large apparent effect that
+disappears once discard-selection is corrected with a capped retry protocol: the pilot's naive
+estimate and the corrected main-experiment estimate are both statistically indistinguishable from
+zero, and the two should not be read as a sign reversal of a real effect. We report the discard
+rate itself, not the CCEI point estimate, as the more reliable signal that the manipulation
+disrupted the agent (our claim C3). \citet{wang2025tactics} already recommend reporting
+invalid-response proportions as a checklist item; our contribution is a quantitative demonstration
+of how much a naive discard rule can distort a measured effect at this specific scale, broken down
+by attempt outcome in \S\ref{sec:results-framing}, not the recommendation itself. Separately,
+splitting single-turn elicitation into separate sequential calls at 1.5B produces a large
+GARP-pass-rate collapse, moving in the \emph{opposite} direction from an independently published
+single-turn-vs-multi-turn finding in the same domain and model family at a larger scale, with no
+discard confound on either arm.
 
-\textbf{Contributions.} (1) A minimal-perturbation MILP projection over an agent's own realized
-choices, verified independently on every output rather than trusted from solver status alone. (2)
+\textbf{Contributions.} (1) An application --- not a novel method --- of
+\citet{demuynck2023computing}'s minimal-quantity-error MILP projection to an agent's own realized
+choices, independently verified on every output rather than trusted from solver status alone. (2)
 A pre-registered, closed-form exogenous payoff audited adversarially for leakage and for the
 mechanical confound that larger violations simply have more room to improve. (3) A measured
 dose--response relationship at two model scales, run as headroom model and null-effect
 identification control rather than two points on one curve. (4) An instrument-validity finding
 (discard-selection bias under a disruptive manipulation), corrected for by a stated retry
-protocol and reported as a first-class outcome. (5) A replication of an independently published
-format effect that dominates our own manipulation at the scale we study.
+protocol and reported as a first-class outcome. (5) A single-turn-vs-multi-turn elicitation-format
+manipulation that produces a large GARP-pass-rate collapse at 1.5B, in the \emph{opposite}
+direction from an independently published single-turn-vs-multi-turn finding in the same
+budget-allocation domain and the same model family (Qwen2.5) at a larger scale.
 
 \section{Related Work}
 \label{sec:related}
@@ -143,10 +153,15 @@ downstream task-quality comparison. TrustJudge \citep{wang2025trustjudge} cuts a
 transitivity violations from $15.22\%$ to $4.40\%$, but repairs judgments of third-party
 responses with no degree parameter. CONSISTRE \citep{sun2026consistre} enforces
 transitivity/symmetry/functional-uniqueness over relation-extraction triples, with no budget sets
-and no Afriat machinery. Two training-time systems alter the agent itself, so neither holds
+and no Afriat machinery. One training-time system alters the agent itself, so it does not hold
 capacity fixed across doses: \citet{buchanan2026innate} fine-tune with IIA-invariance losses
-(compliance $0.920\to0.948$) with no downstream evaluation; \citet{aguiar2026garpefm} fine-tune
-on GARP-consistent synthetic data.
+(compliance $0.920\to0.948$) with no downstream evaluation. A further training-time system is not
+an LLM agent at all: \citet{aguiar2026garpefm} fine-tune Chronos-2, a time-series forecasting
+model, on synthetic utility-maximizing-agent data to predict \emph{human consumers'} own choices
+--- not a coherence-repair operator on an agent's own behaviour, but a forecasting model partly
+trained on GARP-consistent synthetic data, with a downstream evaluation (17--31\% bundle-prediction
+error reduction versus zero-shot) that neither of the other two training-time systems above
+reports.
 
 \subsection{Coherence versus downstream competence: the open sign}
 
@@ -215,18 +230,29 @@ occupying two of our three legs (intervention on an agent's own economic choices
 graded strength) without Afriat machinery, a minimum-perturbation objective, or a payoff-traced
 frontier; their finding that reframing and control vectors move models while persona prompting
 does not corroborates our manipulation choice. That choice is anchored in \citet{wang2025tactics},
-who find \emph{format}, not persona or temperature, moves the Afriat index: collapsing multi-turn
-elicitation to single-turn drops CCEI by up to $0.241$. We adopted this as an experimental arm on
-that evidence, and \textbf{it yields the cleanest result we obtain}: splitting rounds into
-separate calls at 1.5B collapses GARP pass rate from $0.40$ to $0.10$ ($p=0.0073$) with zero
-discards --- confirming, in a different model family, the literature's own strongest lever
-outperforms our purpose-built framing manipulation.
+who find \emph{format}, not persona or temperature, moves the Afriat index in the same
+budget-allocation domain we study, on Qwen2.5-7B-Instruct among other models --- the same model
+family as our 1.5B, at a larger scale: collapsing their \emph{multi-turn baseline} to single-turn
+drops Qwen2.5-7B's CCEI by up to $0.241$. We adopted format as an experimental arm on that
+evidence. Our arm runs the opposite manipulation --- our own baseline is single-turn, and we split
+it into separate sequential calls --- and finds the opposite direction: GARP pass rate collapses
+from $0.40$ to $0.10$ ($p=0.0073$; survives Benjamini--Hochberg correction across our full test
+family but not the more conservative Holm correction) with zero discards. This is not a
+replication of \citet{wang2025tactics}'s finding: in the same domain and the same model family,
+which elicitation format is more coherence-degrading reverses between their 7B model and our 1.5B
+model. We report the disagreement rather than the confirmation we expected.
 
 \section{Method}
 \label{sec:method}
 
-\subsection{The projection: a single mixed-integer program, not a search over orderings}
+\subsection{The projection: Demuynck \& Rehbeck's (2023) minimal-quantity-error MILP, applied and
+independently verified}
 \label{sec:method-projection}
+
+This section applies, rather than proposes, a projection method. The MILP formulation below is
+\citet{demuynck2023computing}'s multiplier-free ordinal characterization of minimal-quantity-error
+GARP repair, adopted here on an LLM agent's own choice sequence and verified independently on
+every output; nothing about the formulation itself is new to this paper.
 
 For a sequence of $T$ observations $(p_t, x_t)_{t=1}^T$, $K$ goods, GARP holds if there is no
 sequence of choices such that $x_{t_1}$ is revealed preferred to $x_{t_2}$, ..., $x_{t_n}$ is
@@ -239,7 +265,7 @@ multiplier term remains a product of two unknowns regardless of ordering. We ins
 multiplier-free ordinal characterization of \citet{demuynck2023computing}, under which every
 constraint is linear jointly in the perturbed bundles, a set of ordinal utility levels $u_t\in[0,1]$
 that carry no multipliers, and binary comparison indicators $U_{t,v}\in\{0,1\}$ for $t\neq v$. At
-$T=25$ this is 600 binaries and 75 continuous variables per trace, solved as a single MILP on the
+$T=25$ this is 600 binaries and 125 continuous variables per trace, solved as a single MILP on the
 HiGHS backend, with no outer search over preference orderings and no alternating scheme.
 
 Three method commitments, each carrying an explicit risk. \textbf{Budget exhaustion is imposed as
@@ -332,9 +358,12 @@ format with an inverted-price framing manipulation, the strongest manipulation i
 pilot. \textbf{Multiturn} (1.5B only): baseline framing, but each of the 25 rounds is a separate
 sequential API call carrying the running conversation history, isolating the elicitation-format
 mechanism from the price-framing mechanism; the arm is motivated by an independently published
-finding that single-turn vs.\ multi-turn elicitation moves LLM coherence measures by up to
-$-0.241$ CCEI in a different domain \citep{wang2025tactics}, an order of magnitude larger than
-this project's own pilot framing effect. It is not added at 3B, whose role is a null-effect
+finding, in the same budget-allocation domain we study, that collapsing multi-turn elicitation to
+single-turn moves CCEI by up to $-0.241$ for a same-family model at a larger scale
+\citep{wang2025tactics}, an order of magnitude larger than this project's own pilot framing
+effect. Our arm tests the manipulation in the opposite direction (single-turn baseline split into
+multi-turn), since that is the direction our own baseline format already uses. It is not added at
+3B, whose role is a null-effect
 control on the identification strategy rather than a second scale point requiring the full
 condition set.
 
@@ -437,9 +466,11 @@ an OLS regression of $\Delta$payoff on dose and raw payoff jointly finds dose hi
 \label{sec:results-framing}
 
 At 3B, reciprocal framing replicates the pilot's finding on an independently-drawn budget-set
-design: GARP pass rate collapses from 0.73 (22/30) to 0.39 (11/28), $p=0.0089$; CCEI moves much
+design: GARP pass rate collapses from 0.73 (22/30) to 0.39 (11/28), $p=0.0089$ (survives
+Benjamini--Hochberg correction across our full test family, $p_{\mathrm{BH}}=0.011$, but not the
+more conservative Holm correction, $p_{\mathrm{Holm}}=0.062$); CCEI moves much
 less and reaches only borderline significance (0.9900 vs.\ 0.9713, $t$-test $p=0.0508$) --- the
-same near-1 compression the pilot flagged, and a third confirmation in this project alone that
+same near-1 compression the pilot flagged, and a further case in this project of the pattern that
 GARP pass rate is the sensitive instrument for framing/format disruption while CCEI understates
 it.
 
@@ -468,17 +499,25 @@ toward 20\%, the naive framing "effect" collapses toward zero and changes sign.
   \label{fig:discardbias}
 \end{figure}
 
-\subsection{The multiturn/format effect: the cleanest confirmatory result}
+\subsection{The multiturn/format effect: a large effect in the opposite direction from the
+literature}
 
 Splitting the 25 rounds into separate sequential calls collapses the GARP pass rate from 40\% to
 10\% ($p=0.0073$) while CCEI barely moves (0.9522 vs.\ 0.9540, $p=0.91$; Figure~\ref{fig:multiturn})
---- a larger drop than reciprocal framing produced at 1.5B, comparable to 3B's reciprocal-framing
-collapse, with \emph{zero discards on either arm} so no selection-bias caveat applies. This is a
-third independent replication of the same pattern: GARP pass rate is the sensitive instrument for
-framing/format disruption; CCEI is not. Against the literature this arm was designed to test
-\citep{wang2025tactics}: the format mechanism confirmed here as the dominant lever at this scale
-outperforms our purpose-built price-framing manipulation, cheaply and without the
-discard-selection confound that compromises the reciprocal-framing comparison.
+--- a larger drop in percentage points than reciprocal framing produced at 1.5B, with \emph{zero
+discards on either arm} so no selection-bias caveat applies. Corrected for multiple comparisons
+across our full test family, this result survives Benjamini--Hochberg correction
+($p_{\mathrm{BH}}=0.0094$) but not the more conservative Holm correction
+($p_{\mathrm{Holm}}=0.058$); we report both rather than the raw $p$-value alone. Together with the
+3B reciprocal-framing result (\S\ref{sec:results-framing}), this is a further case of the pattern
+already established in this project: GARP pass rate is the sensitive instrument for framing/format
+disruption; CCEI is not. Against the literature this arm was designed against
+\citep{wang2025tactics}: in the same budget-allocation domain, on the same model family at a
+larger scale (Qwen2.5-7B), single-turn elicitation was found to be \emph{more}
+coherence-degrading than multi-turn; here, at 1.5B, the reverse holds --- multi-turn elicitation
+collapses GARP pass rate relative to our single-turn baseline. We do not have an explanation for
+the reversal and do not offer one; we report the disagreement as a finding in its own right, not a
+confirmation of the literature's own strongest lever.
 
 \begin{figure}[t]
   \centering
@@ -549,15 +588,18 @@ dataset, and does not involve human subjects.
 \section{Conclusion}
 \label{sec:conclusion}
 
-Applying a minimal-perturbation GARP repair to an LLM agent's own realized choices, post hoc and
-scored against a fixed exogenous payoff, we find a real, precisely estimated, monotone
-dose--response relationship between repair size and payoff gain, at a model scale with measured
-coherence headroom and one without. The relationship survives an adversarial audit for leakage and
-for the confound that larger repairs simply start from more room to improve. Two unpredicted
-findings --- a purpose-built framing manipulation's apparent 1.5B effect was a discard-selection
-artifact, and an independently published format mechanism outperforms it cleanly --- are reported
-in their own right: an instrument that silently discards its most-disrupted observations is
-exactly the failure this literature should check for by default.
+Applying \citet{demuynck2023computing}'s minimal-quantity-error GARP repair to an LLM agent's own
+realized choices, post hoc and scored against a fixed exogenous payoff, we find a real, precisely
+estimated, monotone dose--response relationship between repair size and payoff gain, at a model
+scale with measured coherence headroom and one without. The relationship survives an adversarial
+audit for leakage and for the confound that larger repairs simply start from more room to improve.
+Two unpredicted findings --- a purpose-built framing manipulation's apparent 1.5B effect was a
+discard-selection artifact rather than a real coherence shift, and an elicitation-format
+manipulation produces a large GARP-pass-rate collapse in the opposite direction from an
+independently published finding in the same domain and model family at a larger scale --- are
+reported in their own right: an instrument that silently discards its most-disrupted observations,
+and a disagreement with the closest published comparison, are exactly the kind of failure and
+complication this literature should surface by default rather than paper over.
 
 \begin{ack}
 \end{ack}
@@ -593,6 +635,7 @@ TrustJudge \citep{wang2025trustjudge}             & no  & no  & no  & no \\
 CONSISTRE \citep{sun2026consistre}                & no  & partial & no & no \\
 LLM-RankFusion \citep{zeng2024rankfusion}         & no  & \textbf{yes} & no & no (declined) \\
 Innate preferences \citep{buchanan2026innate}     & \textbf{yes} & no & no & no \\
+GARP-EFM \citep{aguiar2026garpefm}                & no  & \textbf{yes} & no & no \\
 HRC/DSPPO \citep{huang2026hrc}                    & no  & no  & \textbf{yes} & no \\
 Control vectors \citep{cook2026whatllmswant}      & \textbf{yes} & no & \textbf{yes} & no \\
 \midrule

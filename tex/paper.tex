@@ -304,10 +304,9 @@ summarizes the full pipeline.
   (2); parse under the capped retry protocol of \S\ref{sec:discard}, residual discards excluded
   (3); combinatorial Warshall-closure GARP check (4); and, for the traces that violate it, the
   minimal-quantity-error MILP of \S\ref{sec:method-projection} (5), whose $L_1$ displacement is
-  the dose. Steps 6--7 are the paper's central comparison: the real repaired sequence (6a, solid
-  blue) and the GARP-blind null spending an identical $L_1$ displacement (6b, dashed orange) are
-  scored by the same step (7) under both payoff designs. Counts are the main experiment's
-  (\S\ref{sec:results}).}
+  the dose. Steps 6--7: the real repaired sequence (6a, solid blue) and the GARP-blind null
+  spending an identical $L_1$ displacement (6b, dashed orange) are scored (7) under both payoff
+  designs. Counts are the main experiment's (\S\ref{sec:results}).}
   \label{fig:pipeline}
 \end{figure}
 
@@ -450,12 +449,12 @@ Appendix~\ref{app:payoff-audit}.
   \includegraphics[width=0.76\linewidth]{../figures/fig1_dose_response.pdf}
   \caption{Real repair's $\Delta$payoff (x-axis) against the size-matched null operator's
   $\Delta$payoff (y-axis), one point per GARP-violating trace ($n=85$; circle/blue:
-  qwen2.5:1.5b, triangle/orange: llama3.2:3b). Dashed line is $y=x$; points above it are traces
-  where the null won. Symmetric-log axes keep one far-larger-dose trace from compressing the rest.
-  \textbf{(A)} Experiment 1 (original payoff, \S\ref{sec:method-payoff}). \textbf{(B)} Experiment
-  2 (corrected payoff, \S\ref{sec:method-nullop}), each trace's primary-null $\Delta$payoff
-  averaged over $K=20$ draws of the random target ($\pm1$ SD error bars); the oracle null is not
-  plotted here. Statistics are reported in \S\ref{sec:results-c1}.}
+  qwen2.5:1.5b, triangle/orange: llama3.2:3b). Dashed line is $y=x$; points above it have higher
+  null $\Delta$payoff than real. Symmetric-log axes keep one far-larger-dose trace from
+  compressing the rest. \textbf{(A)} Experiment 1 (original payoff, \S\ref{sec:method-payoff}).
+  \textbf{(B)} Experiment 2 (corrected payoff, \S\ref{sec:method-nullop}), each trace's
+  primary-null $\Delta$payoff averaged over $K=20$ draws of the random target ($\pm1$ SD error
+  bars); the oracle null is not plotted. Statistics are in \S\ref{sec:results-c1}.}
   \label{fig:doseresponse}
 \end{figure}
 
@@ -518,19 +517,16 @@ leaves untouched.
 \begin{figure}[t]
   \centering
   \includegraphics[width=0.98\linewidth]{../figures/fig_mechanism_illustration.pdf}
-  \caption{Why the null outperforms the real repair, on the largest-dose trace
-  (qwen2.5:1.5b, reciprocal, replicate 12; $L_1=111.64$, $T=21$ rounds, hand-audited in
-  Appendix~\ref{app:payoff-audit}) rather than argued from aggregates alone; every plotted quantity
-  is recomputed by re-solving the projection MILP. With $K=2$, payoff is a function of expenditure
-  share $s$: $2\sqrt{s(1-s)}$ under the original payoff (A, peak at $s=0.5$) and the corrected
-  payoff's per-trace-target form (B, peak at this trace's own draw $\alpha_s=0.704$). Panel C shows
-  why: the repair spends its whole displacement budget on 5 of 21 rounds (42\% on round 3 alone)
-  and leaves the other 16 untouched at a near-corner $s=0.99$; the null spreads the same budget
-  over all 21, lifting every untouched round's payoff instead. Where the repair does act (round 3:
-  $s$ $0.11\!\to\!0.65$, payoff $0.626\!\to\!0.953$) it beats the null's $0.706$ --- it loses only
-  on the trace average, and only because of the rounds it left alone. \textbf{One trace, for
-  legibility, not a statistical result}: the evidence is the 85-trace comparison in
-  \S\ref{sec:results-c1}.}
+  \caption{The largest-dose trace (qwen2.5:1.5b, reciprocal, replicate 12; $L_1=111.64$,
+  $T=21$ rounds, hand-audited in Appendix~\ref{app:payoff-audit}); every plotted quantity is
+  recomputed by re-solving the projection MILP. With $K=2$, payoff is a function of expenditure
+  share $s$. \textbf{(A)} The original payoff, $2\sqrt{s(1-s)}$ (peak at $s=0.5$).
+  \textbf{(B)} The corrected payoff's per-trace-target form (peak at this trace's own draw
+  $\alpha_s=0.704$). \textbf{(C)} Per-round expenditure share $s$ across all 21 rounds for the raw
+  trace, the real repair, and the null operator. The repair changes 5 of 21 rounds (42\% of its
+  $L_1$ budget on round 3 alone: $s$ $0.11\!\to\!0.65$, payoff $0.626\!\to\!0.953$), leaving the
+  other 16 at a near-corner $s=0.99$; the null spreads the same total displacement over all 21
+  rounds. Single-trace illustration; the 85-trace comparison is in \S\ref{sec:results-c1}.}
   \label{fig:mechanism}
 \end{figure}
 
@@ -580,12 +576,11 @@ we report the disagreement as a finding in its own right.
 \begin{table}[h]
 \centering
 \footnotesize
-\caption{The multiturn/format effect at 1.5B (qwen2.5:1.5b): baseline vs.\ multiturn elicitation
-format (25 sequential calls), $n=30$ per condition, zero discards in either arm --- unlike the
-reciprocal-framing condition (Table~\ref{tab:discardbreakdown}). GARP pass rate is reported as
-count/$n$ with 95\% Wilson score confidence intervals (Pearson $\chi^2$ test, $p=0.0073$); mean
-CCEI is reported with 95\% confidence intervals computed from the reported mean, SD, and $n$ via
-the $t$-distribution ($df=29$) (two-sample $t$-test, $p=0.91$).}
+\caption{1.5B (qwen2.5:1.5b), baseline vs.\ multiturn elicitation format (25 sequential calls),
+$n=30$ per condition, zero discards in either arm. GARP pass rate is reported as count/$n$ with
+95\% Wilson score confidence intervals (Pearson $\chi^2$ test, $p=0.0073$); mean CCEI is reported
+with 95\% confidence intervals computed from the reported mean, SD, and $n$ via the
+$t$-distribution ($df=29$) (two-sample $t$-test, $p=0.91$).}
 \label{tab:multiturn}
 \begin{tabular}{lccc}
 \toprule

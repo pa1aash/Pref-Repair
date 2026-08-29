@@ -1,0 +1,380 @@
+{
+  "n_traces": 85,
+  "extremity_definition": "1 - raw_payoff (raw_payoff from results/null_operator.json, original fixed-alpha=0.5 payoff)",
+  "alignment_spot_check": {
+    "method": "Cross-referenced all 85 null_operator.json traces against results/main_ccei.json filtered to garp==False entries, sorted by (model,condition,replicate); compared dose_l1/dose_real, raw_payoff, and delta_payoff/delta_payoff_real for exact float equality at every position.",
+    "result": "ALL 85 MATCH (exact float equality) -- confirms null_operator.json traces list is in (model,condition,replicate) sorted order and internally consistent with main_ccei.json, independent check of the sort-order claim.",
+    "n_garp_false_in_main_ccei": 85,
+    "n_total_in_main_ccei": 142
+  },
+  "tercile_cutpoints": [
+    [
+      0.017799429111659437,
+      0.12094106875198563
+    ],
+    [
+      0.12453066203031671,
+      0.20159550756512234
+    ],
+    [
+      0.20411447640501357,
+      0.9999997355053895
+    ]
+  ],
+  "tercile_labels": [
+    "low",
+    "mid",
+    "high"
+  ],
+  "quartile_cutpoints": [
+    [
+      0.017799429111659437,
+      0.10512377857080779
+    ],
+    [
+      0.10792962866364308,
+      0.14984895894140682
+    ],
+    [
+      0.15360120778711528,
+      0.266091293056943
+    ],
+    [
+      0.27762180994975183,
+      0.9999997355053895
+    ]
+  ],
+  "quartile_labels": [
+    "q1(low)",
+    "q2",
+    "q3",
+    "q4(high)"
+  ],
+  "experiment1_tercile": [
+    {
+      "stratum": "low",
+      "n": 29,
+      "mean_extremity": 0.08612735049733933,
+      "extremity_min": 0.017799429111659437,
+      "extremity_max": 0.12094106875198563,
+      "null_win_rate": 0.7241379310344828,
+      "mean_delta_real": 0.0038890869534113724,
+      "mean_delta_null": 0.005815435835664611,
+      "gap_null_minus_real": 0.0019263488822532388
+    },
+    {
+      "stratum": "mid",
+      "n": 28,
+      "mean_extremity": 0.15503013664856877,
+      "extremity_min": 0.12453066203031671,
+      "extremity_max": 0.20159550756512234,
+      "null_win_rate": 0.75,
+      "mean_delta_real": 0.005568792840509441,
+      "mean_delta_null": 0.010246785597320118,
+      "gap_null_minus_real": 0.004677992756810677
+    },
+    {
+      "stratum": "high",
+      "n": 28,
+      "mean_extremity": 0.39361356794804464,
+      "extremity_min": 0.20411447640501357,
+      "extremity_max": 0.9999997355053895,
+      "null_win_rate": 0.9642857142857143,
+      "mean_delta_real": 0.018063533593470328,
+      "mean_delta_null": 0.05042671377717397,
+      "gap_null_minus_real": 0.03236318018370364
+    }
+  ],
+  "experiment1_quartile": [
+    {
+      "stratum": "q1(low)",
+      "n": 22,
+      "mean_extremity": 0.07660544261610847,
+      "extremity_min": 0.017799429111659437,
+      "extremity_max": 0.10512377857080779,
+      "null_win_rate": 0.7727272727272727,
+      "mean_delta_real": 0.002610044169923649,
+      "mean_delta_null": 0.004917930782042784,
+      "gap_null_minus_real": 0.0023078866121191348
+    },
+    {
+      "stratum": "q2",
+      "n": 21,
+      "mean_extremity": 0.12755147818314916,
+      "extremity_min": 0.10792962866364308,
+      "extremity_max": 0.14984895894140682,
+      "null_win_rate": 0.5714285714285714,
+      "mean_delta_real": 0.005708061650614453,
+      "mean_delta_null": 0.006544267220482493,
+      "gap_null_minus_real": 0.0008362055698680395
+    },
+    {
+      "stratum": "q3",
+      "n": 21,
+      "mean_extremity": 0.19276770338103577,
+      "extremity_min": 0.15360120778711528,
+      "extremity_max": 0.266091293056943,
+      "null_win_rate": 0.9523809523809523,
+      "mean_delta_real": 0.006065195596206948,
+      "mean_delta_null": 0.018757881653656258,
+      "gap_null_minus_real": 0.01269268605744931
+    },
+    {
+      "stratum": "q4(high)",
+      "n": 21,
+      "mean_extremity": 0.449890206796464,
+      "extremity_min": 0.27762180994975183,
+      "extremity_max": 0.9999997355053895,
+      "null_win_rate": 0.9523809523809523,
+      "mean_delta_real": 0.022372823232323508,
+      "mean_delta_null": 0.05847457229325016,
+      "gap_null_minus_real": 0.036101749060926655
+    }
+  ],
+  "experiment2_tercile_primary_null": [
+    {
+      "stratum": "low",
+      "n": 29,
+      "mean_extremity": 0.08612735049733933,
+      "win_rate_mean_across_draws": 0.5810344827586207,
+      "win_rate_min_across_draws": 0.4482758620689655,
+      "win_rate_max_across_draws": 0.6896551724137931,
+      "mean_delta_real_mean_across_draws": 0.0029370075618970017,
+      "mean_delta_real_min_across_draws": 0.0016003955844018944,
+      "mean_delta_real_max_across_draws": 0.005422693731995102,
+      "mean_delta_null_mean_across_draws": 0.004846649562569299,
+      "mean_delta_null_min_across_draws": 0.0028818406087697335,
+      "mean_delta_null_max_across_draws": 0.006330811029632782,
+      "gap_mean_across_draws": 0.0019096420006722973,
+      "gap_min_across_draws": 0.0004911523240409901,
+      "gap_max_across_draws": 0.003571929843672341
+    },
+    {
+      "stratum": "mid",
+      "n": 28,
+      "mean_extremity": 0.15503013664856877,
+      "win_rate_mean_across_draws": 0.6178571428571428,
+      "win_rate_min_across_draws": 0.4642857142857143,
+      "win_rate_max_across_draws": 0.75,
+      "mean_delta_real_mean_across_draws": 0.004494870472640425,
+      "mean_delta_real_min_across_draws": 0.0036412448123215413,
+      "mean_delta_real_max_across_draws": 0.005922403996304803,
+      "mean_delta_null_mean_across_draws": 0.008237271383010693,
+      "mean_delta_null_min_across_draws": 0.005811175935168252,
+      "mean_delta_null_max_across_draws": 0.010532239408509485,
+      "gap_mean_across_draws": 0.0037424009103702695,
+      "gap_min_across_draws": 0.0017544065617447575,
+      "gap_max_across_draws": 0.005969149215637836
+    },
+    {
+      "stratum": "high",
+      "n": 28,
+      "mean_extremity": 0.39361356794804464,
+      "win_rate_mean_across_draws": 0.9285714285714285,
+      "win_rate_min_across_draws": 0.8928571428571429,
+      "win_rate_max_across_draws": 0.9642857142857143,
+      "mean_delta_real_mean_across_draws": 0.014424396117668612,
+      "mean_delta_real_min_across_draws": 0.011130193894996945,
+      "mean_delta_real_max_across_draws": 0.018653640048895203,
+      "mean_delta_null_mean_across_draws": 0.05253697898456718,
+      "mean_delta_null_min_across_draws": 0.040385564491057194,
+      "mean_delta_null_max_across_draws": 0.07065259977853065,
+      "gap_mean_across_draws": 0.03811258286689858,
+      "gap_min_across_draws": 0.0268282623191653,
+      "gap_max_across_draws": 0.052963385658577014
+    }
+  ],
+  "experiment2_quartile_primary_null": [
+    {
+      "stratum": "q1(low)",
+      "n": 22,
+      "mean_extremity": 0.07660544261610847,
+      "win_rate_mean_across_draws": 0.6227272727272728,
+      "win_rate_min_across_draws": 0.45454545454545453,
+      "win_rate_max_across_draws": 0.8181818181818182,
+      "mean_delta_real_mean_across_draws": 0.0020490301923489092,
+      "mean_delta_real_min_across_draws": 0.0002464665482954401,
+      "mean_delta_real_max_across_draws": 0.004451623382844847,
+      "mean_delta_null_mean_across_draws": 0.004329533231590821,
+      "mean_delta_null_min_across_draws": 0.002972191905154878,
+      "mean_delta_null_max_across_draws": 0.005912287559797144,
+      "gap_mean_across_draws": 0.002280503039241913,
+      "gap_min_across_draws": 0.0008186053234970499,
+      "gap_max_across_draws": 0.0036977771625418972
+    },
+    {
+      "stratum": "q2",
+      "n": 21,
+      "mean_extremity": 0.12755147818314916,
+      "win_rate_mean_across_draws": 0.4619047619047619,
+      "win_rate_min_across_draws": 0.3333333333333333,
+      "win_rate_max_across_draws": 0.5714285714285714,
+      "mean_delta_real_mean_across_draws": 0.004234266818105519,
+      "mean_delta_real_min_across_draws": 0.0030452689523727526,
+      "mean_delta_real_max_across_draws": 0.005812464929896056,
+      "mean_delta_null_mean_across_draws": 0.0046944600509896284,
+      "mean_delta_null_min_across_draws": 0.00272570790376459,
+      "mean_delta_null_max_across_draws": 0.0059005505622564255,
+      "gap_mean_across_draws": 0.00046019323288410926,
+      "gap_min_across_draws": -0.0011542415919675673,
+      "gap_max_across_draws": 0.0016905221342572757
+    },
+    {
+      "stratum": "q3",
+      "n": 21,
+      "mean_extremity": 0.19276770338103577,
+      "win_rate_mean_across_draws": 0.8404761904761905,
+      "win_rate_min_across_draws": 0.7142857142857143,
+      "win_rate_max_across_draws": 0.9523809523809523,
+      "mean_delta_real_mean_across_draws": 0.0053560565959724134,
+      "mean_delta_real_min_across_draws": 0.003353597975139656,
+      "mean_delta_real_max_across_draws": 0.007162250439924266,
+      "mean_delta_null_mean_across_draws": 0.017868319225032486,
+      "mean_delta_null_min_across_draws": 0.014396287858601118,
+      "mean_delta_null_max_across_draws": 0.020652091852392175,
+      "gap_mean_across_draws": 0.01251226262906007,
+      "gap_min_across_draws": 0.009307984088556973,
+      "gap_max_across_draws": 0.016194832119366908
+    },
+    {
+      "stratum": "q4(high)",
+      "n": 21,
+      "mean_extremity": 0.449890206796464,
+      "win_rate_mean_across_draws": 0.9095238095238095,
+      "win_rate_min_across_draws": 0.8571428571428571,
+      "win_rate_max_across_draws": 0.9523809523809523,
+      "mean_delta_real_mean_across_draws": 0.017544629899826355,
+      "mean_delta_real_min_across_draws": 0.013140570992284595,
+      "mean_delta_real_max_across_draws": 0.02223092084783651,
+      "mean_delta_null_mean_across_draws": 0.06062684531977277,
+      "mean_delta_null_min_across_draws": 0.045851396657565914,
+      "mean_delta_null_max_across_draws": 0.08008562337042605,
+      "gap_mean_across_draws": 0.043082215419946404,
+      "gap_min_across_draws": 0.027082483893531236,
+      "gap_max_across_draws": 0.06273392376629736
+    }
+  ],
+  "experiment2_tercile_oracle_null": [
+    {
+      "stratum": "low",
+      "n": 29,
+      "mean_extremity": 0.08612735049733933,
+      "win_rate_mean_across_draws": 0.7017241379310344,
+      "win_rate_min_across_draws": 0.4827586206896552,
+      "win_rate_max_across_draws": 0.7931034482758621,
+      "mean_delta_real_mean_across_draws": 0.0029370075618970017,
+      "mean_delta_real_min_across_draws": 0.0016003955844018944,
+      "mean_delta_real_max_across_draws": 0.005422693731995102,
+      "mean_delta_null_mean_across_draws": 0.005833924526349883,
+      "mean_delta_null_min_across_draws": 0.004758496677971389,
+      "mean_delta_null_max_across_draws": 0.006907511964205176,
+      "gap_mean_across_draws": 0.0028969169644528815,
+      "gap_min_across_draws": 0.0011637248425681338,
+      "gap_max_across_draws": 0.00398262804383292
+    },
+    {
+      "stratum": "mid",
+      "n": 28,
+      "mean_extremity": 0.15503013664856877,
+      "win_rate_mean_across_draws": 0.7535714285714286,
+      "win_rate_min_across_draws": 0.6071428571428571,
+      "win_rate_max_across_draws": 0.8928571428571429,
+      "mean_delta_real_mean_across_draws": 0.004494870472640425,
+      "mean_delta_real_min_across_draws": 0.0036412448123215413,
+      "mean_delta_real_max_across_draws": 0.005922403996304803,
+      "mean_delta_null_mean_across_draws": 0.00930033141727877,
+      "mean_delta_null_min_across_draws": 0.007488443000717955,
+      "mean_delta_null_max_across_draws": 0.011236303526342292,
+      "gap_mean_across_draws": 0.004805460944638346,
+      "gap_min_across_draws": 0.003431673627294461,
+      "gap_max_across_draws": 0.006170787287050342
+    },
+    {
+      "stratum": "high",
+      "n": 28,
+      "mean_extremity": 0.39361356794804464,
+      "win_rate_mean_across_draws": 0.9589285714285716,
+      "win_rate_min_across_draws": 0.9285714285714286,
+      "win_rate_max_across_draws": 0.9642857142857143,
+      "mean_delta_real_mean_across_draws": 0.014424396117668612,
+      "mean_delta_real_min_across_draws": 0.011130193894996945,
+      "mean_delta_real_max_across_draws": 0.018653640048895203,
+      "mean_delta_null_mean_across_draws": 0.052176756063217124,
+      "mean_delta_null_min_across_draws": 0.038759211519310936,
+      "mean_delta_null_max_across_draws": 0.07076365526833599,
+      "gap_mean_across_draws": 0.03775235994554852,
+      "gap_min_across_draws": 0.02636101575572466,
+      "gap_max_across_draws": 0.05307444114838235
+    }
+  ],
+  "experiment2_quartile_oracle_null": [
+    {
+      "stratum": "q1(low)",
+      "n": 22,
+      "mean_extremity": 0.07660544261610847,
+      "win_rate_mean_across_draws": 0.740909090909091,
+      "win_rate_min_across_draws": 0.5,
+      "win_rate_max_across_draws": 0.8636363636363636,
+      "mean_delta_real_mean_across_draws": 0.0020490301923489092,
+      "mean_delta_real_min_across_draws": 0.0002464665482954401,
+      "mean_delta_real_max_across_draws": 0.004451623382844847,
+      "mean_delta_null_mean_across_draws": 0.0050985543299597764,
+      "mean_delta_null_min_across_draws": 0.0039825736820022365,
+      "mean_delta_null_max_across_draws": 0.006540797941546591,
+      "gap_mean_across_draws": 0.0030495241376108677,
+      "gap_min_across_draws": 0.0013361727814446408,
+      "gap_max_across_draws": 0.004331634514263713
+    },
+    {
+      "stratum": "q2",
+      "n": 21,
+      "mean_extremity": 0.12755147818314916,
+      "win_rate_mean_across_draws": 0.6047619047619046,
+      "win_rate_min_across_draws": 0.5238095238095238,
+      "win_rate_max_across_draws": 0.7142857142857143,
+      "mean_delta_real_mean_across_draws": 0.004234266818105519,
+      "mean_delta_real_min_across_draws": 0.0030452689523727526,
+      "mean_delta_real_max_across_draws": 0.005812464929896056,
+      "mean_delta_null_mean_across_draws": 0.005956879552065007,
+      "mean_delta_null_min_across_draws": 0.005185310620562481,
+      "mean_delta_null_max_across_draws": 0.006634392834011119,
+      "gap_mean_across_draws": 0.0017226127339594894,
+      "gap_min_across_draws": 0.00035807560339758127,
+      "gap_max_across_draws": 0.0027373323802257796
+    },
+    {
+      "stratum": "q3",
+      "n": 21,
+      "mean_extremity": 0.19276770338103577,
+      "win_rate_mean_across_draws": 0.9214285714285715,
+      "win_rate_min_across_draws": 0.8571428571428571,
+      "win_rate_max_across_draws": 1.0,
+      "mean_delta_real_mean_across_draws": 0.0053560565959724134,
+      "mean_delta_real_min_across_draws": 0.003353597975139656,
+      "mean_delta_real_max_across_draws": 0.007162250439924266,
+      "mean_delta_null_mean_across_draws": 0.018877949707009838,
+      "mean_delta_null_min_across_draws": 0.016355691840827864,
+      "mean_delta_null_max_across_draws": 0.021576118102843884,
+      "gap_mean_across_draws": 0.013521893111037419,
+      "gap_min_across_draws": 0.011091330756466834,
+      "gap_max_across_draws": 0.01618999211582889
+    },
+    {
+      "stratum": "q4(high)",
+      "n": 21,
+      "mean_extremity": 0.449890206796464,
+      "win_rate_mean_across_draws": 0.95,
+      "win_rate_min_across_draws": 0.9047619047619048,
+      "win_rate_max_across_draws": 0.9523809523809523,
+      "mean_delta_real_mean_across_draws": 0.017544629899826355,
+      "mean_delta_real_min_across_draws": 0.013140570992284595,
+      "mean_delta_real_max_across_draws": 0.02223092084783651,
+      "mean_delta_null_mean_across_draws": 0.05984965004849261,
+      "mean_delta_null_min_across_draws": 0.043940759575311746,
+      "mean_delta_null_max_across_draws": 0.07941079859334184,
+      "gap_mean_across_draws": 0.04230502014866626,
+      "gap_min_across_draws": 0.025388364154068383,
+      "gap_max_across_draws": 0.06099174006448167
+    }
+  ]
+}

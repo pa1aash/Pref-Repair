@@ -1,0 +1,261 @@
+{
+  "main_family_n": 31,
+  "results": [
+    {
+      "label": "P9: severity-confound partial correlation (tex:431,635)",
+      "p": 7e-19,
+      "holm_adj_p": 2.17e-17,
+      "holm_reject": true,
+      "bh_adj_p": 2.17e-17,
+      "bh_reject": true
+    },
+    {
+      "label": "P10: severity-confound OLS dose coef (tex:433,637)",
+      "p": 1e-16,
+      "holm_adj_p": 3e-15,
+      "holm_reject": true,
+      "bh_adj_p": 1.55e-15,
+      "bh_reject": true
+    },
+    {
+      "label": "C5: corrected oracle pooled Wilcoxon (median of 20)",
+      "p": 2.57e-10,
+      "holm_adj_p": 7.452999999999999e-09,
+      "holm_reject": true,
+      "bh_adj_p": 2.6556666666666665e-09,
+      "bh_reject": true
+    },
+    {
+      "label": "N1: null-op paired Wilcoxon pooled",
+      "p": 3.98e-10,
+      "holm_adj_p": 1.1144e-08,
+      "holm_reject": true,
+      "bh_adj_p": 3.0845000000000003e-09,
+      "bh_reject": true
+    },
+    {
+      "label": "N7: null-op partial correlation (dose vs real|null)",
+      "p": 1.13e-08,
+      "holm_adj_p": 3.051e-07,
+      "holm_reject": true,
+      "bh_adj_p": 7.006000000000001e-08,
+      "bh_reject": true
+    },
+    {
+      "label": "N2: null-op paired Wilcoxon qwen1.5b",
+      "p": 5.5e-08,
+      "holm_adj_p": 1.43e-06,
+      "holm_reject": true,
+      "bh_adj_p": 2.841666666666667e-07,
+      "bh_reject": true
+    },
+    {
+      "label": "C7: corrected oracle qwen Wilcoxon (median of 20)",
+      "p": 8.9e-08,
+      "holm_adj_p": 2.225e-06,
+      "holm_reject": true,
+      "bh_adj_p": 3.941428571428572e-07,
+      "bh_reject": true
+    },
+    {
+      "label": "C1: corrected primary pooled Wilcoxon (median of 20)",
+      "p": 6.02e-07,
+      "holm_adj_p": 1.4448000000000001e-05,
+      "holm_reject": true,
+      "bh_adj_p": 2.3327500000000002e-06,
+      "bh_reject": true
+    },
+    {
+      "label": "P7: pooled one-sample t (mean delta payoff) (tex:402)",
+      "p": 1e-05,
+      "holm_adj_p": 0.00023,
+      "holm_reject": true,
+      "bh_adj_p": 3.444444444444445e-05,
+      "bh_reject": true
+    },
+    {
+      "label": "C3: corrected primary qwen Wilcoxon (median of 20)",
+      "p": 1.97e-05,
+      "holm_adj_p": 0.0004334,
+      "holm_reject": true,
+      "bh_adj_p": 6.107000000000001e-05,
+      "bh_reject": true
+    },
+    {
+      "label": "C8: corrected oracle pooled partial-r (median of 20)",
+      "p": 6.27e-05,
+      "holm_adj_p": 0.0013167,
+      "holm_reject": true,
+      "bh_adj_p": 0.0001767,
+      "bh_reject": true
+    },
+    {
+      "label": "P1: 1.5B dose-response Spearman (tex:49,405)",
+      "p": 0.0001,
+      "holm_adj_p": 0.002,
+      "holm_reject": true,
+      "bh_adj_p": 0.00020666666666666668,
+      "bh_reject": true
+    },
+    {
+      "label": "P5: pooled dose-response Spearman (tex:401)",
+      "p": 0.0001,
+      "holm_adj_p": 0.002,
+      "holm_reject": true,
+      "bh_adj_p": 0.00020666666666666668,
+      "bh_reject": true
+    },
+    {
+      "label": "P6: pooled dose-response Pearson (tex:401)",
+      "p": 0.0001,
+      "holm_adj_p": 0.002,
+      "holm_reject": true,
+      "bh_adj_p": 0.00020666666666666668,
+      "bh_reject": true
+    },
+    {
+      "label": "P8: severity-confound Pearson dose-vs-rawpayoff (tex:429,632)",
+      "p": 0.0001,
+      "holm_adj_p": 0.002,
+      "holm_reject": true,
+      "bh_adj_p": 0.00020666666666666668,
+      "bh_reject": true
+    },
+    {
+      "label": "C4: corrected primary pooled partial-r (median of 20)",
+      "p": 0.000118,
+      "holm_adj_p": 0.002,
+      "holm_reject": true,
+      "bh_adj_p": 0.000228625,
+      "bh_reject": true
+    },
+    {
+      "label": "C6: corrected oracle llama Wilcoxon (median of 20)",
+      "p": 0.000353,
+      "holm_adj_p": 0.005295,
+      "holm_reject": true,
+      "bh_adj_p": 0.0006437058823529412,
+      "bh_reject": true
+    },
+    {
+      "label": "N4: null-op paired t-test pooled",
+      "p": 0.00084,
+      "holm_adj_p": 0.01176,
+      "holm_reject": true,
+      "bh_adj_p": 0.0014466666666666666,
+      "bh_reject": true
+    },
+    {
+      "label": "N3: null-op paired Wilcoxon llama3b",
+      "p": 0.001,
+      "holm_adj_p": 0.013000000000000001,
+      "holm_reject": true,
+      "bh_adj_p": 0.001631578947368421,
+      "bh_reject": true
+    },
+    {
+      "label": "P2: 3B dose-response Spearman (tex:49,406)",
+      "p": 0.0011,
+      "holm_adj_p": 0.0132,
+      "holm_reject": true,
+      "bh_adj_p": 0.0017050000000000004,
+      "bh_reject": true
+    },
+    {
+      "label": "N6: null-op paired t-test llama3b",
+      "p": 0.0038,
+      "holm_adj_p": 0.0418,
+      "holm_reject": true,
+      "bh_adj_p": 0.00560952380952381,
+      "bh_reject": true
+    },
+    {
+      "label": "N5: null-op paired t-test qwen1.5b",
+      "p": 0.004,
+      "holm_adj_p": 0.0418,
+      "holm_reject": true,
+      "bh_adj_p": 0.005636363636363636,
+      "bh_reject": true
+    },
+    {
+      "label": "C2: corrected primary llama Wilcoxon (median of 20)",
+      "p": 0.00615,
+      "holm_adj_p": 0.05535,
+      "holm_reject": false,
+      "bh_adj_p": 0.00828913043478261,
+      "bh_reject": true
+    },
+    {
+      "label": "P3: multiturn GARP pass-rate collapse (tex:221,474)",
+      "p": 0.0073,
+      "holm_adj_p": 0.0584,
+      "holm_reject": false,
+      "bh_adj_p": 0.009429166666666667,
+      "bh_reject": true
+    },
+    {
+      "label": "P12: 3B framing GARP pass (tex:440)",
+      "p": 0.0089,
+      "holm_adj_p": 0.0623,
+      "holm_reject": false,
+      "bh_adj_p": 0.011035999999999999,
+      "bh_reject": true
+    },
+    {
+      "label": "P13: 3B framing CCEI t-test (tex:441)",
+      "p": 0.0508,
+      "holm_adj_p": 0.30479999999999996,
+      "holm_reject": false,
+      "bh_adj_p": 0.06056923076923077,
+      "bh_reject": false
+    },
+    {
+      "label": "P11: severity-confound OLS raw-payoff coef (tex:434,638)",
+      "p": 0.18,
+      "holm_adj_p": 0.8999999999999999,
+      "holm_reject": false,
+      "bh_adj_p": 0.20666666666666667,
+      "bh_reject": false
+    },
+    {
+      "label": "P15: 1.5B reciprocal-vs-baseline CCEI (tex:453)",
+      "p": 0.73,
+      "holm_adj_p": 1.0,
+      "holm_reject": false,
+      "bh_adj_p": 0.8082142857142857,
+      "bh_reject": false
+    },
+    {
+      "label": "P14: 1.5B reciprocal-vs-baseline GARP pass (tex:452)",
+      "p": 0.85,
+      "holm_adj_p": 1.0,
+      "holm_reject": false,
+      "bh_adj_p": 0.9086206896551723,
+      "bh_reject": false
+    },
+    {
+      "label": "P4: multiturn CCEI (tex:474)",
+      "p": 0.91,
+      "holm_adj_p": 1.0,
+      "holm_reject": false,
+      "bh_adj_p": 0.94,
+      "bh_reject": false
+    },
+    {
+      "label": "P16: GARP-consistent-vs-violating raw payoff Welch t (tex:619-620)",
+      "p": 0.94,
+      "holm_adj_p": 1.0,
+      "holm_reject": false,
+      "bh_adj_p": 0.94,
+      "bh_reject": false
+    }
+  ],
+  "n_survive_holm": 22,
+  "n_survive_bh": 25,
+  "holm_not_bh_violations": [],
+  "bh_only": [
+    "P3: multiturn GARP pass-rate collapse (tex:221,474)",
+    "P12: 3B framing GARP pass (tex:440)",
+    "C2: corrected primary llama Wilcoxon (median of 20)"
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "qwen2.5:1.5b-instruct-q4_K_M": {
+    "model": "qwen2.5:1.5b-instruct-q4_K_M",
+    "n": 60,
+    "pooled_spearman_rho": 0.7556543484301196,
+    "pooled_spearman_p": 2.9896017659286535e-12,
+    "pooled_pearson_r": 0.8189856558617534,
+    "pooled_pearson_p": 1.2891924206451566e-15,
+    "per_condition": {
+      "baseline": {
+        "n": 18,
+        "mean_dose": 27.80092476015257,
+        "mean_delta": 0.015063544016900113,
+        "spearman_rho": 0.7853457172342622,
+        "spearman_p": 0.00011265431029256779,
+        "pearson_r": 0.7357720291308695,
+        "pearson_p": 0.0005005940131278404
+      },
+      "multiturn": {
+        "n": 27,
+        "mean_dose": 16.153578910513456,
+        "mean_delta": 0.009230468032724932,
+        "spearman_rho": 0.7313797313797313,
+        "spearman_p": 1.4640385922506766e-05,
+        "pearson_r": 0.7258276387038016,
+        "pearson_p": 1.8284484057563875e-05
+      },
+      "reciprocal": {
+        "n": 15,
+        "mean_dose": 19.23926160338146,
+        "mean_delta": 0.010464999045697056,
+        "spearman_rho": 0.6107142857142855,
+        "spearman_p": 0.015592831421175636,
+        "pearson_r": 0.973150584756471,
+        "pearson_p": 1.1309820626401492e-09
+      }
+    },
+    "demeaned_pooled_spearman_rho": 0.7476521255904419,
+    "demeaned_pooled_spearman_p": 6.734400042811349e-12,
+    "demeaned_pooled_pearson_r": 0.8153373474073683,
+    "demeaned_pooled_pearson_p": 2.178681894286678e-15
+  },
+  "llama3.2:3b-instruct-q4_K_M": {
+    "model": "llama3.2:3b-instruct-q4_K_M",
+    "n": 25,
+    "pooled_spearman_rho": 0.6138461538461538,
+    "pooled_spearman_p": 0.0010994377875025694,
+    "pooled_pearson_r": 0.8266407007836846,
+    "pooled_pearson_p": 3.533532756922932e-07,
+    "per_condition": {
+      "baseline": {
+        "n": 8,
+        "mean_dose": 18.79908740977157,
+        "mean_delta": 0.006704447037038291,
+        "spearman_rho": 0.7142857142857144,
+        "spearman_p": 0.046528232284167276,
+        "pearson_r": 0.960775923561494,
+        "pearson_p": 0.00014646492962496735
+      },
+      "reciprocal": {
+        "n": 17,
+        "mean_dose": 10.333408302211545,
+        "mean_delta": 0.002559510037107412,
+        "spearman_rho": 0.5392156862745099,
+        "spearman_p": 0.025503680315881874,
+        "pearson_r": 0.47331718828936536,
+        "pearson_p": 0.054981841389911086
+      }
+    },
+    "demeaned_pooled_spearman_rho": 0.7076923076923076,
+    "demeaned_pooled_spearman_p": 7.593268652673282e-05,
+    "demeaned_pooled_pearson_r": 0.8140207457438293,
+    "demeaned_pooled_pearson_p": 7.421359286977333e-07
+  }
+}

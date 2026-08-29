@@ -1,0 +1,1408 @@
+{
+  "description": "Per-slot discard-group breakdown for condition=='reciprocal', both models, produced for Session 4's discard-bias-direction analysis. Each record in 'slots' is exactly one (model, replicate) slot, classified into group in {first_attempt_success, retry_rescued, residual_discard} per docs/MAIN_EXPERIMENT_PROTOCOL.md \u00a76's retry rule. See per-record 'note' fields for caveats on group-3 (residual_discard) rows, which are computed on fewer than the 20-round threshold (and, for a subset, on zero valid rounds -- see 'ccei': null rows with projection_status=='no_data').",
+  "source_data": "results/main_raw.json, condition=='reciprocal' rows only",
+  "methodology": "incomes_t = p_t . x_t (budget exhaustion, matches src/analyse_main.py). ccei()/garp_holds() from src/ccei.py. dose_l1 via src/projection.py project() (0.0 if already GARP-consistent; else L1 MILP distance, time_limit=30.0s, retried once at 120.0s on solve failure). p/x arrays in main_raw.json are already truncated to exactly n_valid rows per attempt record (verified: len(p)==len(x)==n_valid for all 92 reciprocal attempt records with n_valid>0; p/x keys entirely absent when n_valid==0, confirmed for all 28 such records) -- no additional round-validity filtering was needed or applied.",
+  "solve_failures_after_retry": [],
+  "sanity_check_vs_docs_MAIN_EXPERIMENT_RESULTS_section2": {
+    "llama3.2:3b-instruct-q4_K_M": {
+      "observed": {
+        "first_attempt_success": 21,
+        "residual_discard": 2,
+        "retry_rescued": 7
+      },
+      "expected_from_docs_section_2": {
+        "first_attempt_success": 21,
+        "retry_rescued": 7,
+        "residual_discard": 2
+      },
+      "total_slots": 30,
+      "match": true,
+      "mismatches": {}
+    },
+    "qwen2.5:1.5b-instruct-q4_K_M": {
+      "observed": {
+        "retry_rescued": 7,
+        "residual_discard": 6,
+        "first_attempt_success": 17
+      },
+      "expected_from_docs_section_2": {
+        "first_attempt_success": 17,
+        "retry_rescued": 7,
+        "residual_discard": 6
+      },
+      "total_slots": 30,
+      "match": true,
+      "mismatches": {}
+    }
+  },
+  "group_summary_by_model": {
+    "llama3.2:3b-instruct-q4_K_M": {
+      "first_attempt_success": {
+        "n": 21,
+        "n_with_computable_metrics": 21,
+        "n_excluded_zero_valid_rounds": 0,
+        "mean_ccei": 0.9742390768868583,
+        "sd_ccei": 0.03926077558757127,
+        "garp_pass_rate": 0.42857142857142855,
+        "mean_dose_l1": 5.085579680204748
+      },
+      "retry_rescued": {
+        "n": 7,
+        "n_with_computable_metrics": 7,
+        "n_excluded_zero_valid_rounds": 0,
+        "mean_ccei": 0.9623685564313617,
+        "sd_ccei": 0.04988883839208727,
+        "garp_pass_rate": 0.2857142857142857,
+        "mean_dose_l1": 9.83868112189951
+      },
+      "residual_discard": {
+        "n": 2,
+        "n_with_computable_metrics": 2,
+        "n_excluded_zero_valid_rounds": 0,
+        "mean_ccei": 1.0,
+        "sd_ccei": 0.0,
+        "garp_pass_rate": 1.0,
+        "mean_dose_l1": 0.0,
+        "n_valid_used_per_slot": [
+          3,
+          14
+        ],
+        "n_valid_distribution": {
+          "3": 1,
+          "14": 1
+        }
+      }
+    },
+    "qwen2.5:1.5b-instruct-q4_K_M": {
+      "first_attempt_success": {
+        "n": 17,
+        "n_with_computable_metrics": 17,
+        "n_excluded_zero_valid_rounds": 0,
+        "mean_ccei": 0.9314928615794462,
+        "sd_ccei": 0.1620655135966018,
+        "garp_pass_rate": 0.47058823529411764,
+        "mean_dose_l1": 13.846552410823326
+      },
+      "retry_rescued": {
+        "n": 7,
+        "n_with_computable_metrics": 7,
+        "n_excluded_zero_valid_rounds": 0,
+        "mean_ccei": 0.9651174545288086,
+        "sd_ccei": 0.038119826468859315,
+        "garp_pass_rate": 0.14285714285714285,
+        "mean_dose_l1": 7.599647580960759
+      },
+      "residual_discard": {
+        "n": 6,
+        "n_with_computable_metrics": 3,
+        "n_excluded_zero_valid_rounds": 3,
+        "mean_ccei": 0.8820590972900391,
+        "sd_ccei": 0.20427963578419023,
+        "garp_pass_rate": 0.6666666666666666,
+        "mean_dose_l1": 24.19581302770207,
+        "n_valid_used_per_slot": [
+          0,
+          0,
+          0,
+          1,
+          12,
+          17
+        ],
+        "n_valid_distribution": {
+          "0": 3,
+          "1": 1,
+          "12": 1,
+          "17": 1
+        }
+      }
+    }
+  },
+  "slots": [
+    {
+      "model": "llama3.2:3b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 1,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 1,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 0.9976282119750977,
+      "garp_pass": false,
+      "exact_ties": 0,
+      "dose_l1": 2.732831043714665,
+      "dose_linf": 1.750404672206244,
+      "projection_status": "solved",
+      "projection_verified": true,
+      "projection_gap": 0.0
+    },
+    {
+      "model": "llama3.2:3b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 2,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 2,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 0.9794425964355469,
+      "garp_pass": false,
+      "exact_ties": 0,
+      "dose_l1": 3.047788763566512,
+      "dose_linf": 1.8407416847067672,
+      "projection_status": "solved",
+      "projection_verified": true,
+      "projection_gap": 0.0
+    },
+    {
+      "model": "llama3.2:3b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 3,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 3,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 1.0,
+      "garp_pass": true,
+      "exact_ties": 0,
+      "dose_l1": 0.0,
+      "dose_linf": 0.0,
+      "projection_status": "already_garp_consistent"
+    },
+    {
+      "model": "llama3.2:3b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 4,
+      "group": "residual_discard",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 4,
+      "n_attempts_present": 3,
+      "attempt_n_valid_sequence": [
+        14,
+        2,
+        0
+      ],
+      "residual_discard_all_nvalid": [
+        14,
+        2,
+        0
+      ],
+      "n_valid": 14,
+      "ccei": 1.0,
+      "garp_pass": true,
+      "exact_ties": 0,
+      "dose_l1": 0.0,
+      "dose_linf": 0.0,
+      "projection_status": "already_garp_consistent",
+      "note": "Trace based on only 14 valid rounds (< the 20-round threshold). Fewer rounds means fewer pairwise revealed-preference comparisons (182 ordered pairs vs. up to 600 at n_valid=25), so this CCEI/GARP figure has correspondingly less power to detect violations than a full-threshold trace."
+    },
+    {
+      "model": "llama3.2:3b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 5,
+      "group": "retry_rescued",
+      "chosen_attempt": 2,
+      "chosen_attempt_seed": 1005,
+      "n_attempts_present": 2,
+      "attempt_n_valid_sequence": [
+        0,
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 0.9136238098144531,
+      "garp_pass": false,
+      "exact_ties": 0,
+      "dose_l1": 17.215602575505457,
+      "dose_linf": 6.455667763464113,
+      "projection_status": "solved",
+      "projection_verified": true,
+      "projection_gap": 0.0
+    },
+    {
+      "model": "llama3.2:3b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 6,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 6,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 1.0,
+      "garp_pass": true,
+      "exact_ties": 0,
+      "dose_l1": 0.0,
+      "dose_linf": 0.0,
+      "projection_status": "already_garp_consistent"
+    },
+    {
+      "model": "llama3.2:3b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 7,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 7,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 1.0,
+      "garp_pass": true,
+      "exact_ties": 0,
+      "dose_l1": 0.0,
+      "dose_linf": 0.0,
+      "projection_status": "already_garp_consistent"
+    },
+    {
+      "model": "llama3.2:3b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 8,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 8,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 1.0,
+      "garp_pass": true,
+      "exact_ties": 0,
+      "dose_l1": 0.0,
+      "dose_linf": 0.0,
+      "projection_status": "already_garp_consistent"
+    },
+    {
+      "model": "llama3.2:3b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 9,
+      "group": "retry_rescued",
+      "chosen_attempt": 2,
+      "chosen_attempt_seed": 1009,
+      "n_attempts_present": 2,
+      "attempt_n_valid_sequence": [
+        0,
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 0.872889518737793,
+      "garp_pass": false,
+      "exact_ties": 0,
+      "dose_l1": 29.488597462119316,
+      "dose_linf": 7.565463800095394,
+      "projection_status": "solved",
+      "projection_verified": true,
+      "projection_gap": 2.409550798992236e-16
+    },
+    {
+      "model": "llama3.2:3b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 10,
+      "group": "retry_rescued",
+      "chosen_attempt": 2,
+      "chosen_attempt_seed": 1010,
+      "n_attempts_present": 2,
+      "attempt_n_valid_sequence": [
+        0,
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 1.0,
+      "garp_pass": true,
+      "exact_ties": 0,
+      "dose_l1": 0.0,
+      "dose_linf": 0.0,
+      "projection_status": "already_garp_consistent"
+    },
+    {
+      "model": "llama3.2:3b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 11,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 11,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 1.0,
+      "garp_pass": true,
+      "exact_ties": 0,
+      "dose_l1": 0.0,
+      "dose_linf": 0.0,
+      "projection_status": "already_garp_consistent"
+    },
+    {
+      "model": "llama3.2:3b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 12,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 12,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 0.9880886077880859,
+      "garp_pass": false,
+      "exact_ties": 0,
+      "dose_l1": 5.31526624560227,
+      "dose_linf": 2.1251260438152997,
+      "projection_status": "solved",
+      "projection_verified": true,
+      "projection_gap": 0.0
+    },
+    {
+      "model": "llama3.2:3b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 13,
+      "group": "retry_rescued",
+      "chosen_attempt": 2,
+      "chosen_attempt_seed": 1013,
+      "n_attempts_present": 2,
+      "attempt_n_valid_sequence": [
+        0,
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 0.973541259765625,
+      "garp_pass": false,
+      "exact_ties": 0,
+      "dose_l1": 16.859143692626578,
+      "dose_linf": 5.89167137475177,
+      "projection_status": "solved",
+      "projection_verified": true,
+      "projection_gap": 0.0
+    },
+    {
+      "model": "llama3.2:3b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 14,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 14,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 0.9726343154907227,
+      "garp_pass": false,
+      "exact_ties": 0,
+      "dose_l1": 11.210265854811421,
+      "dose_linf": 2.7307946413711903,
+      "projection_status": "solved",
+      "projection_verified": true,
+      "projection_gap": 2.874443578001702e-06
+    },
+    {
+      "model": "llama3.2:3b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 15,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 15,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 0.9943599700927734,
+      "garp_pass": false,
+      "exact_ties": 0,
+      "dose_l1": 0.8516464136710066,
+      "dose_linf": 0.745096170724608,
+      "projection_status": "solved",
+      "projection_verified": true,
+      "projection_gap": 0.0
+    },
+    {
+      "model": "llama3.2:3b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 16,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 16,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 0.9490747451782227,
+      "garp_pass": false,
+      "exact_ties": 0,
+      "dose_l1": 3.5520502755507852,
+      "dose_linf": 2.2337451041963003,
+      "projection_status": "solved",
+      "projection_verified": true,
+      "projection_gap": 0.0
+    },
+    {
+      "model": "llama3.2:3b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 17,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 17,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 0.9547128677368164,
+      "garp_pass": false,
+      "exact_ties": 0,
+      "dose_l1": 3.869253718975779,
+      "dose_linf": 2.8765285380184054,
+      "projection_status": "solved",
+      "projection_verified": true,
+      "projection_gap": 0.0
+    },
+    {
+      "model": "llama3.2:3b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 18,
+      "group": "retry_rescued",
+      "chosen_attempt": 2,
+      "chosen_attempt_seed": 1018,
+      "n_attempts_present": 2,
+      "attempt_n_valid_sequence": [
+        0,
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 1.0,
+      "garp_pass": true,
+      "exact_ties": 0,
+      "dose_l1": 0.0,
+      "dose_linf": 0.0,
+      "projection_status": "already_garp_consistent"
+    },
+    {
+      "model": "llama3.2:3b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 19,
+      "group": "retry_rescued",
+      "chosen_attempt": 3,
+      "chosen_attempt_seed": 2019,
+      "n_attempts_present": 3,
+      "attempt_n_valid_sequence": [
+        0,
+        0,
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 0.9995040893554688,
+      "garp_pass": false,
+      "exact_ties": 0,
+      "dose_l1": 0.1746318891656884,
+      "dose_linf": 0.10831085604993973,
+      "projection_status": "solved",
+      "projection_verified": true,
+      "projection_gap": 0.0
+    },
+    {
+      "model": "llama3.2:3b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 20,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 20,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 0.9408864974975586,
+      "garp_pass": false,
+      "exact_ties": 0,
+      "dose_l1": 10.358048212581028,
+      "dose_linf": 5.065711456275061,
+      "projection_status": "solved",
+      "projection_verified": true,
+      "projection_gap": 0.0
+    },
+    {
+      "model": "llama3.2:3b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 21,
+      "group": "residual_discard",
+      "chosen_attempt": 3,
+      "chosen_attempt_seed": 2021,
+      "n_attempts_present": 3,
+      "attempt_n_valid_sequence": [
+        0,
+        0,
+        3
+      ],
+      "residual_discard_all_nvalid": [
+        0,
+        0,
+        3
+      ],
+      "n_valid": 3,
+      "ccei": 1.0,
+      "garp_pass": true,
+      "exact_ties": 0,
+      "dose_l1": 0.0,
+      "dose_linf": 0.0,
+      "projection_status": "already_garp_consistent",
+      "note": "Trace based on only 3 valid rounds (< the 20-round threshold). Fewer rounds means fewer pairwise revealed-preference comparisons (6 ordered pairs vs. up to 600 at n_valid=25), so this CCEI/GARP figure has correspondingly less power to detect violations than a full-threshold trace."
+    },
+    {
+      "model": "llama3.2:3b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 22,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 22,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        24
+      ],
+      "n_valid": 24,
+      "ccei": 1.0,
+      "garp_pass": true,
+      "exact_ties": 0,
+      "dose_l1": 0.0,
+      "dose_linf": 0.0,
+      "projection_status": "already_garp_consistent"
+    },
+    {
+      "model": "llama3.2:3b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 23,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 23,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 1.0,
+      "garp_pass": true,
+      "exact_ties": 0,
+      "dose_l1": 0.0,
+      "dose_linf": 0.0,
+      "projection_status": "already_garp_consistent"
+    },
+    {
+      "model": "llama3.2:3b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 24,
+      "group": "retry_rescued",
+      "chosen_attempt": 3,
+      "chosen_attempt_seed": 2024,
+      "n_attempts_present": 3,
+      "attempt_n_valid_sequence": [
+        0,
+        0,
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 0.9770212173461914,
+      "garp_pass": false,
+      "exact_ties": 0,
+      "dose_l1": 5.132792233879529,
+      "dose_linf": 3.1579291603526087,
+      "projection_status": "solved",
+      "projection_verified": true,
+      "projection_gap": 6.92160040172763e-16
+    },
+    {
+      "model": "llama3.2:3b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 25,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 25,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 0.9604911804199219,
+      "garp_pass": false,
+      "exact_ties": 0,
+      "dose_l1": 19.547804610655003,
+      "dose_linf": 6.7789799054010444,
+      "projection_status": "solved",
+      "projection_verified": true,
+      "projection_gap": 0.0
+    },
+    {
+      "model": "llama3.2:3b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 26,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 26,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 0.8608016967773438,
+      "garp_pass": false,
+      "exact_ties": 0,
+      "dose_l1": 22.635227119861412,
+      "dose_linf": 7.671582029827013,
+      "projection_status": "solved",
+      "projection_verified": true,
+      "projection_gap": 0.0
+    },
+    {
+      "model": "llama3.2:3b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 27,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 27,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 1.0,
+      "garp_pass": true,
+      "exact_ties": 0,
+      "dose_l1": 0.0,
+      "dose_linf": 0.0,
+      "projection_status": "already_garp_consistent"
+    },
+    {
+      "model": "llama3.2:3b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 28,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 28,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 0.8821630477905273,
+      "garp_pass": false,
+      "exact_ties": 0,
+      "dose_l1": 22.259147728553888,
+      "dose_linf": 19.970439060346184,
+      "projection_status": "solved",
+      "projection_verified": true,
+      "projection_gap": 1.596069050857281e-16
+    },
+    {
+      "model": "llama3.2:3b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 29,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 29,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 0.9787368774414062,
+      "garp_pass": false,
+      "exact_ties": 0,
+      "dose_l1": 1.4178432967559402,
+      "dose_linf": 0.8346594711521362,
+      "projection_status": "solved",
+      "projection_verified": true,
+      "projection_gap": 1.3938049348290923e-14
+    },
+    {
+      "model": "llama3.2:3b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 30,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 30,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 1.0,
+      "garp_pass": true,
+      "exact_ties": 0,
+      "dose_l1": 0.0,
+      "dose_linf": 0.0,
+      "projection_status": "already_garp_consistent"
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 1,
+      "group": "retry_rescued",
+      "chosen_attempt": 2,
+      "chosen_attempt_seed": 1001,
+      "n_attempts_present": 2,
+      "attempt_n_valid_sequence": [
+        19,
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 0.9688920974731445,
+      "garp_pass": false,
+      "exact_ties": 0,
+      "dose_l1": 13.727245523763912,
+      "dose_linf": 2.5180798896381535,
+      "projection_status": "solved",
+      "projection_verified": true,
+      "projection_gap": 0.0
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 2,
+      "group": "residual_discard",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 2,
+      "n_attempts_present": 3,
+      "attempt_n_valid_sequence": [
+        1,
+        0,
+        0
+      ],
+      "residual_discard_all_nvalid": [
+        1,
+        0,
+        0
+      ],
+      "n_valid": 1,
+      "ccei": 1.0,
+      "garp_pass": true,
+      "exact_ties": 0,
+      "dose_l1": 0.0,
+      "dose_linf": 0.0,
+      "projection_status": "trivial_single_round",
+      "note": "Only 1 valid round: 0 pairwise comparisons are possible, so GARP holds vacuously and CCEI=1.0 by construction. This is a real but maximally low-power number."
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 3,
+      "group": "residual_discard",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 3,
+      "n_attempts_present": 3,
+      "attempt_n_valid_sequence": [
+        0,
+        0,
+        0
+      ],
+      "residual_discard_all_nvalid": [
+        0,
+        0,
+        0
+      ],
+      "n_valid": 0,
+      "ccei": null,
+      "garp_pass": null,
+      "dose_l1": null,
+      "dose_linf": null,
+      "exact_ties": null,
+      "projection_status": "no_data",
+      "note": "Zero valid rounds in this attempt (no 'p'/'x' data recorded for it at all). CCEI/GARP/dose are mathematically undefined with zero revealed-preference observations -- reported as null rather than fabricated or silently dropped."
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 4,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 4,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 1.0,
+      "garp_pass": true,
+      "exact_ties": 0,
+      "dose_l1": 0.0,
+      "dose_linf": 0.0,
+      "projection_status": "already_garp_consistent"
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 5,
+      "group": "retry_rescued",
+      "chosen_attempt": 2,
+      "chosen_attempt_seed": 1005,
+      "n_attempts_present": 2,
+      "attempt_n_valid_sequence": [
+        0,
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 0.8953533172607422,
+      "garp_pass": false,
+      "exact_ties": 0,
+      "dose_l1": 20.34254474014936,
+      "dose_linf": 8.579550665635761,
+      "projection_status": "solved",
+      "projection_verified": true,
+      "projection_gap": 3.492890121842658e-16
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 6,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 6,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 0.9874372482299805,
+      "garp_pass": false,
+      "exact_ties": 0,
+      "dose_l1": 15.839439707199993,
+      "dose_linf": 6.279796436508036,
+      "projection_status": "solved",
+      "projection_verified": true,
+      "projection_gap": 0.0
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 7,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 7,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 0.9896650314331055,
+      "garp_pass": false,
+      "exact_ties": 0,
+      "dose_l1": 2.7556096214817734,
+      "dose_linf": 1.3959920472640706,
+      "projection_status": "solved",
+      "projection_verified": true,
+      "projection_gap": 0.0
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 8,
+      "group": "retry_rescued",
+      "chosen_attempt": 2,
+      "chosen_attempt_seed": 1008,
+      "n_attempts_present": 2,
+      "attempt_n_valid_sequence": [
+        8,
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 0.958888053894043,
+      "garp_pass": false,
+      "exact_ties": 0,
+      "dose_l1": 9.612846139249584,
+      "dose_linf": 2.197858964423517,
+      "projection_status": "solved",
+      "projection_verified": true,
+      "projection_gap": 0.0
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 9,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 9,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 0.9891595840454102,
+      "garp_pass": false,
+      "exact_ties": 0,
+      "dose_l1": 7.471383954987612,
+      "dose_linf": 3.6703668698316534,
+      "projection_status": "solved",
+      "projection_verified": true,
+      "projection_gap": 0.0
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 10,
+      "group": "residual_discard",
+      "chosen_attempt": 2,
+      "chosen_attempt_seed": 1010,
+      "n_attempts_present": 3,
+      "attempt_n_valid_sequence": [
+        4,
+        17,
+        1
+      ],
+      "residual_discard_all_nvalid": [
+        4,
+        17,
+        1
+      ],
+      "n_valid": 17,
+      "ccei": 1.0,
+      "garp_pass": true,
+      "exact_ties": 0,
+      "dose_l1": 0.0,
+      "dose_linf": 0.0,
+      "projection_status": "already_garp_consistent",
+      "note": "Trace based on only 17 valid rounds (< the 20-round threshold). Fewer rounds means fewer pairwise revealed-preference comparisons (272 ordered pairs vs. up to 600 at n_valid=25), so this CCEI/GARP figure has correspondingly less power to detect violations than a full-threshold trace."
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 11,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 11,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 1.0,
+      "garp_pass": true,
+      "exact_ties": 0,
+      "dose_l1": 0.0,
+      "dose_linf": 0.0,
+      "projection_status": "already_garp_consistent"
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 12,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 12,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        21
+      ],
+      "n_valid": 21,
+      "ccei": 0.5369625091552734,
+      "garp_pass": false,
+      "exact_ties": 0,
+      "dose_l1": 111.63736902792505,
+      "dose_linf": 34.98132124561253,
+      "projection_status": "solved",
+      "projection_verified": true,
+      "projection_gap": 5.3484913056259246e-05
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 13,
+      "group": "retry_rescued",
+      "chosen_attempt": 2,
+      "chosen_attempt_seed": 1013,
+      "n_attempts_present": 2,
+      "attempt_n_valid_sequence": [
+        0,
+        20
+      ],
+      "n_valid": 20,
+      "ccei": 0.9931707382202148,
+      "garp_pass": false,
+      "exact_ties": 0,
+      "dose_l1": 0.5613061167445822,
+      "dose_linf": 0.19584813086433783,
+      "projection_status": "solved",
+      "projection_verified": true,
+      "projection_gap": 0.0
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 14,
+      "group": "retry_rescued",
+      "chosen_attempt": 2,
+      "chosen_attempt_seed": 1014,
+      "n_attempts_present": 2,
+      "attempt_n_valid_sequence": [
+        0,
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 1.0,
+      "garp_pass": true,
+      "exact_ties": 0,
+      "dose_l1": 0.0,
+      "dose_linf": 0.0,
+      "projection_status": "already_garp_consistent"
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 15,
+      "group": "residual_discard",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 15,
+      "n_attempts_present": 3,
+      "attempt_n_valid_sequence": [
+        0,
+        0,
+        0
+      ],
+      "residual_discard_all_nvalid": [
+        0,
+        0,
+        0
+      ],
+      "n_valid": 0,
+      "ccei": null,
+      "garp_pass": null,
+      "dose_l1": null,
+      "dose_linf": null,
+      "exact_ties": null,
+      "projection_status": "no_data",
+      "note": "Zero valid rounds in this attempt (no 'p'/'x' data recorded for it at all). CCEI/GARP/dose are mathematically undefined with zero revealed-preference observations -- reported as null rather than fabricated or silently dropped."
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 16,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 16,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 1.0,
+      "garp_pass": true,
+      "exact_ties": 0,
+      "dose_l1": 0.0,
+      "dose_linf": 0.0,
+      "projection_status": "already_garp_consistent"
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 17,
+      "group": "residual_discard",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 17,
+      "n_attempts_present": 3,
+      "attempt_n_valid_sequence": [
+        0,
+        0,
+        0
+      ],
+      "residual_discard_all_nvalid": [
+        0,
+        0,
+        0
+      ],
+      "n_valid": 0,
+      "ccei": null,
+      "garp_pass": null,
+      "dose_l1": null,
+      "dose_linf": null,
+      "exact_ties": null,
+      "projection_status": "no_data",
+      "note": "Zero valid rounds in this attempt (no 'p'/'x' data recorded for it at all). CCEI/GARP/dose are mathematically undefined with zero revealed-preference observations -- reported as null rather than fabricated or silently dropped."
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 18,
+      "group": "retry_rescued",
+      "chosen_attempt": 2,
+      "chosen_attempt_seed": 1018,
+      "n_attempts_present": 2,
+      "attempt_n_valid_sequence": [
+        16,
+        24
+      ],
+      "n_valid": 24,
+      "ccei": 0.9401636123657227,
+      "garp_pass": false,
+      "exact_ties": 0,
+      "dose_l1": 8.726731543144034,
+      "dose_linf": 7.353408509809743,
+      "projection_status": "solved",
+      "projection_verified": true,
+      "projection_gap": 0.0
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 19,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 19,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 0.47652339935302734,
+      "garp_pass": false,
+      "exact_ties": 0,
+      "dose_l1": 79.99685832757478,
+      "dose_linf": 50.359242029185005,
+      "projection_status": "solved",
+      "projection_verified": true,
+      "projection_gap": 2.8422825620497762e-15
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 20,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 20,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        20
+      ],
+      "n_valid": 20,
+      "ccei": 0.9780168533325195,
+      "garp_pass": false,
+      "exact_ties": 0,
+      "dose_l1": 1.4326816379497225,
+      "dose_linf": 0.8953043833636027,
+      "projection_status": "solved",
+      "projection_verified": true,
+      "projection_gap": 0.0
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 21,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 21,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        23
+      ],
+      "n_valid": 23,
+      "ccei": 0.9877252578735352,
+      "garp_pass": false,
+      "exact_ties": 0,
+      "dose_l1": 5.876950076917244,
+      "dose_linf": 2.4374338498454122,
+      "projection_status": "solved",
+      "projection_verified": true,
+      "projection_gap": 0.0
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 22,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 22,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 1.0,
+      "garp_pass": true,
+      "exact_ties": 0,
+      "dose_l1": 0.0,
+      "dose_linf": 0.0,
+      "projection_status": "already_garp_consistent"
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 23,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 23,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 1.0,
+      "garp_pass": true,
+      "exact_ties": 0,
+      "dose_l1": 0.0,
+      "dose_linf": 0.0,
+      "projection_status": "already_garp_consistent"
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 24,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 24,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 1.0,
+      "garp_pass": true,
+      "exact_ties": 0,
+      "dose_l1": 0.0,
+      "dose_linf": 0.0,
+      "projection_status": "already_garp_consistent"
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 25,
+      "group": "residual_discard",
+      "chosen_attempt": 2,
+      "chosen_attempt_seed": 1025,
+      "n_attempts_present": 3,
+      "attempt_n_valid_sequence": [
+        0,
+        12,
+        0
+      ],
+      "residual_discard_all_nvalid": [
+        0,
+        12,
+        0
+      ],
+      "n_valid": 12,
+      "ccei": 0.6461772918701172,
+      "garp_pass": false,
+      "exact_ties": 0,
+      "dose_l1": 72.5874390831062,
+      "dose_linf": 41.34201789992327,
+      "projection_status": "solved",
+      "projection_verified": true,
+      "projection_gap": 0.0,
+      "note": "Trace based on only 12 valid rounds (< the 20-round threshold). Fewer rounds means fewer pairwise revealed-preference comparisons (132 ordered pairs vs. up to 600 at n_valid=25), so this CCEI/GARP figure has correspondingly less power to detect violations than a full-threshold trace."
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 26,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 26,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        24
+      ],
+      "n_valid": 24,
+      "ccei": 1.0,
+      "garp_pass": true,
+      "exact_ties": 0,
+      "dose_l1": 0.0,
+      "dose_linf": 0.0,
+      "projection_status": "already_garp_consistent"
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 27,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 27,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 0.9924774169921875,
+      "garp_pass": false,
+      "exact_ties": 0,
+      "dose_l1": 0.6753359311225506,
+      "dose_linf": 0.3292367435853123,
+      "projection_status": "solved",
+      "projection_verified": true,
+      "projection_gap": 0.0
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 28,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 28,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 1.0,
+      "garp_pass": true,
+      "exact_ties": 0,
+      "dose_l1": 0.0,
+      "dose_linf": 0.0,
+      "projection_status": "already_garp_consistent"
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 29,
+      "group": "first_attempt_success",
+      "chosen_attempt": 1,
+      "chosen_attempt_seed": 29,
+      "n_attempts_present": 1,
+      "attempt_n_valid_sequence": [
+        24
+      ],
+      "n_valid": 24,
+      "ccei": 0.8974113464355469,
+      "garp_pass": false,
+      "exact_ties": 0,
+      "dose_l1": 9.705762698837827,
+      "dose_linf": 3.9290962034578687,
+      "projection_status": "solved",
+      "projection_verified": true,
+      "projection_gap": 0.0
+    },
+    {
+      "model": "qwen2.5:1.5b-instruct-q4_K_M",
+      "condition": "reciprocal",
+      "replicate": 30,
+      "group": "retry_rescued",
+      "chosen_attempt": 2,
+      "chosen_attempt_seed": 1030,
+      "n_attempts_present": 2,
+      "attempt_n_valid_sequence": [
+        10,
+        25
+      ],
+      "n_valid": 25,
+      "ccei": 0.999354362487793,
+      "garp_pass": false,
+      "exact_ties": 0,
+      "dose_l1": 0.22685900367383927,
+      "dose_linf": 0.11425231634798283,
+      "projection_status": "solved",
+      "projection_verified": true,
+      "projection_gap": 0.0
+    }
+  ]
+}

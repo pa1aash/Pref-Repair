@@ -170,7 +170,11 @@ transfers here (\S\ref{sec:method-guarantee}). POISE also projects a \emph{teach
 labels, not an agent's own choices. Three further inference-time repairs, each on a different
 object: \citet{chadwick2025dutchbooks} (synthetic election data, no downstream comparison),
 TrustJudge \citep{wang2025trustjudge} (third-party judgments, no degree parameter), CONSISTRE
-\citep{sun2026consistre} (relation-extraction triples, no Afriat machinery). One training-time
+\citep{sun2026consistre} (relation-extraction triples, no Afriat machinery). LLM-RankFusion
+\citep{zeng2024rankfusion} scores its rankings against real TREC relevance labels --- the only one
+of these four with a genuinely exogenous payoff --- but explicitly declines a minimum-distance
+rank-aggregation method, naming Kemeny aggregation and rejecting it as NP-hard in favor of simple
+Borda-count voting across rankers. One training-time
 system alters the agent itself: \citet{buchanan2026innate} (IIA-invariance loss, no downstream
 evaluation). A further training-time system is not an LLM agent at all:
 \citet{aguiar2026garpefm} fine-tune Chronos-2, a time-series forecaster, on synthetic
@@ -306,7 +310,13 @@ identically for the raw and projected sequence at the same budget lines, so that
 $\Delta\mathrm{payoff} = \mathrm{payoff}(\tilde{x}) - \mathrm{payoff}(x)$ is comparable across
 conditions, models, and repairs. This mirrors --- not the specifics, but the structure of --- a
 money-metric utility index, the standard device for welfare comparison over the same
-GARP/Afriat objects this paper's method already relies on.
+GARP/Afriat objects this paper's method already relies on. A genuinely exogenous, real-world payoff
+of this kind is rare in this literature: \citet{ouyang2024aidecisionmaker} score LLM-generated
+capital-expenditure forecasts against firms' realized future spending and find the relationship
+between alignment intensity and forecast accuracy is \emph{non-monotonic} --- light alignment
+helps, over-alignment hurts --- but without a placebo intervention of matched size, that design
+cannot separate an alignment-specific effect from a generic effect of any fine-tuning
+intervention, the same separation our dose--response design is built to make.
 
 We audited this design adversarially, before treating any dose--response result as reportable, for
 four failure modes: a shared-data leak between payoff and projection, a mechanical link between

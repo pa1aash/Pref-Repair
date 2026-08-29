@@ -348,6 +348,22 @@ null construction. Under this second payoff we report two null constructions, ne
 \textbf{primary}, information-fair null (the identical construction above, unaware of $\alpha_s$)
 and an \textbf{oracle} null (aims directly at the true per-trace optimum $x^*_{\alpha_s}$), reported
 only as an upper bound since it uses information no real repair algorithm has.
+Figure~\ref{fig:pipeline} summarizes the full pipeline, from the budget-set draw through to the
+paired scoring of the real and null sequences under both payoff designs.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.98\linewidth]{../figures/fig_pipeline_schematic.pdf}
+  \caption{The pipeline, one replicate slot end to end: budget-set draw (1); prompt/format arm
+  (2); parse under the capped retry protocol of \S\ref{sec:discard}, residual discards excluded
+  (3); combinatorial Warshall-closure GARP check (4); and, for the traces that violate it, the
+  minimal-quantity-error MILP of \S\ref{sec:method-projection} (5), whose $L_1$ displacement is
+  the dose. Steps 6--7 are the paper's central comparison: the real repaired sequence (6a, solid
+  blue) and the GARP-blind null spending an identical $L_1$ displacement (6b, dashed orange) are
+  scored by the same step (7) under both payoff designs. Counts are the main experiment's
+  (\S\ref{sec:results}).}
+  \label{fig:pipeline}
+\end{figure}
 
 \section{Experimental design}
 \label{sec:design}

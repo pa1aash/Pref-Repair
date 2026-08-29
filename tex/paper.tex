@@ -597,9 +597,14 @@ confirmation of the literature's own strongest lever.
 \begin{figure}[t]
   \centering
   \includegraphics[width=0.72\linewidth]{../figures/fig3_multiturn_format.pdf}
-  \caption{1.5B, baseline vs.\ multiturn elicitation format. GARP pass rate (left) collapses; mean
-  CCEI (right, $\pm1$ SD) is visually flat with heavily overlapping dispersion. Zero discards
-  occurred in either arm, unlike Figure~\ref{fig:discardbias}.}
+  \caption{1.5B (qwen2.5:1.5b), baseline vs.\ multiturn elicitation format (25 sequential calls),
+  $n=30$ per condition, zero discards in either arm. Left: GARP pass rate, with 95\% Wilson score
+  confidence intervals on each bar (baseline 12/30 = 40\% [95\% CI 24.6--57.7\%]; multiturn 3/30 =
+  10\% [95\% CI 3.5--25.6\%]; Pearson $\chi^2$ test, $p=0.0073$). Right: mean CCEI, with 95\%
+  confidence intervals computed from the reported mean, SD, and $n$ via the $t$-distribution
+  ($df=29$) (baseline $0.952$ [95\% CI $0.925$--$0.979$]; multiturn $0.954$ [95\% CI
+  $0.935$--$0.973$]; two-sample $t$-test, $p=0.91$). The second bar in each panel is additionally
+  hatched so the two conditions remain distinguishable without color.}
   \label{fig:multiturn}
 \end{figure}
 

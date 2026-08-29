@@ -41,7 +41,8 @@ GARP-rationalizability as a single mixed-integer program, which yields a graded,
 (an Afriat-style efficiency index) where prior work has mostly used binary cycle-counting or
 toggled interventions, and we apply it \emph{post hoc} to a frozen agent, so capacity, training
 and policy are identical across doses by construction. Scoring the repaired sequences against a
-fixed, pre-registered exogenous payoff that no preference judgment enters, we trace the
+fixed exogenous payoff, decided before any data collection and that no preference judgment
+enters, we trace the
 dose--response relationship from the raw sequence toward full rationalizability at two model
 scales (a 1.5B-parameter model with measured coherence headroom, and a 3B-parameter model with
 almost none, run as an identification control rather than a second point on one scale curve).
@@ -57,8 +58,8 @@ elicitation into separate sequential calls at 1.5B collapses GARP pass rate from
 ($p=0.0073$), with zero discard confound on either arm, moving in the \emph{opposite} direction
 from an independently published single-turn-vs-multi-turn finding in the same domain and model
 family at a larger scale --- not a replication of it. Throughout, we report Bronars power beside
-every efficiency index and report the discard rate as a first-class per-condition outcome rather
-than a silently-dropped nuisance.
+every efficiency index and report the discard rate for every cell rather than treating it as a
+silently-dropped nuisance.
 \end{abstract}
 
 \section{Introduction}
@@ -111,12 +112,12 @@ discard confound on either arm.
 \textbf{Contributions.} (1) An application --- not a novel method --- of
 \citet{demuynck2023computing}'s minimal-quantity-error MILP projection to an agent's own realized
 choices, independently verified on every output rather than trusted from solver status alone. (2)
-A pre-registered, closed-form exogenous payoff audited adversarially for leakage and for the
+A closed-form exogenous payoff, fixed before any data collection, audited adversarially for leakage and for the
 mechanical confound that larger violations simply have more room to improve. (3) A measured
 dose--response relationship at two model scales, run as headroom model and null-effect
 identification control rather than two points on one curve. (4) An instrument-validity finding
 (discard-selection bias under a disruptive manipulation), corrected for by a stated retry
-protocol and reported as a first-class outcome. (5) A single-turn-vs-multi-turn elicitation-format
+protocol and reported per cell rather than pooled away. (5) A single-turn-vs-multi-turn elicitation-format
 manipulation that produces a large GARP-pass-rate collapse at 1.5B, in the \emph{opposite}
 direction from an independently published single-turn-vs-multi-turn finding in the same
 budget-allocation domain and the same model family (Qwen2.5) at a larger scale.
@@ -124,123 +125,95 @@ budget-allocation domain and the same model family (Qwen2.5) at a larger scale.
 \section{Related Work}
 \label{sec:related}
 
-\subsection{Repairing LLM preference and judgment consistency}
+Repairing an AI system's incoherent preferences is not new; Table~\ref{tab:related} positions nine
+published systems against the four criteria that jointly define our claim: an agent's own choices
+(not a judgment about third-party items), an exogenous payoff (no preference judgment enters it),
+a graded rather than binary dose, and a formal minimum-distance projection. None occupies all four.
 
-Repairing an AI system's incoherent preferences is not new; we concede what is occupied before
-claiming what is not. At least six published systems restore some consistency property of an
-LLM's choices or judgments, three at inference time. None applies such an operator to an agent's
-\emph{own} choice sequence over budget sets, indexes it by a graded coherence measure, and scores
-the result against a payoff into which no preference judgment enters --- that conjunction is our
-claim (Table~\ref{tab:related}, Appendix~\ref{app:related-table}).
+\begin{table}[h]
+\centering\small
+\caption{Where prior repair systems sit. \emph{Own choices}: the repaired object is a choice the
+agent made for itself from a budget set, not a judgment about third-party items.
+\emph{Exogenous payoff}: an outcome into which no preference judgment enters.}
+\label{tab:related}
+\begin{tabular}{lcccc}
+\toprule
+& Own & Exogenous & Graded & Min.-distance \\
+& choices & payoff & dose & projection \\
+\midrule
+POISE \citep{wang2026poise}                       & no  & no  & no  & \textbf{yes} \\
+Rationality layer \citep{chadwick2025dutchbooks}  & no  & no  & no  & \textbf{yes} \\
+TrustJudge \citep{wang2025trustjudge}             & no  & no  & no  & no \\
+CONSISTRE \citep{sun2026consistre}                & no  & partial & no & no \\
+LLM-RankFusion \citep{zeng2024rankfusion}         & no  & \textbf{yes} & no & no (declined) \\
+Innate preferences \citep{buchanan2026innate}     & \textbf{yes} & no & no & no \\
+GARP-EFM \citep{aguiar2026garpefm}                & no  & \textbf{yes} & no & no \\
+HRC/DSPPO \citep{huang2026hrc}                    & no  & no  & \textbf{yes} & no \\
+Control vectors \citep{cook2026whatllmswant}      & \textbf{yes} & no & \textbf{yes} & no \\
+\midrule
+This paper                                        & \textbf{yes} & \textbf{yes} & \textbf{yes} & \textbf{yes} \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-The sharpest vocabulary collision is POISE \citep{wang2026poise}: it reads pairwise labels as a
-fixed partial order and returns the pool-adjacent-violators projection onto the closed convex
-chain-monotone cone $\{s': s'_1\le\cdots\le s'_m\}$, with a proved Pythagorean guarantee that the
-edit lands weakly closer to a posited ground truth. We concede the minimum-distance priority
-unqualified. \textbf{The difference is in what can be guaranteed, not in what is computed.}
-Projection onto a closed convex set is non-expansive in $L_2$, which is what licenses that
-guarantee; the GARP-consistent set is a union of polyhedra, one per admissible ordering, hence
-not convex, so no analogue transfers. POISE also projects a \emph{teacher's} offline training
-labels rather than an agent's own choices, excludes cycles by precondition, and validates on a
-68-comparison human preference vote --- and its own ablation shows the projection alone
-\emph{lowering} overall quality by $0.50$ while raising consistency by $2.27$.
-
-Three further inference-time repairs, each on a different object.
-\citet{chadwick2025dutchbooks} project incoherent probability judgments onto the nearest coherent
-point by quadratic program and break intransitive preferences via a polynomial-time Kemeny
-approximation, nearest to ours in spirit but tested only on synthetic election data with no
-downstream task-quality comparison. TrustJudge \citep{wang2025trustjudge} cuts a judge's pairwise
-transitivity violations from $15.22\%$ to $4.40\%$, but repairs judgments of third-party
-responses with no degree parameter. CONSISTRE \citep{sun2026consistre} enforces
-transitivity/symmetry/functional-uniqueness over relation-extraction triples, with no budget sets
-and no Afriat machinery. One training-time system alters the agent itself, so it does not hold
-capacity fixed across doses: \citet{buchanan2026innate} fine-tune with IIA-invariance losses
-(compliance $0.920\to0.948$) with no downstream evaluation. A further training-time system is not
-an LLM agent at all: \citet{aguiar2026garpefm} fine-tune Chronos-2, a time-series forecasting
-model, on synthetic utility-maximizing-agent data to predict \emph{human consumers'} own choices
---- not a coherence-repair operator on an agent's own behaviour, but a forecasting model partly
-trained on GARP-consistent synthetic data, with a downstream evaluation (17--31\% bundle-prediction
-error reduction versus zero-shot) that neither of the other two training-time systems above
-reports.
-
-\subsection{Coherence versus downstream competence: the open sign}
+\textbf{POISE} \citep{wang2026poise} is the sharpest vocabulary collision: pool-adjacent-violators
+projection onto a closed convex chain-monotone cone, with a proved Pythagorean guarantee the edit
+lands weakly closer to a posited ground truth. We concede the minimum-distance priority
+unqualified: projection onto a closed convex set is non-expansive in $L_2$, licensing that
+guarantee; the GARP-consistent set is a union of polyhedra, hence not convex, so no analogue
+transfers here (\S\ref{sec:method-guarantee}). POISE also projects a \emph{teacher's} offline
+labels, not an agent's own choices. Three further inference-time repairs, each on a different
+object: \citet{chadwick2025dutchbooks} (synthetic election data, no downstream comparison),
+TrustJudge \citep{wang2025trustjudge} (third-party judgments, no degree parameter), CONSISTRE
+\citep{sun2026consistre} (relation-extraction triples, no Afriat machinery). One training-time
+system alters the agent itself: \citet{buchanan2026innate} (IIA-invariance loss, no downstream
+evaluation). A further training-time system is not an LLM agent at all:
+\citet{aguiar2026garpefm} fine-tune Chronos-2, a time-series forecaster, on synthetic
+utility-maximizing-agent data to predict human consumers' own choices, with a downstream
+evaluation (17--31\% bundle-prediction error reduction) neither of the other two above reports.
 
 A parallel line varies the transitivity of the \emph{preference model} rather than an agent's
-choices. GPM \citep{zhang2025gpm} replaces the scalar Bradley--Terry reward head with a
-skew-symmetric embedding able to represent cycles; HRC/DSPPO \citep{huang2026hrc} decomposes the
-preference function into transitive and cyclic components and schedules their weight through
-self-play. We cite both as friendly precedent, not rivals: in both, the cycle-tolerant arm is a
-strict superset model class (each states Bradley--Terry is its dimension-one special case), so
-coherence is confounded with capacity by construction, and on GPM's own length-controlled metric
-that arm \emph{loses} in 18 of 24 head-to-head cells.
+choices: GPM \citep{zhang2025gpm} and HRC/DSPPO \citep{huang2026hrc} both make the cycle-tolerant
+arm a strict superset model class, confounding coherence with capacity by construction, and on
+GPM's own length-controlled metric that arm \emph{loses} in 18 of 24 cells. HRC/DSPPO already
+publishes its own inverted-U dose--response curve over a training-time schedule weight --- we say
+so before claiming anything about grading --- but the dose weights a learned third-party proxy
+during training, not an agent's own realized choices, and the outcome is an LLM-judge score
+throughout, where ours acts post hoc and is exogenous. Our closest theoretical neighbour,
+\citet{andrews2026revealed}, proposes $1-\mathrm{CCEI}$ as a training penalty and states plainly,
+repeatedly, that coherence is \emph{not} sufficient for good behaviour --- argued a priori, never
+measured, never asking whether \emph{imposing} coherence helps or hurts; ours is the empirical
+counterpart to a proposal that has circulated unrun.
 
-\textbf{HRC/DSPPO already publishes a dose--response curve, and we say so before claiming
-anything about grading.} Its Appendix C.4 traces nine settings of a schedule weight
-$\lambda\in\{-2,\dots,2\}$ against win rate: an inverted U, interior optimum at $\lambda=+1.0$,
-span $4.63$ points. Four differences separate it from ours. \emph{Object}: $\lambda$ weights a
-component of a learned third-party preference proxy during training; ours acts post hoc on the
-agent's own realized choices, so capacity and training are identical across doses by
-construction. \emph{Units}: $\lambda$ has no reading as incoherence removed, where our
-projection-distance dose does. \emph{Outcome}: every downstream number in both ICML papers is an
-LLM-judge score; ours is exogenous. \emph{Endpoints}: their schedules never reach either extreme;
-ours runs from the raw sequence to full rationalizability.
-
-Our closest theoretical neighbour is \citet{andrews2026revealed}, who argues representation
-theorems furnish label-free evaluation/regularization signals and proposes $1-\mathrm{CCEI}$ as a
-penalty, running no experiments and proposing no inference-time operator. He states plainly ---
-in the abstract, twice in \S1, and as his first limitation --- that coherence is \emph{not}
-sufficient for good behaviour; that position is argued a priori and never measured, and he never
-asks whether \emph{imposing} coherence helps or hurts. Ours is the empirical counterpart to a
-theoretical proposal that has circulated unrun. One study already reports the qualitative shape
-we look for: \citet{ouyang2025aidecisionmaker} find alignment fine-tuning's relationship to
-realized capital-expenditure prediction is non-monotonic --- moderate single-dimension alignment
-\emph{raises} the predictive coefficient while full composite alignment degrades it --- for a
-different enforced property and no minimum-distance objective, but the shape our design is built
-to detect.
-
-\subsection{Reliability of the instrument, and a record of repair that failed}
-
-\textbf{The sharpest objection is psychometric, and it is in \emph{PNAS}.} Across eight datasets
-and $>1{,}600$ participants, \citet{nitsch2022reliability} find not one of $\sim$40 ICC estimates
-for CCEI or Houtman--Maks reaches $0.75$, and that 97 participants given the chance to revise
-their own inconsistent budget-set choices saw mean CCEI \emph{fall}, with test--retest reliability
-dropping from $0.522$ to $0.443$. Our answer has three parts, the third a concession. First,
-\emph{that revision arm is not a repair operator}: participants saw a random subset of choices,
-not the violating ones, with no consistency objective and no guarantee the revised set had fewer
-violations --- our operator attains rationalizability by construction and verifies it
-independently. The same distinction disposes of \citet{yamin2026elicited}'s isotonic-calibration
-repair, worse in 14 of 16 cells: it projects onto the monotone \emph{calibration} cone while the
-metric it is graded on scores conditional independence, a different set than the one repaired.
-Second, the reliability finding is diagnosed by its own authors as a between-subject-variance
-problem, not measurement error (within-subject CV $\approx15\%$), with their own prescribed
-remedy --- ``a manipulation (i.e., a between-groups design)'' --- being this paper's design.
-Third, the concession, stated plainly: \emph{there is no answer to the third-negative-in-a-row
-problem.} Adding \citet{zhu2025axiomatic}'s frozen-embedding probability-axiom enforcement
-(coherence improved, held-out MSE slightly worse), three independent results across three axiom
-systems point one way, and a null result here would be a fourth confirmation rather than a
-discovery. We therefore carry a distance-matched null-operator control --- identical
-displacement, no consistency gain --- which neither published negative had.
-
-\subsection{Economics-side interventions on LLM choice behaviour}
+\textbf{The sharpest objection is psychometric, and it is in \emph{PNAS}.}
+\citet{nitsch2022reliability} find CCEI/Houtman--Maks reliability never reaches acceptable levels
+across eight datasets, and that participants given the chance to revise their own inconsistent
+choices saw mean CCEI \emph{fall}. That revision arm is not a repair operator (a random subset of
+choices, no consistency objective, no guarantee of fewer violations) --- ours attains
+rationalizability by construction and verifies it independently, the same distinction that
+disposes of \citet{yamin2026elicited}'s isotonic-calibration repair (worse in 14 of 16 cells,
+projecting onto a different set than the one it is graded on). The reliability finding is
+diagnosed by its own authors as a between-subject-variance problem whose prescribed remedy --- a
+between-groups design --- is this paper's design; the concession we do not shed is that three
+independently published axiom-enforcement results (adding \citet{zhu2025axiomatic}'s) all point
+the same adverse way, and a null result here would be a fourth confirmation rather than a
+discovery, which is why we carry a distance-matched null-operator control neither published
+negative had.
 
 The closest neighbour on the economics side is invisible to any arXiv sweep.
-\citet{cook2026whatllmswant} elicit economic choices from ten open-weight models and steer them
-toward payoff-maximising behaviour via personas, prompt masking, and learned control vectors ---
-occupying two of our three legs (intervention on an agent's own economic choices, continuously
-graded strength) without Afriat machinery, a minimum-perturbation objective, or a payoff-traced
-frontier; their finding that reframing and control vectors move models while persona prompting
-does not corroborates our manipulation choice. That choice is anchored in \citet{wang2025tactics},
-who find \emph{format}, not persona or temperature, moves the Afriat index in the same
-budget-allocation domain we study, on Qwen2.5-7B-Instruct among other models --- the same model
-family as our 1.5B, at a larger scale: collapsing their \emph{multi-turn baseline} to single-turn
-drops Qwen2.5-7B's CCEI by up to $0.241$. We adopted format as an experimental arm on that
-evidence. Our arm runs the opposite manipulation --- our own baseline is single-turn, and we split
-it into separate sequential calls --- and finds the opposite direction: GARP pass rate collapses
-from $0.40$ to $0.10$ ($p=0.0073$; survives Benjamini--Hochberg correction across our full test
-family but not the more conservative Holm correction) with zero discards. This is not a
-replication of \citet{wang2025tactics}'s finding: in the same domain and the same model family,
-which elicitation format is more coherence-degrading reverses between their 7B model and our 1.5B
-model. We report the disagreement rather than the confirmation we expected.
+\citet{cook2026whatllmswant} steer economic choices toward payoff-maximising behaviour via
+personas, prompt masking, and control vectors --- occupying two of our three legs without Afriat
+machinery or a minimum-perturbation objective; their finding that reframing moves models while
+persona prompting does not corroborates our manipulation choice, anchored in
+\citet{wang2025tactics}. Wang et al.\ find \emph{format}, not persona or temperature, moves the
+Afriat index in the same budget-allocation domain we study, on Qwen2.5-7B-Instruct among other
+models --- the same model family as our 1.5B, at a larger scale: collapsing their multi-turn
+baseline to single-turn drops CCEI by up to $0.241$. Our arm runs the opposite manipulation
+(single-turn baseline split into multi-turn) and finds the opposite direction: GARP pass rate
+collapses from $0.40$ to $0.10$ ($p=0.0073$; survives Benjamini--Hochberg but not Holm correction
+across our full test family) with zero discards. This is not a replication: in the same domain and
+model family, which format is more coherence-degrading reverses between their 7B model and our
+1.5B model. We report the disagreement rather than the confirmation we expected.
 
 \section{Method}
 \label{sec:method}
@@ -270,29 +243,28 @@ HiGHS backend, with no outer search over preference orderings and no alternating
 
 Three method commitments, each carrying an explicit risk. \textbf{Budget exhaustion is imposed as
 an equality}, $p_t\!\cdot\!\tilde{x}_t = I_t$ for every observation (income fixed at 100
-throughout this project); this is standard for the design, and it makes the big-$M$ constant in
+throughout this study); this is standard for the design, and it makes the big-$M$ constant in
 the ordering constraints computable a priori as $\alpha > \max_t I_t$. \textbf{A fixed
 strict-preference margin $\gamma > 0$}, set to $10^{-4}\cdot\min_t I_t$, converts an unattained
 infimum into an attained minimum: the GARP-consistent set is not closed, so an unregularized
 projection can read a distance of exactly zero on genuinely violating data. We verified the
 reported distance is stable across $\gamma \in \{10^{-2},\ldots,10^{-6}\}$ before treating it as
 reportable. \textbf{Every returned $\tilde{x}$ is verified independently} via the same
-combinatorial Warshall-closure GARP check used everywhere else in this project, never trusted
+combinatorial Warshall-closure GARP check used everywhere else in this paper, never trusted
 from solver optimality status alone --- all 85 GARP-violating traces' projections in the main
 experiment were independently re-verified GARP-consistent, with MIP gap $\le 8.1\times10^{-5}$ on
 every solve.
 
 The objective is $L_1$: $\min \sum_t\sum_k w_{t,k} d_{t,k}$ subject to
 $\tilde{x}_{t,k}-x_{t,k}\le d_{t,k}$ and $x_{t,k}-\tilde{x}_{t,k}\le d_{t,k}$, with uniform weights
-$w=1$. This keeps the program a pure MILP; $L_\infty$ is reported as a free-to-add robustness
-check. $L_2$, the literature's own least-squares index, would require an MIQP solver we do not
-have configured and is not computed. The \emph{dose} for a trace is its $L_1$ projection distance
+$w=1$. This keeps the program a pure MILP; $L_\infty$ distance is recorded alongside $L_1$ for
+every trace but is not separately analyzed in this paper. $L_2$, the literature's own least-squares
+index, would require an MIQP solver we do not have configured and is not computed. The \emph{dose} for a trace is its $L_1$ projection distance
 $\sum_t\sum_k |x_{t,k}-\tilde{x}_{t,k}|$, comparable across sessions without further normalization
 because income is fixed throughout. A Cobb--Douglas demand share-fitted to each trace's own
-observed data is computed as a feasibility incumbent and sanity ceiling on the reported distance
---- but this share-fitted quantity is never actually passed to the solver as a warm start (the
-underlying solver has no incumbent-injection interface), so it never influences the direction or
-magnitude of any reported projection; it is used only as a logged upper-bound diagnostic.
+observed data is computed as a feasibility incumbent and sanity ceiling on the reported distance,
+recorded only as an upper-bound diagnostic; Appendix~\ref{app:payoff-audit}(1) checks in detail that
+it never reaches the solver and so never influences any reported projection.
 
 \subsection{What can be guaranteed, and what cannot: positioning against convex projection}
 \label{sec:method-guarantee}
@@ -360,7 +332,7 @@ sequential API call carrying the running conversation history, isolating the eli
 mechanism from the price-framing mechanism; the arm is motivated by an independently published
 finding, in the same budget-allocation domain we study, that collapsing multi-turn elicitation to
 single-turn moves CCEI by up to $-0.241$ for a same-family model at a larger scale
-\citep{wang2025tactics}, an order of magnitude larger than this project's own pilot framing
+\citep{wang2025tactics}, an order of magnitude larger than this paper's own pilot framing
 effect. Our arm tests the manipulation in the opposite direction (single-turn baseline split into
 multi-turn), since that is the direction our own baseline format already uses. It is not added at
 3B, whose role is a null-effect
@@ -380,7 +352,7 @@ equality, an event common under grid-sampled or rounded prices \citep{andrews202
 $N=30$ gives power $\ge0.999$ against the pilot's full framing-effect magnitude on the pass-rate
 metric and $\ge0.80$ down to $\sim$60\% attenuation, but is explicitly underpowered for a
 CCEI-scale effect of the pilot's magnitude at 1.5B (minimum detectable $\approx0.11$), which we
-report rather than paper over. Every replicate's Bronars power is logged; all 150 draws held
+report rather than paper over. Every replicate's Bronars power is recorded; all 150 draws held
 power $\ge0.998$.
 
 \subsection{The discard-selection problem, and its correction as a stated contribution}
@@ -388,12 +360,12 @@ power $\ge0.998$.
 
 A pilot run found that under reciprocal framing at 1.5B, 52\% of sessions (13 of 25) failed the
 required output-format contract and were silently discarded under the pilot's own naive handling
---- standard practice, and one this project measures the consequences of directly rather than
+--- standard practice, and one this paper measures the consequences of directly rather than
 assumes. We treat this as a claim about instrument validity in its own right, not a footnote to the
 dose--response result, true regardless of whether projection helps, hurts, or does nothing
 downstream. The main experiment implements a capped retry protocol: a session failing the
 $\ge20/25$-valid-rounds threshold is retried up to three total attempts with a fresh seed offset,
-every attempt logged; a slot still failing after three attempts is a residual discard, excluded
+every attempt recorded; a slot still failing after three attempts is a residual discard, excluded
 from CCEI/GARP but retained for audit.
 
 Broken down by attempt outcome at 1.5B reciprocal framing, retry-rescued sessions ($n=7$, recovered
@@ -410,7 +382,7 @@ per-condition outcome for every cell.
 \section{Results}
 \label{sec:results}
 
-187 attempt-records were logged across 150 replicate slots (2 models $\times$ up to 3 conditions
+187 attempt-records were collected across 150 replicate slots (2 models $\times$ up to 3 conditions
 $\times$ 30 replicates); 142 slots kept a usable trace, 8 were residual discards after three
 attempts. Every cell reached its full 30 replicates.
 
@@ -441,7 +413,7 @@ $\Delta$payoff $+0.0091$ (one-sample $t=5.41$, $p<0.00001$), with 70 of 85 trace
 after repair and 15 (18\%) worsening. Figure~\ref{fig:doseresponse} shows the relationship split
 by model on shared axes. \textbf{Both scales show a significant, positive relationship, and it is
 stronger at the headroom model}: $\rho=0.756$ ($p<0.0001$, $n=60$) at 1.5B versus $\rho=0.614$
-($p=0.0011$, $n=25$) at 3B. This is the one place our data contradicts our own pre-registered
+($p=0.0011$, $n=25$) at 3B. This is the one place our data contradicts our own stated-in-advance
 expectation for the 3B control, and we report the contradiction rather than silently absorb it:
 we expected the 3B arm to fail to reject the null, on the reasoning that a model with almost no
 baseline incoherence has little for the identification strategy to act on. Instead, on the
@@ -480,7 +452,7 @@ design: GARP pass rate collapses from 0.73 (22/30) to 0.39 (11/28), $p=0.0089$ (
 Benjamini--Hochberg correction across our full test family, $p_{\mathrm{BH}}=0.011$, but not the
 more conservative Holm correction, $p_{\mathrm{Holm}}=0.062$); CCEI moves much
 less and reaches only borderline significance (0.9900 vs.\ 0.9713, $t$-test $p=0.0508$) --- the
-same near-1 compression the pilot flagged, and a further case in this project of the pattern that
+same near-1 compression the pilot flagged, and a further case in this paper of the pattern that
 GARP pass rate is the sensitive instrument for framing/format disruption while CCEI understates
 it.
 
@@ -519,9 +491,8 @@ discards on either arm} so no selection-bias caveat applies. Corrected for multi
 across our full test family, this result survives Benjamini--Hochberg correction
 ($p_{\mathrm{BH}}=0.0094$) but not the more conservative Holm correction
 ($p_{\mathrm{Holm}}=0.058$); we report both rather than the raw $p$-value alone. Together with the
-3B reciprocal-framing result (\S\ref{sec:results-framing}), this is a further case of the pattern
-already established in this project: GARP pass rate is the sensitive instrument for framing/format
-disruption; CCEI is not. Against the literature this arm was designed against
+3B reciprocal-framing result (\S\ref{sec:results-framing}), this is a further case of the same
+pattern. Against the literature this arm was designed against
 \citep{wang2025tactics}: in the same budget-allocation domain, on the same model family at a
 larger scale (Qwen2.5-7B), single-turn elicitation was found to be \emph{more}
 coherence-degrading than multi-turn; here, at 1.5B, the reverse holds --- multi-turn elicitation
@@ -547,8 +518,8 @@ variation 14.8\%) is comparable to published human test--retest noise on the sam
 \citep{nitsch2022reliability}, and $N=30$ is explicitly underpowered for a CCEI-scale effect of
 the pilot's own magnitude at this scale (the minimum reliably detectable effect at this $N$ is
 roughly $2.5\times$ the pilot's magnitude). A CCEI-power-matched design would need $N\approx111$
-to $161$ depending on the assumed baseline variance; that scale-up was deferred by the operator
-pending this run's results and was not executed. We treat this as an open design tradeoff, not a
+to $161$ depending on the assumed baseline variance; that scale-up was deferred pending this run's
+results and was not executed. We treat this as an open design tradeoff, not a
 result masked by a metric choice: the pass-rate metric is adequately powered throughout and every
 CCEI result we report is accompanied by its own confidence interval rather than presented as
 equally reliable.
@@ -562,9 +533,9 @@ within-run replicate variance captured by the reported confidence intervals and 
 identification strategy from a scale confound but does not trace a dose--response relationship
 \emph{across} model scale: a pilot found headroom and measurement reliability do not coexist
 anywhere in the range piloted, so the design targets the scale where headroom exists rather than
-blending a noisy-but-real candidate effect with a clean-but-absent one across a wider range. A
-third model family was excluded after an observed multi-model-residency failure on the local
-machine; extending the roster is a documented follow-up, not a silent omission.
+blending a noisy-but-real candidate effect with a clean-but-absent one across a wider range (a
+third family was excluded after the multi-model-residency failure noted in
+\S\ref{sec:design}; extending the roster is a documented follow-up, not a silent omission).
 
 \textbf{One fixed exogenous payoff.} $U_{\mathrm{exo}}$ uses equal Cobb--Douglas weights,
 chosen for being a zero-degrees-of-freedom, closed-form, no-solver-dependency reference rather
@@ -587,7 +558,7 @@ payoff (\S\ref{sec:results}), and the reciprocal-framing manipulation this study
 around turned out, once corrected, to have no measurable effect on the coherence it was thought to
 disrupt (\S\ref{sec:results-framing}). The paper's contribution is a measurement design for
 asking whether repair helps in a given setting, not a recommendation to deploy it universally.
-Separately, the discard-selection finding (\S\ref{sec:discard}) generalizes beyond this project:
+Separately, the discard-selection finding (\S\ref{sec:discard}) generalizes beyond this paper:
 any revealed-preference or consistency instrument that silently drops unparseable or
 disruption-caused failures risks systematically underestimating exactly the manipulations that
 matter most, which bears on how AI economic-behavior audits are designed and reported more
@@ -618,41 +589,6 @@ complication this literature should surface by default rather than paper over.
 \bibliography{references}
 
 \appendix
-
-\section{Where prior repair systems sit}
-\label{app:related-table}
-
-Table~\ref{tab:related} positions every system discussed in \S\ref{sec:related} against the four
-criteria that jointly define our claim: whether the repaired object is a choice the agent made
-for itself from a budget set (not a judgment about third-party items), whether the outcome
-measure is exogenous (no preference judgment enters it), whether the intervention is graded
-rather than binary, and whether the operator is a formal minimum-distance projection.
-
-\begin{table}[h]
-\centering\small
-\caption{Where prior repair systems sit. \emph{Own choices}: the repaired object is a choice the
-agent made for itself from a budget set, not a judgment about third-party items.
-\emph{Exogenous payoff}: an outcome into which no preference judgment enters.}
-\label{tab:related}
-\begin{tabular}{lcccc}
-\toprule
-& Own & Exogenous & Graded & Min.-distance \\
-& choices & payoff & dose & projection \\
-\midrule
-POISE \citep{wang2026poise}                       & no  & no  & no  & \textbf{yes} \\
-Rationality layer \citep{chadwick2025dutchbooks}  & no  & no  & no  & \textbf{yes} \\
-TrustJudge \citep{wang2025trustjudge}             & no  & no  & no  & no \\
-CONSISTRE \citep{sun2026consistre}                & no  & partial & no & no \\
-LLM-RankFusion \citep{zeng2024rankfusion}         & no  & \textbf{yes} & no & no (declined) \\
-Innate preferences \citep{buchanan2026innate}     & \textbf{yes} & no & no & no \\
-GARP-EFM \citep{aguiar2026garpefm}                & no  & \textbf{yes} & no & no \\
-HRC/DSPPO \citep{huang2026hrc}                    & no  & no  & \textbf{yes} & no \\
-Control vectors \citep{cook2026whatllmswant}      & \textbf{yes} & no & \textbf{yes} & no \\
-\midrule
-This paper                                        & \textbf{yes} & \textbf{yes} & \textbf{yes} & \textbf{yes} \\
-\bottomrule
-\end{tabular}
-\end{table}
 
 \section{Payoff exogeneity audit}
 \label{app:payoff-audit}

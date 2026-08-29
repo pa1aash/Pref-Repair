@@ -29,37 +29,22 @@
 \maketitle
 
 \begin{abstract}
-Repairing an AI agent's incoherent preferences is not a new idea: inference-time layers that
-restore transitivity, isotonic projections onto preference-defined cones, and training-time
-rationality penalties have all been proposed, and several report downstream gains. What no
-existing result establishes is \emph{how much} coherence is worth, because every published
-comparison either varies the coherence assumption by swapping in a strictly richer model class
---- confounding coherence with capacity --- or scores the outcome with another preference
-judgment, or treats repair as binary. We take the economics route instead. Given an LLM agent's
-own choices over budget sets, we compute the minimal perturbation restoring
-GARP-rationalizability as a single mixed-integer program, which yields a graded, cardinal dose
-(an Afriat-style efficiency index) where prior work has mostly used binary cycle-counting or
-toggled interventions, and we apply it \emph{post hoc} to a frozen agent, so capacity, training
-and policy are identical across doses by construction. Scoring the repaired sequences against a
-fixed exogenous payoff, decided before any data collection and that no preference judgment
-enters, we trace the
-dose--response relationship from the raw sequence toward full rationalizability at two model
-scales (a 1.5B-parameter model with measured coherence headroom, and a 3B-parameter model with
-almost none, run as an identification control rather than a second point on one scale curve).
-The relationship is real, strongly monotone, and precisely estimated at both scales (Spearman
-$\rho=0.756$, $p<0.0001$, $n=60$ at 1.5B; $\rho=0.614$, $p=0.0011$, $n=25$ at 3B) and survives a
-targeted robustness check against the mechanical confound that larger violations simply have
-more room to improve. We also report two findings the design was not built to predict. First,
-the reciprocal-price framing manipulation that motivated the study shows no detectable CCEI shift
-at 1.5B in either the pilot or the corrected main measurement --- two statistically
-indistinguishable nulls, not a sign reversal --- while the output-format discard rate itself
-remains large enough under this manipulation to matter on its own. Second, splitting single-turn
-elicitation into separate sequential calls at 1.5B collapses GARP pass rate from 0.40 to 0.10
-($p=0.0073$), with zero discard confound on either arm, moving in the \emph{opposite} direction
-from an independently published single-turn-vs-multi-turn finding in the same domain and model
-family at a larger scale --- not a replication of it. Throughout, we report Bronars power beside
-every efficiency index and report the discard rate for every cell rather than treating it as a
-silently-dropped nuisance.
+Repairing an AI agent's incoherent preferences is not new: inference-time transitivity repairs,
+isotonic projections onto preference-defined cones, and training-time rationality penalties have
+all been proposed, several with reported downstream gains. None controls for displacement
+magnitude: no result establishes whether restoring coherence itself, not mere displacement toward
+an interior point, is what any reported gain comes from. We build that control. Given an LLM
+agent's own choices over budget sets, we compute the minimal MILP perturbation restoring
+GARP-consistency, then compare it against a GARP-blind null operator spending the identical
+displacement budget shrinking every bundle toward a fixed center. Under the paper's original
+exogenous payoff, the null outperforms the real repair by more than 2x (mean payoff gain 0.0220
+vs.\ 0.0091, Wilcoxon $p=3.98\times10^{-10}$, winning 81\% of traces). A second, independently
+designed payoff built to remove the first one's exploitable fixed target reproduces the same
+verdict (null 0.0217 vs.\ real 0.0072, $p=1.24\times10^{-5}$, 70.8\% win rate); we decline a
+third as payoff-shopping. Trace extremity predicts the null's advantage in both experiments. The
+paper's standing contributions are instead a capacity-deconfounded identification strategy for
+the coherence--competence question, which remains open, and a discard-selection
+instrument-validity finding.
 \end{abstract}
 
 \section{Introduction}
@@ -91,6 +76,16 @@ prices and income alone --- never of the agent's own choices --- so the outcome 
 exogenous to the preference data by construction, not a restatement of coherence. Tracing dose
 against $\Delta$payoff gives the relationship this paper reports.
 
+That relationship turns out not to isolate what it was built to isolate. A control absent from
+every published axiom-enforcement result we are aware of --- an operator that knows nothing about
+GARP but spends the identical displacement budget shrinking every bundle toward a fixed interior
+point --- outperforms the real GARP-restoring repair on the exogenous payoff, significantly, at
+both model scales, under two independently designed payoffs (\S\ref{sec:results-c1}). This is the
+paper's central finding: restoring rationality, as originally proposed, does not buy more
+exogenous payoff than mere displacement toward the interior of the budget line does on its own. We
+report this as a negative result reached twice by construction, not as a null we happened to
+observe once.
+
 We do not claim any of the individual pieces are new; \S\ref{sec:related} concedes exactly what
 is not. What has not been done is the conjunction: an agent's own realized choices, a graded
 coherence-indexed dose, and an outcome that is not itself a preference judgment, run together so
@@ -99,7 +94,7 @@ measurable coherence headroom (1.5B parameters), and repeat the identical pipeli
 almost none (3B parameters) as an identification control on the method itself, not as a second
 point on a shared dose curve across scale.
 
-Two results were not predicted by the design. The reciprocal-price framing manipulation intended
+Two further results were not predicted by the design. The reciprocal-price framing manipulation intended
 to induce coherence variation at 1.5B produced, in a pilot run, a large apparent effect that
 disappears once discard-selection is corrected with a capped retry protocol: the pilot's naive
 estimate and the corrected main-experiment estimate are both statistically indistinguishable from
@@ -118,9 +113,12 @@ discard confound on either arm.
 \citet{demuynck2023computing}'s minimal-quantity-error MILP projection to an agent's own realized
 choices, independently verified on every output rather than trusted from solver status alone. (2)
 A closed-form exogenous payoff, fixed before any data collection, audited adversarially for leakage and for the
-mechanical confound that larger violations simply have more room to improve. (3) A measured
-dose--response relationship at two model scales, run as headroom model and null-effect
-identification control rather than two points on one curve. (4) An instrument-validity finding
+mechanical confound that larger violations simply have more room to improve. (3) A
+distance-matched, GARP-blind null-operator control --- absent from every published
+axiom-enforcement result we are aware of --- run against two independently designed exogenous
+payoffs, showing that the measured raw dose--response relationship is not evidence that
+GARP-restoration specifically, rather than mere displacement toward the interior, is what buys
+the exogenous payoff gain (\S\ref{sec:results-c1}). (4) An instrument-validity finding
 (discard-selection bias under a disruptive manipulation), corrected for by a stated retry
 protocol and reported per cell rather than pooled away. (5) A single-turn-vs-multi-turn elicitation-format
 manipulation that produces a large GARP-pass-rate collapse at 1.5B, in the \emph{opposite}
@@ -322,8 +320,34 @@ We audited this design adversarially, before treating any dose--response result 
 four failure modes: a shared-data leak between payoff and projection, a mechanical link between
 GARP-consistency and payoff, a projection direction secretly aimed at the payoff optimum, and the
 confound that larger-dose traces simply start worse and have more room to improve. None survived
-the audit (Appendix~\ref{app:payoff-audit} gives every check and number); the result we report in
-\S\ref{sec:results} is not an artifact of any of the four.
+the audit (Appendix~\ref{app:payoff-audit} gives every check and number); the raw dose--response
+statistic we report in \S\ref{sec:results-c1} is not an artifact of any of the four. A fifth
+failure mode --- that this payoff's own concavity could reward mere displacement without any
+GARP-specific effect --- required a new control rather than an audit of the existing design, and
+is addressed separately in \S\ref{sec:method-nullop}.
+
+\subsection{Two robustness controls against a payoff-geometry confound}
+\label{sec:method-nullop}
+
+The payoff of \S\ref{sec:method-payoff} reduces algebraically to $\mathrm{payoff}(s)=2\sqrt{s(1-s)}$,
+where $s$ is the expenditure share on good A: concave, with a single interior maximum at $s=0.5$
+identical across every trace. Any operator that moves a bundle toward that one fixed point raises
+its payoff, whether or not the movement has anything to do with restoring GARP-consistency. To test
+whether the dose--response relationship of \S\ref{sec:results-c1} reflects GARP-restoration
+specifically rather than this geometric fact, we construct a \textbf{null operator}: for each
+GARP-violating trace, shrink every observed bundle toward the exogenous optimum $x^*_t$ by a single
+shared factor $\lambda\in[0,1]$, chosen so the null's total $L_1$ displacement exactly matches the
+real projection's own dose on that trace. The null never calls the GARP check and does not, in
+general, restore consistency; it is scored by the same payoff function used everywhere else.
+
+Because the first payoff's exploitable property is a single fixed target identical across every
+trace, we build a second, independently designed payoff that removes it: a per-trace Cobb--Douglas
+weight $\alpha_s\sim\mathrm{Uniform}(0.05,0.95)$, drawn independently for each of the 85 traces and
+for each of $K=20$ replicate draws, read only at scoring time and never by the projection or the
+null construction. Under this second payoff we report two null constructions, never pooled: a
+\textbf{primary}, information-fair null (the identical construction above, unaware of $\alpha_s$)
+and an \textbf{oracle} null (aims directly at the true per-trace optimum $x^*_{\alpha_s}$), reported
+only as an upper bound since it uses information no real repair algorithm has.
 
 \section{Experimental design}
 \label{sec:design}
@@ -425,7 +449,8 @@ qwen2.5:1.5b & reciprocal & 24 & 0.9413 & 0.38 & 12.02 & +0.0065 \\
 \end{tabular}
 \end{table}
 
-\subsection{The dose--response relationship (C1)}
+\subsection{The dose--response relationship, and the control that overturns it (C1)}
+\label{sec:results-c1}
 
 Across all 85 GARP-violating traces with a computed, independently-verified projection (60 at
 1.5B, 25 at 3B): Spearman $\rho=0.729$ ($p<0.0001$), Pearson $r=0.821$ ($p<0.0001$), mean
@@ -433,16 +458,14 @@ $\Delta$payoff $+0.0091$ (one-sample $t=5.41$, $p<0.00001$), with 70 of 85 trace
 after repair and 15 (18\%) worsening. Figure~\ref{fig:doseresponse} shows the relationship split
 by model on shared axes. \textbf{Both scales show a significant, positive relationship, and it is
 stronger at the headroom model}: $\rho=0.756$ ($p<0.0001$, $n=60$) at 1.5B versus $\rho=0.614$
-($p=0.0011$, $n=25$) at 3B. This is the one place our data contradicts our own stated-in-advance
-expectation for the 3B control, and we report the contradiction rather than silently absorb it:
-we expected the 3B arm to fail to reject the null, on the reasoning that a model with almost no
-baseline incoherence has little for the identification strategy to act on. Instead, on the
-smaller set of violations that 3B does produce (mostly induced by reciprocal framing,
-\S\ref{sec:results-framing}), projection toward GARP-consistency still measurably helps on the
-exogenous payoff, at roughly a third the strength of the 1.5B relationship. The correct reading is
-not that the control found nothing, but that it found a real effect of about a third the
-magnitude --- evidence that the identification strategy is not an artifact specific to the 1.5B
-model, though not the null result our design anticipated.
+($p=0.0011$, $n=25$) at 3B. We tested the mechanical confound that larger-dose traces might simply
+start from worse raw payoff and therefore have more room to improve. The confound is real (dose
+vs.\ raw payoff, Pearson $r=-0.41$, $p<0.0001$) but does not explain the relationship away: the
+partial correlation of dose against $\Delta$payoff controlling for raw payoff is $r=0.784$
+($p=7\times10^{-19}$), and an OLS regression of $\Delta$payoff on dose and raw payoff jointly
+finds dose highly significant ($t=11.4$, $p<10^{-16}$) with raw payoff's own marginal contribution
+not distinguishable from zero ($p=0.18$) once dose is included. Full detail in
+Appendix~\ref{app:payoff-audit}.
 
 \begin{figure}[t]
   \centering
@@ -455,13 +478,64 @@ model, though not the null result our design anticipated.
   \label{fig:doseresponse}
 \end{figure}
 
-We tested the mechanical confound that larger-dose traces might simply start from worse raw
-payoff and therefore have more room to improve. The confound is real (dose vs.\ raw payoff,
-Pearson $r=-0.41$, $p<0.0001$) but does not explain the relationship away: the partial correlation
-of dose against $\Delta$payoff controlling for raw payoff is $r=0.784$ ($p=7\times10^{-19}$), and
-an OLS regression of $\Delta$payoff on dose and raw payoff jointly finds dose highly significant
-($t=11.4$, $p<10^{-16}$) with raw payoff's own marginal contribution not distinguishable from zero
-($p=0.18$) once dose is included. Full detail in Appendix~\ref{app:payoff-audit}.
+\textbf{This is where a paper that stopped at the raw correlation would end, and it is not where
+this one ends.} The confound just tested is a confound on the \emph{severity} of the raw
+violation, not on the specific \emph{geometry} of the payoff function --- it says nothing about
+whether restoring GARP-consistency \emph{specifically}, rather than merely displacing choices
+toward some interior point, is what buys the payoff gain above. \S\ref{sec:method-nullop} builds
+the control that closes this gap: a GARP-blind null operator, spending the identical $L_1$
+displacement budget as the real repair, that does nothing but shrink every bundle toward the
+exogenous payoff's own fixed optimum.
+
+\textbf{Experiment 1 (original payoff).} The null operator outperforms the real repair by roughly
+$2.4\times$: mean $\Delta$payoff$_{\mathrm{null}}=0.0220$ versus mean
+$\Delta$payoff$_{\mathrm{real}}=0.0091$, Wilcoxon signed-rank $p=3.98\times10^{-10}$, with the
+null winning 69 of 85 traces (81\%). This holds independently at both models. The partial
+correlation of dose against $\Delta$payoff$_{\mathrm{real}}$, controlling for the null's own
+mechanically-predicted gain, remains positive and significant ($r=0.574$, $p=1.13\times10^{-8}$)
+--- dose retains real information beyond what the null predicts --- but the paired comparison is
+unambiguous: at the identical displacement budget, an operator with no knowledge of GARP buys more
+than twice the payoff the real repair does.
+
+\textbf{Experiment 2 (corrected payoff).} The original payoff's exploit is a single fixed target
+($s=0.5$) identical across every trace; \S\ref{sec:method-nullop} removes this by drawing an
+independent Cobb--Douglas weight $\alpha_s\sim\mathrm{Uniform}(0.05,0.95)$ per trace, repeated
+across $K=20$ independent draws for robustness. The qualitative result is unchanged: the primary,
+information-fair null still outperforms the real repair (mean
+$\Delta$payoff$_{\mathrm{null}}=0.02167$ versus mean $\Delta$payoff$_{\mathrm{real}}=0.00723$,
+Wilcoxon $p=1.24\times10^{-5}$, win rate 70.8\%), significant in 20 of 20 draws. An oracle null
+privileged to know the true per-trace target does better still (mean
+$\Delta$payoff$_{\mathrm{null}}=0.02224$, $p=1.35\times10^{-9}$, win rate 80.4\%, significant in
+20/20 draws), reported for completeness rather than as the primary comparison. The partial
+correlation of dose with $\Delta$payoff$_{\mathrm{real}}$, controlling for the null, attenuates
+from Experiment 1's $r=0.574$ to a mean $r\approx0.37$ across the 20 draws, significant in 14--15
+of 20 --- a real but more modest signal, not distinguishable from the draw-to-draw noise the 20
+draws themselves already show.
+
+\textbf{No third payoff was attempted, and this is a stated scope decision, not a resource
+constraint.} Two independently designed, independently motivated payoffs --- one the paper's
+original, one built specifically to remove the first one's known exploitable structure ---
+converging on the same negative paired-comparison result is the finding. Redesigning the payoff a
+third time only because the second attempt also came back negative would be payoff-shopping:
+iterating the yardstick until GARP-restoration happens to look good, exactly the
+researcher-degree-of-freedom problem an exogenous payoff was introduced to rule out.
+
+\textbf{A partial mechanistic note.} Trace extremity ($1-\text{raw payoff}$ under the original
+fixed payoff, a stable measure of the raw bundles independent of which payoff later scores them)
+predicts the null's advantage strongly in both experiments (Experiment 1: Pearson $r=0.679$;
+Experiment 2 primary null: mean $r=0.631$ across 20 draws), more strongly than it predicts the
+real repair's own gain in either. This pattern alone does not cleanly separate ``centering'' from a
+more general ``moving an extreme trace toward the interior helps, regardless of exactly where''
+account, since Experiment 2's primary null is mechanically the same fixed-center operator as
+Experiment 1's. Experiment 2's oracle null, which targets a genuinely different, per-trace-varying
+point, shows essentially the same extremity-advantage (mean $r=0.624$) --- read as partial, not
+conclusive, support for an ``escape a bad start'' mechanism rather than pure centering, offered as
+a discussion-level hypothesis rather than a load-bearing result with its own significance test.
+
+\textbf{C1 as originally proposed --- that restoring GARP-consistency specifically, beyond mere
+displacement toward the interior of the budget line, buys more exogenous payoff --- is not
+supported under either payoff design.} The raw dose--response relationship reported at the top of
+this section is real; it is not evidence for the specific mechanism C1 claims.
 
 \subsection{The reciprocal-framing manipulation: survivorship, and a correction that helps but
 does not fully resolve it}
@@ -557,50 +631,69 @@ blending a noisy-but-real candidate effect with a clean-but-absent one across a 
 third family was excluded after the multi-model-residency failure noted in
 \S\ref{sec:design}; extending the roster is a documented follow-up, not a silent omission).
 
-\textbf{One fixed exogenous payoff.} $U_{\mathrm{exo}}$ uses equal Cobb--Douglas weights,
-chosen for being a zero-degrees-of-freedom, closed-form, no-solver-dependency reference rather
-than swept over alternative fixed weightings; \S\ref{sec:method-payoff}'s audit addresses whether
-this specific choice leaks information from the agent's revealed preferences, not whether a
-different fixed weighting would trace the same curve.
+\textbf{Two fixed exogenous payoffs, not three.} We report two independently designed payoffs
+(\S\ref{sec:method-payoff}, \S\ref{sec:method-nullop}) because the first one's single,
+globally-identical optimum turned out to be exploitable by a GARP-blind operator; the second
+removes that specific property and reproduces the same verdict. We do not report a third payoff. A
+third, run only because the second also came back negative, would be payoff-shopping rather than a
+robustness check, and \S\ref{sec:results-c1} says so rather than quietly running one until the
+result flips.
 
-\textbf{An adverse prior the paper does not shed.} Three independently published repair attempts
-moved the wrong way (\S\ref{sec:related}). Our own reciprocal-framing manipulation at 1.5B
-(\S\ref{sec:results-framing}) is a fourth negative in the narrower sense that the manipulation
-intended to induce measurable coherence variation did not do so once properly measured. The
-dose--response relationship we do report (\S\ref{sec:results}) argues against reading this prior
-as universal, but it is a relationship over naturally- and framing-induced violations pooled
-together, not a demonstration that any one manipulation reliably induces the violations repaired.
+\textbf{An adverse prior the paper now joins rather than argues against.} Three independently
+published repair attempts moved the wrong way (\S\ref{sec:related}). Our own reciprocal-framing
+manipulation at 1.5B (\S\ref{sec:results-framing}) is a fourth negative in the narrower sense that
+the manipulation intended to induce measurable coherence variation did not do so once properly
+measured. The null-operator result of \S\ref{sec:results-c1} is a fifth: under two independently
+designed exogenous payoffs, restoring GARP-consistency specifically does not outperform a
+GARP-blind operator matched on displacement. We do not read this as evidence that the
+coherence--competence relationship is negative in general --- C2 remains an open identification
+question, not a settled sign --- only that this paper's own attempt to find a positive
+relationship, net of mere displacement, did not succeed.
 
-\paragraph{Broader impacts.} A positive dose--response relationship, read carelessly, could be
-taken as license to impose coherence-repair on deployed AI economic agents by default. Our own
-result argues against that reading: 18\% of repairs in this study \emph{worsened} the exogenous
-payoff (\S\ref{sec:results}), and the reciprocal-framing manipulation this study was designed
-around turned out, once corrected, to have no measurable effect on the coherence it was thought to
-disrupt (\S\ref{sec:results-framing}). The paper's contribution is a measurement design for
-asking whether repair helps in a given setting, not a recommendation to deploy it universally.
-Separately, the discard-selection finding (\S\ref{sec:discard}) generalizes beyond this paper:
-any revealed-preference or consistency instrument that silently drops unparseable or
-disruption-caused failures risks systematically underestimating exactly the manipulations that
-matter most, which bears on how AI economic-behavior audits are designed and reported more
-broadly. We see no elevated misuse risk specific to this work: it uses only synthetic
-budget-allocation tasks on publicly available open-weight models, releases no new model or
-dataset, and does not involve human subjects.
+\paragraph{Broader impacts.} This paper's central result argues directly against imposing
+GARP-restoration on deployed AI economic agents as a default decision-quality intervention: under
+two independently designed exogenous payoffs, a GARP-blind operator that merely displaces choices
+toward an interior point outperforms the real repair (\S\ref{sec:results-c1}). A practitioner who
+deploys coherence-repair expecting a decision-quality gain, on the strength of a raw
+dose--response correlation alone, would be adopting exactly the confound this paper's control was
+built to catch. The reciprocal-framing manipulation this study was designed around similarly
+turned out, once corrected, to have no measurable effect on the coherence it was thought to
+disrupt (\S\ref{sec:results-framing}). The paper's contribution is a measurement design for asking
+whether repair helps in a given setting --- and, in the setting it tests, a documented instance
+where it does not --- not a recommendation to deploy it universally, and not a demonstration that
+no coherence-repair method could ever help downstream decisions. Separately, the
+discard-selection finding (\S\ref{sec:discard}) generalizes beyond this paper: any
+revealed-preference or consistency instrument that silently drops unparseable or disruption-caused
+failures risks systematically underestimating exactly the manipulations that matter most, which
+bears on how AI economic-behavior audits are designed and reported more broadly. We see no
+elevated misuse risk specific to this work: it uses only synthetic budget-allocation tasks on
+publicly available open-weight models, releases no new model or dataset, and does not involve
+human subjects.
 
 \section{Conclusion}
 \label{sec:conclusion}
 
-Applying \citet{demuynck2023computing}'s minimal-quantity-error GARP repair to an LLM agent's own
-realized choices, post hoc and scored against a fixed exogenous payoff, we find a real, precisely
-estimated, monotone dose--response relationship between repair size and payoff gain, at a model
-scale with measured coherence headroom and one without. The relationship survives an adversarial
-audit for leakage and for the confound that larger repairs simply start from more room to improve.
-Two unpredicted findings --- a purpose-built framing manipulation's apparent 1.5B effect was a
-discard-selection artifact rather than a real coherence shift, and an elicitation-format
-manipulation produces a large GARP-pass-rate collapse in the opposite direction from an
-independently published finding in the same domain and model family at a larger scale --- are
-reported in their own right: an instrument that silently discards its most-disrupted observations,
-and a disagreement with the closest published comparison, are exactly the kind of failure and
-complication this literature should surface by default rather than paper over.
+This paper set out to measure whether restoring GARP-consistency in an LLM agent's own realized
+choices buys more exogenous payoff than the mechanical fact of displacement alone. Applying
+\citet{demuynck2023computing}'s minimal-quantity-error GARP repair post hoc to a frozen agent, we
+find a real, precisely estimated, monotone raw dose--response relationship between repair size and
+payoff gain. But a distance-matched, GARP-blind null operator --- absent from every prior
+axiom-enforcement result we are aware of --- outperforms the real repair on that same payoff,
+significantly, at both model scales; a second, independently designed payoff built specifically to
+remove the first one's exploitable structure reproduces the same verdict. C1, as originally
+proposed, is not supported: the answer this paper's control was built to give is no. A partial
+mechanistic finding --- trace extremity predicts the null's advantage in both experiments ---
+offers a candidate explanation without fully resolving it. What survives is the paper's
+identification argument itself (C2): the coherence--competence relationship remains open, not
+settled in either direction, and this is the first attempt we know of to measure it without
+confounding coherence with capacity, a preference-judgment outcome, or mere displacement
+magnitude. Two further, unpredicted findings --- a purpose-built framing manipulation's apparent
+1.5B effect was a discard-selection artifact rather than a real coherence shift (C3), and an
+elicitation-format manipulation produces a large GARP-pass-rate collapse in the opposite direction
+from an independently published finding in the same domain and model family at a larger scale ---
+are reported in their own right. A well-controlled negative, an open identification question, and
+an instrument-validity finding are exactly the kind of result this literature should surface by
+default rather than paper over.
 
 \begin{ack}
 \end{ack}

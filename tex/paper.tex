@@ -215,33 +215,21 @@ For a sequence of $T$ observations $(p_t, x_t)_{t=1}^T$, $K$ goods, GARP holds i
 sequence of choices such that $x_{t_1}$ is revealed preferred to $x_{t_2}$, ..., $x_{t_n}$ is
 revealed preferred to $x_{t_1}$, with at least one strict revealed preference in the cycle.
 Given a GARP-violating sequence, we seek the minimal perturbation $\tilde{x}_t$ that restores
-GARP-consistency. The naive formulation parameterizes this with Afriat multipliers, which makes
-the resulting constraints bilinear in the unknowns once $\tilde{x}$ is itself a decision variable
---- fixing a candidate preference ordering does not remove the bilinearity, since a price-weighted
-multiplier term remains a product of two unknowns regardless of ordering. We instead use the
-multiplier-free ordinal characterization of \citet{demuynck2023computing}, under which every
-constraint is linear jointly in the perturbed bundles, a set of ordinal utility levels $u_t\in[0,1]$
-that carry no multipliers, and binary comparison indicators $U_{t,v}\in\{0,1\}$ for $t\neq v$. At
+GARP-consistency. The naive Afriat-multiplier formulation is bilinear in the unknowns once
+$\tilde{x}$ is itself a decision variable; we instead use the multiplier-free ordinal
+characterization of \citet{demuynck2023computing}, under which every constraint is linear. At
 $T=25$ this is 600 binaries and 125 continuous variables per trace, solved as a single MILP on the
-HiGHS backend \citep{huangfu2018parallelizing}, with no outer search over preference orderings and no alternating scheme.
+HiGHS backend \citep{huangfu2018parallelizing}. The full formulation, and the three method
+commitments governing budget exhaustion, the strict-preference margin, and per-output
+verification, are given in Appendix~\ref{app:method-detail}; every one of the 85 GARP-violating
+traces' projections was independently re-verified GARP-consistent via the same combinatorial check
+used throughout (MIP gap $\le 8.1\times10^{-5}$ on every solve).
 
-Three method commitments, each carrying an explicit risk. \textbf{Budget exhaustion is imposed as
-an equality}, $p_t\!\cdot\!\tilde{x}_t = I_t$ for every observation (income fixed at 100
-throughout); this makes the big-$M$ constant in the ordering constraints computable a priori as
-$\alpha > \max_t I_t$. \textbf{A fixed strict-preference margin $\gamma > 0$}, set to
-$10^{-4}\cdot\min_t I_t$, converts an unattained infimum into an attained minimum: the
-GARP-consistent set is not closed, so an unregularized projection can read a distance of exactly
-zero on genuinely violating data. We verified the reported distance is stable across $\gamma \in
-\{10^{-2},\ldots,10^{-6}\}$. \textbf{Every returned $\tilde{x}$ is verified independently} via the
-same combinatorial Warshall-closure \citep{warshall1962theorem} GARP check used everywhere else,
-never trusted from solver optimality status alone --- all 85 GARP-violating traces' projections
-were independently re-verified GARP-consistent, MIP gap $\le 8.1\times10^{-5}$ on every solve.
-
-The objective is $L_1$: $\min \sum_t\sum_k w_{t,k} d_{t,k}$ subject to
-$\tilde{x}_{t,k}-x_{t,k}\le d_{t,k}$ and $x_{t,k}-\tilde{x}_{t,k}\le d_{t,k}$, with uniform weights
-$w=1$, keeping the program a pure MILP; $L_\infty$ is recorded alongside $L_1$ but not separately
-analyzed. $L_2$, the literature's own least-squares index, would require an MIQP solver we do not
-have configured. The \emph{dose} for a trace is its $L_1$ projection distance
+The objective is $L_1$: minimal total absolute displacement between $\tilde{x}$ and $x$ across
+goods and rounds, with uniform weights, keeping the program a pure MILP ($L_\infty$ is recorded
+alongside but not separately analyzed; $L_2$ would require an MIQP solver we do not have
+configured; the exact objective and constraint definitions are in
+Appendix~\ref{app:method-detail}). The \emph{dose} for a trace is its $L_1$ projection distance
 $\sum_t\sum_k |x_{t,k}-\tilde{x}_{t,k}|$, comparable across sessions without further normalization
 because income is fixed throughout --- the same style of graded, minimum-cost severity measure as
 \citet{dean2016measuring}, applied here to an LLM's own choices and paired with an exogenous
@@ -250,15 +238,10 @@ each trace's own observed data is computed as a feasibility incumbent and sanity
 reported distance, recorded only as an upper-bound diagnostic; Appendix~\ref{app:payoff-audit}(1)
 confirms it never reaches the solver.
 
-\label{sec:method-guarantee}
-\textbf{What can be guaranteed, and what cannot.} Against the closest published structural
-analogue, a proved-optimal projection onto a convex monotone cone \citep{wang2026poise}: because
-the GARP-consistent set is a union of polyhedra rather than a single convex set, the
-non-expansiveness that licenses a weakly-closer-to-ground-truth guarantee there has no analogue
-here --- the prior operator's cone is fixed by an ordering supplied as input, whereas a GARP
-repair must decide which revealed-preference comparisons to give up, absorbed into the binary
-comparison indicators above rather than eliminated, which is why no distance-minimization
-guarantee analogous to the convex case is claimed.
+\textbf{What can be guaranteed, and what cannot}, relative to the closest published structural
+analogue \citep{wang2026poise}, is addressed in Appendix~\ref{app:method-detail}: because the
+GARP-consistent set is a union of polyhedra rather than a single convex set, no
+distance-minimization guarantee analogous to a convex-cone projection is claimed.
 
 \subsection{The exogenous payoff}
 \label{sec:method-payoff}
@@ -728,6 +711,47 @@ $\Delta$payoff controlling for raw payoff is $r=0.784$ ($p=7\times10^{-19}$, att
 slightly from the unconditional $r=0.821$), and in a joint OLS regression the dose coefficient is
 highly significant ($t=11.43$, $p<10^{-16}$) while raw payoff's own coefficient is not
 ($t=-1.36$, $p=0.18$).
+
+\section{Full MILP formulation and method-implementation detail}
+\label{app:method-detail}
+Full detail of the projection's exact formulation and implementation commitments, summarized in
+\S\ref{sec:method-projection}.
+
+\textbf{Formulation.} The naive formulation parameterizes the projection with Afriat multipliers,
+which makes the resulting constraints bilinear in the unknowns once $\tilde{x}$ is itself a
+decision variable --- fixing a candidate preference ordering does not remove the bilinearity,
+since a price-weighted multiplier term remains a product of two unknowns regardless of ordering.
+We instead use the multiplier-free ordinal characterization of \citet{demuynck2023computing},
+under which every constraint is linear jointly in the perturbed bundles, a set of ordinal utility
+levels $u_t\in[0,1]$ that carry no multipliers, and binary comparison indicators
+$U_{t,v}\in\{0,1\}$ for $t\neq v$, with no outer search over preference orderings and no
+alternating scheme.
+
+\textbf{Three method commitments, each carrying an explicit risk.} \textbf{Budget exhaustion is
+imposed as an equality}, $p_t\!\cdot\!\tilde{x}_t = I_t$ for every observation (income fixed at
+100 throughout); this makes the big-$M$ constant in the ordering constraints computable a priori
+as $\alpha > \max_t I_t$. \textbf{A fixed strict-preference margin $\gamma > 0$}, set to
+$10^{-4}\cdot\min_t I_t$, converts an unattained infimum into an attained minimum: the
+GARP-consistent set is not closed, so an unregularized projection can read a distance of exactly
+zero on genuinely violating data. We verified the reported distance is stable across $\gamma \in
+\{10^{-2},\ldots,10^{-6}\}$. \textbf{Every returned $\tilde{x}$ is verified independently} via the
+same combinatorial Warshall-closure \citep{warshall1962theorem} GARP check used everywhere else,
+never trusted from solver optimality status alone --- all 85 GARP-violating traces' projections
+were independently re-verified GARP-consistent, MIP gap $\le 8.1\times10^{-5}$ on every solve.
+
+\textbf{Objective.} $\min \sum_t\sum_k w_{t,k} d_{t,k}$ subject to
+$\tilde{x}_{t,k}-x_{t,k}\le d_{t,k}$ and $x_{t,k}-\tilde{x}_{t,k}\le d_{t,k}$, with uniform weights
+$w=1$.
+
+\label{sec:method-guarantee}
+\textbf{What can be guaranteed, and what cannot.} Against the closest published structural
+analogue, a proved-optimal projection onto a convex monotone cone \citep{wang2026poise}: because
+the GARP-consistent set is a union of polyhedra rather than a single convex set, the
+non-expansiveness that licenses a weakly-closer-to-ground-truth guarantee there has no analogue
+here --- the prior operator's cone is fixed by an ordering supplied as input, whereas a GARP
+repair must decide which revealed-preference comparisons to give up, absorbed into the binary
+comparison indicators above rather than eliminated, which is why no distance-minimization
+guarantee analogous to the convex case is claimed.
 
 \newpage
 \input{checklist.tex}

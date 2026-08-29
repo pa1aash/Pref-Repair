@@ -66,8 +66,8 @@
 
 \item {\bf Open access to data and code}
     \item[] Question: Does the paper provide open access to the data and code, with sufficient instructions to faithfully reproduce the main experimental results, as described in supplemental material?
-    \item[] Answer: \answerNo{}
-    \item[] Justification: Code and raw per-trace logs are not released with this anonymized submission; both LLMs used are publicly available open-weight models and the full protocol (budget-set generator, seeds, conditions, retry rule, MILP formulation) is specified in the main text, so the experiment is reproducible from the paper alone even without the release.
+    \item[] Answer: \answerYes{}
+    \item[] Justification: An anonymized code and data package is included as supplementary material (prompts, seeds, the parser/validity rule, and raw per-trace logs for the main experiment, the null-operator control, the corrected-payoff robustness check, and the pilot), with a README giving the exact commands to regenerate every reported statistic from the included raw logs without re-running any model inference. Both LLMs used are publicly available open-weight models, so the full pipeline is also reproducible from scratch.
     \item[] Guidelines:
     \begin{itemize}
         \item The answer \answerNA{} means that paper does not include experiments requiring code.

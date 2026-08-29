@@ -388,15 +388,24 @@ power $\ge0.998$.
 
 A pilot run found that under reciprocal framing at 1.5B, 52\% of sessions (13 of 25) failed the
 required output-format contract and were silently discarded under the pilot's own naive handling
---- standard practice, and precisely the practice that biases a measured coherence effect toward
-zero, since the discarded sessions are exactly those where the manipulation disrupted the agent
-most. We treat this as a claim about instrument validity in its own right, not a footnote to the
+--- standard practice, and one this project measures the consequences of directly rather than
+assumes. We treat this as a claim about instrument validity in its own right, not a footnote to the
 dose--response result, true regardless of whether projection helps, hurts, or does nothing
 downstream. The main experiment implements a capped retry protocol: a session failing the
 $\ge20/25$-valid-rounds threshold is retried up to three total attempts with a fresh seed offset,
-every attempt logged; a slot still failing is a residual discard, excluded from CCEI/GARP but
-retained for audit. We report first-attempt and residual post-retry discard rates as a
-first-class per-condition outcome for every cell.
+every attempt logged; a slot still failing after three attempts is a residual discard, excluded
+from CCEI/GARP but retained for audit.
+
+Broken down by attempt outcome at 1.5B reciprocal framing, retry-rescued sessions ($n=7$, recovered
+on attempt 2 or 3) are not a close stand-in for first-attempt sessions ($n=17$): they show
+\emph{higher} mean CCEI ($0.965$ vs.\ $0.932$) but a substantially \emph{lower} GARP pass rate
+($14\%$ vs.\ $47\%$). The sessions that never produce a usable trace even after three attempts
+($n=6$, three with zero valid rounds recorded at all) show the lowest CCEI among the three groups
+on the handful that can be scored ($0.882$, $n=3$) --- consistent with, though not conclusive given
+the small residual sample, some of the same selection concern the pilot's naive handling raised
+persisting at a smaller scale even after correction; the retry protocol reduces but does not
+eliminate it. We report first-attempt and residual post-retry discard rates as a first-class
+per-condition outcome for every cell.
 
 \section{Results}
 \label{sec:results}
@@ -462,7 +471,8 @@ an OLS regression of $\Delta$payoff on dose and raw payoff jointly finds dose hi
 ($t=11.4$, $p<10^{-16}$) with raw payoff's own marginal contribution not distinguishable from zero
 ($p=0.18$) once dose is included. Full detail in Appendix~\ref{app:payoff-audit}.
 
-\subsection{The reciprocal-framing manipulation: a survivorship artifact, corrected}
+\subsection{The reciprocal-framing manipulation: survivorship, and a correction that helps but
+does not fully resolve it}
 \label{sec:results-framing}
 
 At 3B, reciprocal framing replicates the pilot's finding on an independently-drawn budget-set
@@ -481,21 +491,21 @@ pilot's unretried 52\%, plausibly because independent per-replicate budget sets 
 reproduce one unusually hard draw, but the pattern is unchanged: reciprocal framing produces far
 more discards than any other condition, including the \emph{other} 1.5B manipulation (multiturn,
 0\%). Once the surviving 24 sessions are compared, GARP pass rate (0.40 vs.\ 0.38, $p=0.85$) and
-CCEI (0.9522 vs.\ 0.9413, $p=0.73$) are indistinguishable between baseline and reciprocal framing;
-the CCEI point estimate moves in the pilot's predicted direction but is small relative to 1.5B's
-own noise, with confidence intervals overlapping almost entirely. The pilot's confounded
-$+0.0169$ finding is superseded by this properly-powered, still-noisy null, not confirmed or
-refuted. Figure~\ref{fig:discardbias} shows why: as the residual discard rate falls from 52\%
-toward 20\%, the naive framing "effect" collapses toward zero and changes sign.
+CCEI (0.9522 vs.\ 0.9413, $p=0.73$) are indistinguishable between baseline and reciprocal framing,
+with confidence intervals overlapping almost entirely. This is no detectable CCEI shift, not a
+confirmation of the pilot's own naive point estimate: the pilot's $+0.0169$ ($p=0.66$, itself not
+significant) and the main experiment's $-0.0109$ ($p=0.73$) are two statistically indistinguishable
+nulls, and reading the difference in their signs as a reversal of a real effect overstates what
+either number supports. Figure~\ref{fig:discardbias} shows both measurements side by side.
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=0.6\linewidth]{../figures/fig2_discard_bias.pdf}
   \caption{Top: the 1.5B reciprocal-framing CCEI comparison, pilot (naive single-attempt discard
   handling, grey) vs.\ main experiment (capped-retry-corrected, blue). Bottom: the corresponding
-  discard rate at each stage. As it falls, the apparent CCEI ``effect'' collapses toward zero and
-  reverses sign --- the pilot's finding was driven by which sessions survived, not by choices
-  changing.}
+  discard rate at each stage. Neither measurement detects a CCEI shift ($p=0.66$ pilot, $p=0.73$
+  main) --- two statistically indistinguishable nulls, not a sign reversal; the pilot's point
+  estimate reflects which sessions survived, not a real effect that was later corrected away.}
   \label{fig:discardbias}
 \end{figure}
 

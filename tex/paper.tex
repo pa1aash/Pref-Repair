@@ -584,7 +584,7 @@ numbers average over.
 literature}
 
 Splitting the 25 rounds into separate sequential calls collapses the GARP pass rate from 40\% to
-10\% ($p=0.0073$) while CCEI barely moves (0.9522 vs.\ 0.9540, $p=0.91$; Figure~\ref{fig:multiturn})
+10\% ($p=0.0073$) while CCEI barely moves (0.9522 vs.\ 0.9540, $p=0.91$; Table~\ref{tab:multiturn})
 --- a larger drop than reciprocal framing produced at 1.5B, with \emph{zero discards on either
 arm}. This survives Benjamini--Hochberg correction ($p_{\mathrm{BH}}=0.0094$) but not Holm
 ($p_{\mathrm{Holm}}=0.058$); we report both. Together with the 3B reciprocal-framing result
@@ -594,20 +594,25 @@ family at a larger scale (Qwen2.5-7B), single-turn elicitation was \emph{more} c
 than multi-turn; here, at 1.5B, the reverse holds. We do not have an explanation for the reversal;
 we report the disagreement as a finding in its own right.
 
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=0.72\linewidth]{../figures/fig3_multiturn_format.pdf}
-  \caption{1.5B (qwen2.5:1.5b), baseline vs.\ multiturn elicitation format (25 sequential calls),
-  $n=30$ per condition, zero discards in either arm --- unlike the reciprocal-framing condition
-  (Table~\ref{tab:discardbreakdown}). Left: GARP pass rate, with 95\% Wilson score
-  confidence intervals on each bar (baseline 12/30 = 40\% [95\% CI 24.6--57.7\%]; multiturn 3/30 =
-  10\% [95\% CI 3.5--25.6\%]; Pearson $\chi^2$ test, $p=0.0073$). Right: mean CCEI, with 95\%
-  confidence intervals computed from the reported mean, SD, and $n$ via the $t$-distribution
-  ($df=29$) (baseline $0.952$ [95\% CI $0.925$--$0.979$]; multiturn $0.954$ [95\% CI
-  $0.935$--$0.973$]; two-sample $t$-test, $p=0.91$). The second bar in each panel is additionally
-  hatched so the two conditions remain distinguishable without color.}
-  \label{fig:multiturn}
-\end{figure}
+\begin{table}[h]
+\centering
+\footnotesize
+\caption{The multiturn/format effect at 1.5B (qwen2.5:1.5b): baseline vs.\ multiturn elicitation
+format (25 sequential calls), $n=30$ per condition, zero discards in either arm --- unlike the
+reciprocal-framing condition (Table~\ref{tab:discardbreakdown}). GARP pass rate is reported as
+count/$n$ with 95\% Wilson score confidence intervals (Pearson $\chi^2$ test, $p=0.0073$); mean
+CCEI is reported with 95\% confidence intervals computed from the reported mean, SD, and $n$ via
+the $t$-distribution ($df=29$) (two-sample $t$-test, $p=0.91$).}
+\label{tab:multiturn}
+\begin{tabular}{lccc}
+\toprule
+Condition & GARP pass & 95\% CI (Wilson) & mean CCEI [95\% CI ($t$)] \\
+\midrule
+baseline                    & 12/30 (40.0\%) & [24.6, 57.7]\% & 0.9522 [0.9253, 0.9791] \\
+multiturn (25 seq.\ calls)  & 3/30 (10.0\%)  & [3.5, 25.6]\%  & 0.9540 [0.9350, 0.9729] \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \section{Limitations}
 \label{sec:limitations}

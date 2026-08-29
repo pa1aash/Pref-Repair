@@ -470,11 +470,19 @@ Appendix~\ref{app:payoff-audit}.
 \begin{figure}[t]
   \centering
   \includegraphics[width=0.76\linewidth]{../figures/fig1_dose_response.pdf}
-  \caption{Projection dose ($L_1$) against the change in exogenous payoff after repair, for every
-  GARP-violating trace, split by model on shared axes so the two panels' slopes are directly
-  comparable. Both relationships are positive and significant; the headroom model's (left) is
-  steeper and tighter than the null-control's (right), though the control's relationship is
-  itself significant rather than null.}
+  \caption{Real repair's $\Delta$payoff (x-axis) against the distance-matched null operator's
+  $\Delta$payoff (y-axis), one point per GARP-violating trace ($n=85$), marker shape/color by
+  model (circle, blue: qwen2.5:1.5b; triangle, orange: llama3.2:3b). The dashed line is $y=x$;
+  points above it are traces where the null operator's payoff gain exceeded the real repair's.
+  Both axes use a symmetric-log scale (linear within $\pm0.01$, logarithmic beyond it) so that one
+  far-larger-dose trace does not compress the other 84 points into one corner. \textbf{(A)}
+  Experiment 1: the original, fixed-target Cobb--Douglas payoff (\S\ref{sec:method-payoff}).
+  \textbf{(B)} Experiment 2: the corrected, per-trace random-target payoff
+  (\S\ref{sec:method-nullop}), each trace's $\Delta$payoff averaged over its $K=20$ independent
+  draws of the random target $\alpha_s$, with vertical error bars showing $\pm1$ SD of the null
+  operator's $\Delta$payoff across those draws; the primary (information-fair) null construction
+  is plotted, not the oracle null. Annotated Wilcoxon signed-rank $p$-values and null win rates are
+  the statistics reported in \S\ref{sec:results-c1}.}
   \label{fig:doseresponse}
 \end{figure}
 
